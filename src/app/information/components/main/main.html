@@ -1,0 +1,70 @@
+<header class="bg-gray-800 text-white p-4 shadow-md">
+    <div class="container mx-auto flex justify-between items-center">
+        <div>
+            <a routerLink="/information" routerLinkActive="active" class="text-white text-2xl font-bold">POR.WTP</a>
+        </div>
+        <ul class="hidden md:flex space-x-6">
+            <li><a class="text-gray-300 hover:text-white transition duration-300" routerLink="/information/home"
+                    routerLinkActive="active">Home</a></li>
+            <li><a class="text-gray-300 hover:text-white transition duration-300" routerLink="/information/about"
+                    routerLinkActive="active">About</a></li>
+            <li><a class="text-gray-300 hover:text-white transition duration-300" routerLink="/information/contact"
+                    routerLinkActive="active">Contact</a></li>
+            <li><a class="text-gray-300 hover:text-white transition duration-300" routerLink="/information/download"
+                    routerLinkActive="active">Download</a></li>
+        </ul>
+        <div class="md:hidden">
+            <button id="mobile-menu-button" class="text-gray-300 focus:outline-none focus:text-white"
+                (click)="toggleMobileMenu()">
+                <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7">
+                    </path>
+                </svg>
+            </button>
+        </div>
+    </div>
+    <div class="container mx-auto flex justify-between items-center">
+        <div id="mobile-menu" class="md:hidden mt-4 w-full bg-gray-700 p-4 shadow-lg rounded-b-lg"
+            [class.hidden]="!isMobileMenuOpen">
+            <ul class="flex flex-col space-y-2">
+                <li><a routerLink="/information/home" routerLinkActive="active"
+                        class="block px-3 py-2 text-gray-300 hover:text-white hover:bg-gray-700 rounded-md transition duration-300">Home</a>
+                </li>
+                <li><a routerLink="/information/about" routerLinkActive="active"
+                        class="block px-3 py-2 text-gray-300 hover:text-white hover:bg-gray-700 rounded-md transition duration-300">About</a>
+                </li>
+                <li><a routerLink="/information/contact" routerLinkActive="active"
+                        class="block px-3 py-2 text-gray-300 hover:text-white hover:bg-gray-700 rounded-md transition duration-300">Contact</a>
+                </li>
+                <li><a routerLink="/information/download" routerLinkActive="active"
+                        class="block px-3 py-2 text-gray-300 hover:text-white hover:bg-gray-700 rounded-md transition duration-300">Download</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</header>
+<div class="bg-blue-100">
+    <main class="container mx-auto p-4 flex flex-col md:flex-row md:space-x-8">
+        <aside class="w-full md:w-1/4 bg-gray-100 p-4 rounded-lg shadow-sm mb-8 md:mb-0">
+            <div class="bg-white p-4 rounded-lg shadow-md flex flex-col items-center text-center">
+                <div class="w-24 h-24 rounded-full overflow-hidden mb-4 border-4 border-green-300">
+                    <img src="https://via.placeholder.com/96/00FF00" alt="Another Profile"
+                        class="w-full h-full object-cover">
+                </div>
+                <h3 class="text-lg font-bold text-gray-800 mb-2">firstName Surname</h3>
+                <p class="text-sm text-gray-600">
+                    Here's more information about another interesting item in your sidebar.
+                </p>
+            </div>
+        </aside>
+        <section class="w-full md:w-3/4 bg-white p-6 rounded-lg shadow-md">
+            <router-outlet></router-outlet>
+        </section>
+    </main>
+</div>
+<footer class="bg-gray-800 text-white p-4">
+    <div class="container mx-auto text-center">
+        &copy; 2025 cherMew Site. All rights reserved.
+    </div>
+</footer>
