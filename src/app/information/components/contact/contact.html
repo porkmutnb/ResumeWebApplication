@@ -1,1 +1,45 @@
-<p>contact works!</p>
+<details class="mb-4 border-b border-gray-300 pb-2" open>
+    <summary class="cursor-pointer text-xl font-semibold text-orange-400 hover:text-orange-200 focus:outline-none py-2 underline">
+        {{ profileSection?.firstName }} {{ profileSection?.lastName }} ({{ profileSection?.nickName}})
+        <span class="float-right text-gray-500 details-icon">
+            <svg class="h-6 w-6 inline-block transform transition-transform duration-200 rotate-0" fill="none"
+                stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+            </svg>
+        </span>
+    </summary>
+    <div class="p-2 bg-gray-50 rounded-b-lg" open>
+        <div class="grid grid-cols-2 gap-2">
+            <div class="w-auto p-2">
+                <p class="text-sm font-medium text-gray-900">Email:</p>
+            </div>
+            <div class="w-1/2 p-2">
+                <a class="text-xs font-smaller text-gray-900" href="mailto:{{contactSection?.email}}">
+                    {{ contactSection?.email }}
+                </a>
+            </div>
+        </div>
+        <div class="grid grid-cols-2 gap-2">
+            <div class="w-auto p-2">
+                <p class="text-sm font-medium text-gray-900">Phone:</p>
+            </div>
+            <div class="w-1/2 p-2">
+               <a class="text-sm font-smaller text-gray-900" href="tel:{{contactSection?.phone}}">
+                    {{ contactSection?.phone }}
+                </a>
+            </div>
+        </div>
+        <div class="grid grid-cols-2 gap-2">
+            <div class="w-auto p-2">
+                <p class="text-sm font-medium text-gray-900">Social Media:</p>
+            </div>
+            <div class="w-auto p-2">
+                <div class="text-sm font-smaller text-gray-900 bg-white border border-gray-200 rounded-lg shadow-sm light:bg-gray-800 light:border-gray-700 dark:text-black"*ngFor="let item of contactSection?.socialMedia">
+                    <a [href]="item.link" target="_blank" class="block w-full px-4 py-2 border-b border-gray-200 cursor-pointer hover:bg-gray-100 hover:text-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:border-gray-600 light:hover:bg-gray-600 dark:hover:text-black dark:focus:ring-gray-500 dark:focus:text-black break-words" *ngIf="item.visible==true">
+                        {{ item.name }} - {{ item.username }}
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</details>

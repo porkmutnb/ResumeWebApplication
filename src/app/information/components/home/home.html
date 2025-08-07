@@ -1,5 +1,5 @@
 <details class="mb-4 border-b border-gray-300 pb-2" open>
-    <summary class="cursor-pointer text-xl font-semibold text-gray-800 hover:text-blue-600 focus:outline-none py-2">
+    <summary class="cursor-pointer text-xl font-semibold text-green-800 hover:text-green-400 focus:outline-none py-2 underline">
         Interests
         <span class="float-right text-gray-500 details-icon">
             <svg class="h-6 w-6 inline-block transform transition-transform duration-200 rotate-0" fill="none"
@@ -10,12 +10,12 @@
     </summary>
     <div class="p-4 bg-gray-50 rounded-b-lg" open>
         <div class="space-y-4">
-            <p class="text-gray-700"></p>
+            <p *ngFor="let interest of interestSection" class="text-gray-700">{{ interest }}</p>
         </div>
     </div>
 </details>
 <details class="mb-4 border-b border-gray-300 pb-2" open>
-    <summary class="cursor-pointer text-xl font-semibold text-gray-800 hover:text-blue-600 focus:outline-none py-2">
+    <summary class="cursor-pointer text-xl font-semibold text-green-800 hover:text-green-400 focus:outline-none py-2 underline">
         Education
         <span class="float-right text-gray-500 details-icon">
             <svg class="h-6 w-6 inline-block transform transition-transform duration-200 rotate-0" fill="none"
@@ -24,15 +24,20 @@
             </svg>
         </span>
     </summary>
-    <div class="p-4 bg-gray-50 rounded-b-lg">
-        <p class="text-gray-700">
-            Angular is a platform and framework for building single-page client applications using HTML and TypeScript.
-            It's maintained by the Angular team at Google and a community of individuals and corporations.
-        </p>
+    <div class="p-2 bg-gray-50 rounded-b-lg" *ngFor="let education of educationSection">
+        <a class="block p-4 bg-white border border-gray-200 rounded-lg shadow-sm hover:bg-gray-100 light:bg-gray-800 dark:border-gray-700 light:hover:bg-gray-400" *ngIf="education.visible==true">
+            <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-black">{{ education.name }}</h5>
+            <p class="font-normal text-gray-700 dark:text-gray-600">
+                {{ education.major }}
+            </p>
+            <a class="inline-flex font-medium items-center text-blue-600 hover:underline">
+                Graduation: {{education.startYear}} - {{education.endYear}} | GPA: {{education.gpa}}
+            </a>
+        </a>
     </div>
 </details>
 <details class="mb-4 border-b border-gray-300 pb-2" open>
-    <summary class="cursor-pointer text-xl font-semibold text-gray-800 hover:text-blue-600 focus:outline-none py-2">
+    <summary class="cursor-pointer text-xl font-semibold text-green-800 hover:text-green-400 focus:outline-none py-2 underline">
         Experince
         <span class="float-right text-gray-500 details-icon">
             <svg class="h-6 w-6 inline-block transform transition-transform duration-200 rotate-0" fill="none"
@@ -41,15 +46,20 @@
             </svg>
         </span>
     </summary>
-    <div class="p-4 bg-gray-50 rounded-b-lg">
-        <p class="text-gray-700">
-            Angular is a platform and framework for building single-page client applications using HTML and TypeScript.
-            It's maintained by the Angular team at Google and a community of individuals and corporations.
-        </p>
+    <div class="p-2 bg-gray-50 rounded-b-lg" *ngFor="let experince of experienceSection">
+        <a class="block p-4 bg-white border border-gray-200 rounded-lg shadow-sm hover:bg-gray-100 light:bg-gray-800 dark:border-gray-700 light:hover:bg-gray-400" *ngIf="experince.visible==true">
+            <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-black">{{ experince.name }}</h5>
+            <p class="font-normal text-gray-700 dark:text-gray-600">
+                {{ experince.position }}
+            </p>
+            <a href="#" class="inline-flex font-medium items-center text-blue-600 hover:underline">
+                {{experince.startDate}} - {{experince.endDate=='' ? 'Now' : experince.endDate}}
+            </a>
+        </a>
     </div>
 </details>
 <details class="mb-4 border-b border-gray-300 pb-2" open>
-    <summary class="cursor-pointer text-xl font-semibold text-gray-800 hover:text-blue-600 focus:outline-none py-2">
+    <summary class="cursor-pointer text-xl font-semibold text-green-800 hover:text-green-400 focus:outline-none py-2 underline">
         Skills
         <span class="float-right text-gray-500 details-icon">
             <svg class="h-6 w-6 inline-block transform transition-transform duration-200 rotate-0" fill="none"
@@ -59,14 +69,22 @@
         </span>
     </summary>
     <div class="p-4 bg-gray-50 rounded-b-lg">
-        <p class="text-gray-700">
-            Angular is a platform and framework for building single-page client applications using HTML and TypeScript.
-            It's maintained by the Angular team at Google and a community of individuals and corporations.
-        </p>
+        <strong class="text-gray-700 dark:text-gray-600"> Programming Language & Tools </strong>
+        <div class="text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg shadow-sm light:bg-gray-800 light:border-gray-700 dark:text-black">
+            <a class="block w-full px-4 py-2 border-b border-gray-200 cursor-pointer hover:bg-gray-100 hover:text-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:border-gray-600 dark:hover:bg-gray-600 dark:hover:text-white dark:focus:ring-gray-500 dark:focus:text-white" *ngFor="let tools of skillSection?.tools">
+                {{ tools }}
+            </a>
+        </div>
+        <strong class="text-gray-700 dark:text-gray-600"> Workflow </strong>
+        <div class="text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg shadow-sm light:bg-gray-800 light:border-gray-700 dark:text-black">
+            <a class="block w-full px-4 py-2 border-b border-gray-200 cursor-pointer hover:bg-gray-100 hover:text-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:border-gray-600 dark:hover:bg-gray-600 dark:hover:text-white dark:focus:ring-gray-500 dark:focus:text-white" *ngFor="let workflow of skillSection?.workflow">
+                {{ workflow }}
+            </a>
+        </div>
     </div>
 </details>
 <details class="mb-4 border-b border-gray-300 pb-2" open>
-    <summary class="cursor-pointer text-xl font-semibold text-gray-800 hover:text-blue-600 focus:outline-none py-2">
+    <summary class="cursor-pointer text-xl font-semibold text-green-800 hover:text-green-400 focus:outline-none py-2 underline">
         Award & Certifications
         <span class="float-right text-gray-500 details-icon">
             <svg class="h-6 w-6 inline-block transform transition-transform duration-200 rotate-0" fill="none"
@@ -75,10 +93,13 @@
             </svg>
         </span>
     </summary>
-    <div class="p-4 bg-gray-50 rounded-b-lg">
-        <p class="text-gray-700">
-            Angular is a platform and framework for building single-page client applications using HTML and TypeScript.
-            It's maintained by the Angular team at Google and a community of individuals and corporations.
-        </p>
+    <div class="p-4 bg-gray-50 rounded-b-lg" *ngFor="let awardAndCertificate of awardAndCertificateSection">
+        <a class="flex flex-col items-center bg-white border border-gray-200 rounded-lg shadow-sm md:flex-row hover:bg-gray-100 light:border-gray-700 light:bg-gray-800 light:hover:bg-gray-700" *ngIf="awardAndCertificate.visible==true">
+            <img class="object-cover w-fit rounded-t-lg h-15 md:h-auto md:w-15 md:rounded-none md:rounded-s-lg" [src]="awardAndCertificate.file" alt="AwardAndCertificate">
+            <div class="flex flex-col justify-between p-4 leading-normal">
+                <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-black">{{ awardAndCertificate.name }}</h5>
+                <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">{{ awardAndCertificate.description }}</p>
+            </div>
+        </a>
     </div>
 </details>
