@@ -25,15 +25,15 @@
         </span>
     </summary>
     <div class="p-2 bg-gray-50 rounded-b-lg" *ngFor="let education of educationSection">
-        <a class="block p-4 bg-white border border-gray-200 rounded-lg shadow-sm hover:bg-gray-100 light:bg-gray-800 dark:border-gray-700 light:hover:bg-gray-400" *ngIf="education.visible==true">
+        <div class="block p-4 bg-white border border-gray-200 rounded-lg shadow-sm hover:bg-gray-100 light:bg-gray-800 dark:border-gray-700 light:hover:bg-gray-400" *ngIf="education.visible==true">
             <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-black">{{ education.name }}</h5>
             <p class="font-normal text-gray-700 dark:text-gray-600">
                 {{ education.major }}
             </p>
-            <a class="inline-flex font-medium items-center text-blue-600 hover:underline">
+            <p class="inline-flex font-medium items-center text-blue-600 hover:underline">
                 Graduation: {{education.startYear}} - {{education.endYear}} | GPA: {{education.gpa}}
-            </a>
-        </a>
+            </p>
+        </div>
     </div>
 </details>
 <details class="mb-4 border-b border-gray-300 pb-2" open>
@@ -47,7 +47,7 @@
         </span>
     </summary>
     <div class="p-2 bg-gray-50 rounded-b-lg" *ngFor="let experince of experienceSection">
-        <a class="block p-4 bg-white border border-gray-200 rounded-lg shadow-sm hover:bg-gray-100 light:bg-gray-800 dark:border-gray-700 light:hover:bg-gray-400" *ngIf="experince.visible==true">
+        <div class="block p-4 bg-white border border-gray-200 rounded-lg shadow-sm hover:bg-gray-100 light:bg-gray-800 dark:border-gray-700 light:hover:bg-gray-400" *ngIf="experince.visible==true">
             <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-black">{{ experince.name }}</h5>
             <p class="font-normal text-gray-700 dark:text-gray-600">
                 {{ experince.position }}
@@ -55,7 +55,7 @@
             <a href="#" class="inline-flex font-medium items-center text-blue-600 hover:underline">
                 {{experince.startDate}} - {{experince.endDate=='' ? 'Now' : experince.endDate}}
             </a>
-        </a>
+        </div>
     </div>
 </details>
 <details class="mb-4 border-b border-gray-300 pb-2" open>

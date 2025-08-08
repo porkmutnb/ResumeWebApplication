@@ -4,6 +4,7 @@ import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Information } from '../../service/information';
 import { ProfileMe } from '../../service/bean-shared';
+import { ScrollTop } from "../../../sharedComponents/scroll-top/scroll-top";
 
 @Component({
   selector: 'app-main',
@@ -12,8 +13,9 @@ import { ProfileMe } from '../../service/bean-shared';
     CommonModule,
     RouterOutlet,
     RouterLink,
-    RouterLinkActive
-  ],
+    RouterLinkActive,
+    ScrollTop
+],
   templateUrl: './main.html',
   styleUrl: './main.css'
 })
@@ -33,7 +35,7 @@ export class Main implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     if(this.resumeData) {
-      this.resumeData.unsubscribe
+      this.resumeData.unsubscribe()
     }
   }
 

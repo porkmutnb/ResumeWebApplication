@@ -28,7 +28,7 @@ export class Download implements OnInit, OnDestroy {
   
     ngOnDestroy(): void {
       if(this.resumeData) {
-        this.resumeData.unsubscribe
+        this.resumeData.unsubscribe()
       }
     }
   

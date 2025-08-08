@@ -14,13 +14,13 @@
         </a>
         <strong class="text-gray-700 dark:text-gray-600"> Hobby </strong>
         <div class="text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg shadow-sm light:bg-gray-800 light:border-gray-700 dark:text-black">
-            <a class="block w-full px-4 py-2 border-b border-gray-200 cursor-pointer hover:bg-gray-100 hover:text-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:border-gray-600 light:hover:bg-gray-600 dark:hover:text-black dark:focus:ring-gray-500 dark:focus:text-white" *ngFor="let hobby of aboutSection?.hobbies">
+            <a class="block w-full px-4 py-2 border-b border-gray-200 cursor-pointer hover:bg-gray-100 hover:text-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:border-gray-600 dark:hover:bg-gray-600 dark:hover:text-white dark:focus:ring-gray-500 dark:focus:text-black" *ngFor="let hobby of aboutSection?.hobbies">
                 {{ hobby }}
             </a>
         </div>
         <strong class="text-gray-700 dark:text-gray-600"> Celebrity Favorite </strong>
         <div class="text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg shadow-sm light:bg-gray-800 light:border-gray-700 dark:text-black">
-            <a [href]="celebrity.link" target="_blank" class="block w-full px-4 py-2 border-b border-gray-200 cursor-pointer hover:bg-gray-100 hover:text-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:border-gray-600 light:hover:bg-gray-600 dark:hover:text-black dark:focus:ring-gray-500 dark:focus:text-black" *ngFor="let celebrity of aboutSection?.celebrityFavoriteList">
+            <a [href]="celebrity.link" target="_blank" class="block w-full px-4 py-2 border-b border-gray-200 cursor-pointer hover:bg-gray-100 hover:text-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:border-gray-600 dark:hover:bg-gray-600 dark:hover:text-white dark:focus:ring-gray-500 dark:focus:text-black" *ngFor="let celebrity of aboutSection?.celebrityFavoriteList">
                 {{ celebrity.name }}
             </a>
         </div>

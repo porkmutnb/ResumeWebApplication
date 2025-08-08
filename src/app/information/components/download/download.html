@@ -14,8 +14,13 @@
                 <p class="text-sm font-medium text-gray-900">Download my Resume:</p>
             </div>
             <div class="w-auto p-2">
-                <div class="text-sm font-smaller text-gray-900 bg-white border border-gray-200 rounded-lg shadow-sm light:bg-gray-800 light:border-gray-700 dark:text-black"*ngFor="let item of resumeMeSection">
-                    <a [href]="item.link" target="_blank" class="block w-full px-4 py-2 border-b border-gray-200 cursor-pointer hover:bg-gray-100 hover:text-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:border-gray-600 light:hover:bg-gray-600 dark:hover:text-black dark:focus:ring-gray-500 dark:focus:text-black break-words" *ngIf="item.visible==true">
+                <div class="text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg shadow-sm light:bg-gray-800 light:border-gray-700 dark:text-black"*ngFor="let item of resumeMeSection">
+                    <a [href]="item.link" target="_blank" class="break-words block w-full px-4 py-2 border-b border-gray-200 cursor-pointer hover:bg-gray-100 hover:text-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:border-gray-600 dark:hover:bg-gray-600 dark:hover:text-white dark:focus:ring-gray-500 dark:focus:text-black" *ngIf="item.default==true&&item.visible==true">
+                        {{ item.name }}
+                    </a>
+                </div>
+                <div class="text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg shadow-sm light:bg-gray-800 light:border-gray-700 dark:text-black"*ngFor="let item of resumeMeSection">
+                    <a [href]="item.link" target="_blank" class="break-words block w-full px-4 py-2 border-b border-gray-200 cursor-pointer hover:bg-gray-100 hover:text-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:border-gray-600 dark:hover:bg-gray-600 dark:hover:text-white dark:focus:ring-gray-500 dark:focus:text-black" *ngIf="item.default==false&&item.visible==true">
                         {{ item.name }}
                     </a>
                 </div>

@@ -24,7 +24,7 @@ export class Information {
       awardAndCertificateList: [],
       about: { celebrityFavoriteList: [], description: '', hobbies: [] }
     };
-    this.resumeData.profile = { firstName: 'Pornthep', lastName: 'Wattanawikullporn', nickName: 'Por', introduce: 'develop yourself all the time', profile: "https://firebasestorage.googleapis.com/v0/b/resume-9a2d0.appspot.com/o/image_profile%2F2shot%20warota%20cherpor%20blick%20suit.jpg?alt=media&token=168d20e5-b741-4eb3-aa71-5cd26bcc73a5" };
+    this.resumeData.profile = { firstName: 'Pornthep', lastName: 'Wattanawikullporn', nickName: 'Por', introduce: 'develop yourself all the time', profile: 'https://firebasestorage.googleapis.com/v0/b/resume-9a2d0.appspot.com/o/image_profile%2F2shot%20warota%20cherpor%20blick%20suit.jpg?alt=media&token=168d20e5-b741-4eb3-aa71-5cd26bcc73a5' };
     this.resumeData.interest.push('Apart from being a web developer, I enjoy most of my time being outdoors. In the winter, I am an avid skier and novice ice climber. During the warmer months here in Colorado, I enjoy mountain biking, free climbing, and kayaking')
     this.resumeData.interest.push('When forced indoors, I follow a number of sci-fi and fantasy genre movies and television shows, I am an aspiring chef, and I spend a large amount of my free time exploring the latest technology advancements in the front-end web development world')
     var awardAndCertificate1: AwardAndCertificateMe = { id: 1, name: 'CORDOVA Framework', description: 'Trainning Cross-Platform Mobile App Development with CORDOVA', file: '', visible: true }
