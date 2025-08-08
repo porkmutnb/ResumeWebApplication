@@ -1,0 +1,33 @@
+<header class="bg-gray-800 text-white p-4 shadow-md">
+    <div class="container mx-auto flex justify-between items-center">
+        <div>
+            <a routerLink="/backoffice" routerLinkActive="active" class="text-white text-2xl font-bold">POR.WTP</a>
+        </div>
+        <ul class="hidden md:flex space-x-6">
+            <li (click)="onLogout()"><a class="text-gray-600 hover:text-white transition duration-300 cursor-pointer" >Logout</a></li>
+        </ul>
+        <div class="md:hidden">
+            <button id="mobile-menu-button" class="text-gray-300 focus:outline-none focus:text-white"
+                (click)="toggleMobileMenu()">
+                <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7">
+                    </path>
+                </svg>
+            </button>
+        </div>
+    </div>
+    <div class="container mx-auto flex justify-between items-center">
+        <div id="mobile-menu" class="md:hidden mt-4 w-full bg-gray-700 p-4 shadow-lg rounded-b-lg" [class.hidden]="!isMobileMenuOpen">
+            <ul class="flex flex-col space-y-2">
+                <li (click)="onLogout()"><a class="block px-3 py-2 text-gray-400 hover:text-gray-400 hover:bg-gray-600 rounded-md transition duration-300 cursor-pointer">Logout</a></li>
+            </ul>
+        </div>
+    </div>
+</header>
+<router-outlet></router-outlet>
+<footer class="bg-gray-800 text-white p-4">
+    <div class="container mx-auto text-center">
+        &copy; 2025 cherMew Site. All rights reserved.
+    </div>
+</footer>

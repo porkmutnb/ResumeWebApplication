@@ -1,0 +1,33 @@
+<article class="bg-white rounded-lg shadow-xl overflow-hidden p-4">
+    <header>
+        <img 
+        [src]="portfolioSection?.info?.imageUrl"
+        alt="A beautiful landscape"
+        class="w-full h-64 md:h-96 object-cover"
+        >
+    </header>
+    <div class="p-6 sm:p-8 md:p-12">
+        <div class="mb-4">
+            <span class="text-sky-600 font-semibold text-sm">{{ portfolioSection?.name }}</span>
+            <span class="text-gray-500 text-sm ml-2"></span>
+        </div>
+        <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-6 leading-tight">
+            {{ portfolioSection?.detail }}
+        </h1>
+        <div class="flex items-center mb-8">
+            <img [src]="profileSection?.profile" alt="Author's avatar" class="w-12 h-12 rounded-full mr-4">
+            <div>
+                <p class="font-semibold text-gray-800"> {{ profileSection?.firstName }} {{ profileSection?.lastName }} </p>
+                <p class="text-sm text-gray-500"> {{ profileSection?.nickName }} </p>
+            </div>
+        </div>
+        <div class="prose prose-lg max-w-none prose-sky">
+            <p>
+                {{ portfolioSection?.info?.describtion }}
+            </p>
+            <p class="text-sm text-gray-500 mt-4 cursor-pointer underline hover:text-sky-600">
+                <a href="{{ portfolioSection?.info?.linkto?.url }}" target="_blank">{{ portfolioSection?.info?.linkto?.name }}</a>.
+            </p>
+        </div>
+    </div>
+</article>

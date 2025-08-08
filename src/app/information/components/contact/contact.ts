@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { ContactMe, ProfileMe } from '../../service/bean-shared';
-import { Information } from '../../service/information';
+import { ContactMe, ProfileMe } from '../../../sharedServiced/bean-shared';
+import { Shared } from '../../../sharedServiced/shared';
 
 @Component({
   selector: 'app-contact',
@@ -18,7 +18,7 @@ export class Contact implements OnInit, OnDestroy {
   profileSection: ProfileMe | undefined;
   contactSection: ContactMe | undefined;
 
-  constructor(private informationService: Information) {
+  constructor(private sharedService: Shared) {
     // Initialization logic can go here
   }
 
@@ -33,7 +33,7 @@ export class Contact implements OnInit, OnDestroy {
   }
 
   getDumpResumeData(): void {
-    this.resumeData = this.informationService.getDumpResumeData().subscribe({
+    this.resumeData = this.sharedService.getDumpResumeData().subscribe({
       next: (data) => {
         this.profileSection = data.profile
         this.contactSection = data.contact
@@ -42,7 +42,9 @@ export class Contact implements OnInit, OnDestroy {
         console.error('Error fetching resume data:', error);
       },
       complete: () => {
-        console.log('this.contactSection', this.contactSection)
+        if(this.profileSection && this.profileSection.profile == '') {
+          this.profileSection.profile = '../../../../assets/user.webp'
+        }
       }
     })
   }

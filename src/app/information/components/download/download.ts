@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { ProfileMe, ResumeMe } from '../../service/bean-shared';
-import { Information } from '../../service/information';
+import { ProfileMe, ResumeMe } from '../../../sharedServiced/bean-shared';
+import { Shared } from '../../../sharedServiced/shared';
 
 @Component({
   selector: 'app-download',
@@ -18,7 +18,7 @@ export class Download implements OnInit, OnDestroy {
   profileSection: ProfileMe | undefined;
   resumeMeSection: ResumeMe[] = [];
 
-  constructor(private informationService: Information) {
+  constructor(private sharedService: Shared) {
       // Initialization logic can go here
     }
   
@@ -33,7 +33,7 @@ export class Download implements OnInit, OnDestroy {
     }
   
     getDumpResumeData(): void {
-      this.resumeData = this.informationService.getDumpResumeData().subscribe({
+      this.resumeData = this.sharedService.getDumpResumeData().subscribe({
         next: (data) => {
           this.profileSection = data.profile
           this.resumeMeSection = data.myResumeList
@@ -42,7 +42,9 @@ export class Download implements OnInit, OnDestroy {
           console.error('Error fetching resume data:', error);
         },
         complete: () => {
-          console.log('this.resumeMeSection', this.resumeMeSection)
+          if(this.profileSection && this.profileSection.profile == '') {
+            this.profileSection.profile = '../../../../assets/user.webp'
+          }
         }
       })
     }

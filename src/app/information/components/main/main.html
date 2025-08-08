@@ -4,14 +4,18 @@
             <a routerLink="/information" routerLinkActive="active" class="text-white text-2xl font-bold">POR.WTP</a>
         </div>
         <ul class="hidden md:flex space-x-6">
-            <li><a class="text-gray-300 hover:text-white transition duration-300" routerLink="/information/home"
+            <li><a class="text-gray-300 hover:text-white transition duration-300 cursor-pointer" routerLink="/information/home"
                     routerLinkActive="active">Home</a></li>
-            <li><a class="text-gray-300 hover:text-white transition duration-300" routerLink="/information/about"
+            <li><a class="text-gray-300 hover:text-white transition duration-300 cursor-pointer" routerLink="/information/about"
                     routerLinkActive="active">About</a></li>
-            <li><a class="text-gray-300 hover:text-white transition duration-300" routerLink="/information/contact"
+            <li><a class="text-gray-300 hover:text-white transition duration-300 cursor-pointer" routerLink="/information/contact"
                     routerLinkActive="active">Contact</a></li>
-            <li><a class="text-gray-300 hover:text-white transition duration-300" routerLink="/information/download"
+            <li><a class="text-gray-300 hover:text-white transition duration-300 cursor-pointer" routerLink="/portfolio"
+                    routerLinkActive="active">Portfolio</a></li>
+            <li><a class="text-gray-300 hover:text-white transition duration-300 cursor-pointer" routerLink="/information/download"
                     routerLinkActive="active">Download</a></li>
+            <li><a class="text-gray-600 hover:text-white transition duration-300 cursor-pointer" routerLink="/backoffice/login"
+                    routerLinkActive="active">Log in</a></li>
         </ul>
         <div class="md:hidden">
             <button id="mobile-menu-button" class="text-gray-300 focus:outline-none focus:text-white"
@@ -37,8 +41,14 @@
                 <li><a routerLink="/information/contact" routerLinkActive="active"
                         class="block px-3 py-2 text-gray-300 hover:text-white hover:bg-gray-700 rounded-md transition duration-300">Contact</a>
                 </li>
+                <li><a routerLink="/portfolio" routerLinkActive="active"
+                        class="block px-3 py-2 text-gray-300 hover:text-white hover:bg-gray-700 rounded-md transition duration-300">Portfolio</a>
+                </li>
                 <li><a routerLink="/information/download" routerLinkActive="active"
                         class="block px-3 py-2 text-gray-300 hover:text-white hover:bg-gray-700 rounded-md transition duration-300">Download</a>
+                </li>
+                <li><a routerLink="/backoffice/login" routerLinkActive="active"
+                        class="block px-3 py-2 text-gray-800 hover:text-gray-400 hover:bg-gray-600 rounded-md transition duration-300">Login</a>
                 </li>
             </ul>
         </div>

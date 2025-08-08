@@ -3,8 +3,7 @@ import { Injectable } from '@angular/core';
 @Injectable({
   providedIn: 'root'
 })
-export class Information {
+export class Backoffice {
 
   constructor() { }
-
 }

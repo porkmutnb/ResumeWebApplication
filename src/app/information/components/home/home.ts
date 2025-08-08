@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Information } from '../../service/information';
-import { AwardAndCertificateMe, EducationMe, ExperinceMe, SkillMe } from '../../service/bean-shared';
+import { Shared } from '../../../sharedServiced/shared';
+import { AwardAndCertificateMe, EducationMe, ExperinceMe, SkillMe } from '../../../sharedServiced/bean-shared';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -21,7 +21,7 @@ export class Home implements OnInit, OnDestroy {
   skillSection: SkillMe | undefined;
   awardAndCertificateSection: AwardAndCertificateMe[] = [];
 
-  constructor(private informationService: Information) {
+  constructor(private sharedService: Shared) {
       
   }
 
@@ -36,7 +36,7 @@ export class Home implements OnInit, OnDestroy {
   }
 
   getDumpResumeData(): void {
-    this.resumeData = this.informationService.getDumpResumeData().subscribe({
+    this.resumeData = this.sharedService.getDumpResumeData().subscribe({
       next: (data) => {
         this.interestSection = data.interest
         this.educationSection = data.education
@@ -48,11 +48,6 @@ export class Home implements OnInit, OnDestroy {
         console.error('Error fetching resume data:', error);
       },
       complete: () => {
-        console.log('this.interestSection', this.interestSection)
-        console.log('this.educationSection', this.educationSection)
-        console.log('this.experienceSection', this.experienceSection)
-        console.log('this.skillSection', this.skillSection)
-        console.log('this.awardAndCertificateSection', this.awardAndCertificateSection)
         this.awardAndCertificateSection.map((awardAndCertificate) => {
           if(awardAndCertificate.file=='') {
             awardAndCertificate.file = '../../../../assets/report-card.webp'

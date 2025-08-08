@@ -1,25 +1,23 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { AboutMe, ProfileMe } from '../../../sharedServiced/bean-shared';
 import { Shared } from '../../../sharedServiced/shared';
+import { PortfolioMe } from '../../../sharedServiced/bean-shared';
+import { RouterLink } from '@angular/router';
 
 @Component({
-  selector: 'app-about',
-  imports: [
-    CommonModule
-  ],
-  templateUrl: './about.html',
-  styleUrl: './about.css'
+  selector: 'app-info',
+  imports: [CommonModule, RouterLink],
+  templateUrl: './info.html',
+  styleUrl: './info.css'
 })
-export class About implements OnInit, OnDestroy {
+export class Info implements OnInit, OnDestroy {
 
   private resumeData: Subscription | undefined
-  profileSection: ProfileMe | undefined;
-  aboutSection: AboutMe | undefined;
+  portfolioSection: PortfolioMe[] = [];
 
   constructor(private sharedService: Shared) {
-      
+    // Initialization logic can go here
   }
 
   ngOnInit(): void {
@@ -35,18 +33,15 @@ export class About implements OnInit, OnDestroy {
   getDumpResumeData(): void {
     this.resumeData = this.sharedService.getDumpResumeData().subscribe({
       next: (data) => {
-        this.profileSection = data.profile
-        this.aboutSection = data.about
+        this.portfolioSection = data.portfolioList
       },
       error: (error) => {
         console.error('Error fetching resume data:', error);
       },
       complete: () => {
-        if(this.profileSection && this.profileSection.profile == '') {
-          this.profileSection.profile = '../../../../assets/user.webp'
-        }
+        
       }
     })
   }
-
+  
 }

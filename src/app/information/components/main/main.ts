@@ -1,9 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { Information } from '../../service/information';
-import { ProfileMe } from '../../service/bean-shared';
+import { Shared } from '../../../sharedServiced/shared';
+import { ProfileMe } from '../../../sharedServiced/bean-shared';
 import { ScrollTop } from "../../../sharedComponents/scroll-top/scroll-top";
 
 @Component({
@@ -25,7 +25,7 @@ export class Main implements OnInit, OnDestroy {
   private resumeData: Subscription | undefined
   profileSection: ProfileMe | undefined;
 
-  constructor(private informationService: Information) {
+  constructor(private sharedService: Shared) {
     
   }
 
@@ -40,18 +40,17 @@ export class Main implements OnInit, OnDestroy {
   }
 
   getDumpResumeData(): void {
-    this.resumeData = this.informationService.getDumpResumeData().subscribe({
+    this.resumeData = this.sharedService.getDumpResumeData().subscribe({
       next: (data) => {
         this.profileSection = data.profile
-        if(this.profileSection.profile=='') {
-          this.profileSection.profile = '../../../../assets/user.webp'
-        }
       },
       error: (error) => {
         console.error('Error fetching resume data:', error);
       },
       complete: () => {
-        console.log('this.profileSection', this.profileSection)
+        if(this.profileSection && this.profileSection.profile == '') {
+          this.profileSection.profile = '../../../../assets/user.webp'
+        }
       }
     })
   }
