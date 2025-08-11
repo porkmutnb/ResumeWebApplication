@@ -2,12 +2,14 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Auth } from '../../service/auth';
 import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 @Component({
   selector: 'app-main',
   imports: [CommonModule, RouterOutlet, RouterLink, RouterLinkActive],
   templateUrl: './main.html',
-  styleUrl: './main.css'
+  styleUrl: './main.css',
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class Main implements OnInit, OnDestroy {
 
@@ -30,8 +32,6 @@ export class Main implements OnInit, OnDestroy {
   }
 
   onLogout(): void {
-    console.log('Logging out...');
-    
     this.authService.logout();
     this.router.navigate(['/backoffice/login']);
   }

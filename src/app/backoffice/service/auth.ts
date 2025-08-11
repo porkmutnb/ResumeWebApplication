@@ -8,7 +8,7 @@ export class Auth {
   constructor() { }
 
   static isLoggedIn(): boolean {
-    const userToken = localStorage.getItem('user_token');
+    // const userToken = localStorage.getItem('user_token');
     var isAuth = true
     // if(userToken!=null) {
     //   isAuth = true;
@@ -17,7 +17,7 @@ export class Auth {
   }
 
   logout() {
-    localStorage.removeItem('user_token');
+    // localStorage.removeItem('user_token');
   }
 
 }
