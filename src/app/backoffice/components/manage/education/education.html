@@ -1,0 +1,60 @@
+<details class="mb-4 border-b border-gray-300 pb-2" open>
+    <summary class="cursor-pointer text-xl font-semibold text-blue-400 hover:text-blue-600 focus:outline-none py-2 underline">
+        Education
+        <span class="float-right text-gray-500 details-icon">
+            <svg class="h-6 w-6 inline-block transform transition-transform duration-200 rotate-0" fill="none"
+                stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+            </svg>
+        </span>
+    </summary>
+    <div class="p-2 bg-blue-300 rounded-b-lg">
+        <div class="space-y-4">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div class="bg-sky-200 p-4 rounded flex flex-col relative" *ngFor="let edu of educationSection; let i = index">
+                    <label class="block mb-2 text-sm font-medium text-gray-900">ID</label>
+                    <input type="text" class="mb-2 block w-20 p-1 text-gray-900 border border-gray-300 rounded bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500 bg-gray-200 text-center" [(ngModel)]="edu.id" readonly>
+                    <button type="button" class="absolute top-0 right-0 m-2 p-2 bg-red-500 rounded-full shadow hover:bg-red-600 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-red-300 focus:ring-offset-2 flex items-center justify-center z-10 cursor-pointer" (click)="removeEducation(i)" aria-label="Delete Education">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-white" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+                        </svg>
+                    </button>
+                    <label class="block mb-2 text-sm font-medium text-gray-900">School Name</label>
+                    <input type="text" class="mb-2 block w-full p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500" [(ngModel)]="edu.name">
+                    <label class="block mb-2 text-sm font-medium text-gray-900">Major</label>
+                    <input type="text" class="mb-2 block w-full p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500" [(ngModel)]="edu.major">
+                    <div class="flex gap-2">
+                        <div class="flex-1">
+                            <label class="block mb-2 text-sm font-medium text-gray-900">Start Year</label>
+                            <input type="text" class="mb-2 block w-full p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500" [(ngModel)]="edu.startYear">
+                        </div>
+                        <div class="flex-1">
+                            <label class="block mb-2 text-sm font-medium text-gray-900">End Year</label>
+                            <input type="text" class="mb-2 block w-full p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500" [(ngModel)]="edu.endYear">
+                        </div>
+                    </div>
+                    <label class="block mb-2 text-sm font-medium text-gray-900">GPA</label>
+                    <input type="text" class="mb-2 block w-full p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500" [(ngModel)]="edu.gpa">
+                    <div class="mt-2">
+                        <label class="block mb-2 text-sm font-medium text-gray-900">Visible</label>
+                        <div class="flex gap-4">
+                            <label class="inline-flex items-center">
+                                <input type="radio" class="form-radio text-blue-500" [(ngModel)]="edu.visible" [value]="true" [name]="'visible-' + i">
+                                <span class="ml-2 text-gray-900">Show</span>
+                            </label>
+                            <label class="inline-flex items-center">
+                                <input type="radio" class="form-radio text-blue-500" [(ngModel)]="edu.visible" [value]="false" [name]="'visible-' + i">
+                                <span class="ml-2 text-gray-900">Hide</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="flex justify-center mt-4">
+                <button type="button" class="w-full max-w-md px-6 py-2 bg-green-500 text-white rounded-lg shadow hover:bg-green-600 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-green-300 focus:ring-offset-2 text-center" (click)="addEducation()">
+                    Add Education
+                </button>
+            </div>
+        </div>
+    </div>
+</details>

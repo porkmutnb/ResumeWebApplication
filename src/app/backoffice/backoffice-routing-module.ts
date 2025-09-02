@@ -5,6 +5,14 @@ import { Home } from './components/home/home';
 import { Manage } from './components/manage/manage';
 import { Login } from './components/login/login';
 import { authGuard } from './service/auth-guard';
+import { Profile } from './components/manage/profile/profile';
+import { Experince } from './components/manage/experince/experince';
+import { Education } from './components/manage/education/education';
+import { Skill } from './components/manage/skill/skill';
+import { Interest } from './components/manage/interest/interest';
+import { Awardandcertificate } from './components/manage/awardandcertificate/awardandcertificate';
+import { Resume } from './components/manage/resume/resume';
+import { Portfolio } from './components/manage/portfolio/portfolio';
 
 const routes: Routes = [
   { 
@@ -13,7 +21,21 @@ const routes: Routes = [
     children: [
       { path: '', redirectTo: 'home', pathMatch: 'full' },
       { path: 'home', component: Home },
-      { path: 'manage', component: Manage }
+      { 
+        path: 'manage', 
+        component: Manage,
+        children: [
+          { path: '', component: Profile, pathMatch: 'full' },
+          { path: 'interest', component: Interest },
+          { path: 'experience', component: Experince },
+          { path: 'education', component:  Education }, 
+          { path: 'skills', component: Skill },
+          { path: 'portfolio', component: Portfolio }, 
+          { path: 'awardandcertificate', component: Awardandcertificate },
+          { path: 'resume', component: Resume },
+          { path: '**', redirectTo: '' }
+        ]
+      }
     ],
     canActivateChild: [authGuard]
   },

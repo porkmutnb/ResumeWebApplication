@@ -14,6 +14,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 export class Main implements OnInit, OnDestroy {
 
   isMobileMenuOpen: Boolean = false;
+  isManageMenuOpen: Boolean = false;
 
   constructor(private authService: Auth, private router: Router) {
     
@@ -29,6 +30,10 @@ export class Main implements OnInit, OnDestroy {
 
   toggleMobileMenu(): void {
     this.isMobileMenuOpen = !this.isMobileMenuOpen
+  }
+
+  toggleManageMenu(): void {
+    this.isManageMenuOpen = !this.isManageMenuOpen;
   }
 
   onLogout(): void {

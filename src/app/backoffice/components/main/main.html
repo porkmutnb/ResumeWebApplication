@@ -17,10 +17,25 @@
                 <ion-icon name="home-outline"></ion-icon>
                 <span>Home</span>
             </a>
-            <a routerLink="/backoffice/manage" routerLinkActive="active" class="flex items-center space-x-2 py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700 hover:text-white">
-                <ion-icon name="bar-chart-outline"></ion-icon>
-                <span>Manage</span>
-            </a>
+            <div>
+                <button (click)="toggleManageMenu()" class="w-full flex items-center justify-between py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700 hover:text-white">
+                    <div class="flex items-center space-x-2">
+                        <ion-icon name="bar-chart-outline"></ion-icon>
+                        <span>Manage</span>
+                    </div>
+                    <ion-icon name="chevron-down-outline" class="transition-transform duration-300" [ngClass]="{'rotate-180': isManageMenuOpen}"></ion-icon>
+                </button>
+                <div *ngIf="isManageMenuOpen" class="pl-8">
+                    <a routerLink="/backoffice/manage/profile" routerLinkActive="active" class="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700 hover:text-white">Profile</a>
+                    <a routerLink="/backoffice/manage/interest" routerLinkActive="active" class="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700 hover:text-white">Interest</a>
+                    <a routerLink="/backoffice/manage/education" routerLinkActive="active" class="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700 hover:text-white">Education</a>
+                    <a routerLink="/backoffice/manage/experience" routerLinkActive="active" class="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700 hover:text-white">Experience</a>
+                    <a routerLink="/backoffice/manage/skill" routerLinkActive="active" class="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700 hover:text-white">Skills & Workflows</a>
+                    <a routerLink="/backoffice/manage/portfolio" routerLinkActive="active" class="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700 hover:text-white">Portfolio</a>
+                    <a routerLink="/backoffice/manage/awardandcertificate" routerLinkActive="active" class="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700 hover:text-white">Award & Certificate</a>
+                    <a routerLink="/backoffice/manage/resume" routerLinkActive="active" class="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700 hover:text-white">Resume</a>
+                </div>
+            </div>
         </nav>
         <div class="absolute bottom-5 w-full px-2">
              <a (click)="onLogout()" class="flex items-center space-x-2 py-2.5 px-4 rounded transition duration-200 hover:bg-red-700 hover:text-white">

@@ -1,0 +1,82 @@
+<details class="mb-4 border-b border-gray-300 pb-2" open>
+    <summary class="cursor-pointer text-xl font-semibold text-sky-700 hover:text-sky-600 dark:text-sky-300 dark:hover:text-sky-400 focus:outline-none py-2 underline transition-colors">
+        Portfolio
+        <span class="float-right text-gray-500 details-icon">
+            <svg class="h-6 w-6 inline-block transform transition-transform duration-200 rotate-0" fill="none"
+                stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+            </svg>
+        </span>
+    </summary>
+    <div class="p-4 bg-blue-300 rounded-b-lg">
+        <div class="space-y-4">
+            <div *ngFor="let portfolio of portfolioSection; let i = index"
+                class="bg-sky-200 p-4 rounded-lg shadow-md relative border border-sky-200 dark:border-sky-800">
+                <button (click)="removePortfolio(i)"
+                    class="absolute top-2 right-2 bg-red-600 text-white rounded-full p-1.5 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-transform hover:scale-110">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12">
+                        </path>
+                    </svg>
+                </button>
+                <h3 class="text-lg font-semibold mb-4 text-sky-800">Portfolio Item #{{ i + 1 }}</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <div class="mb-4">
+                            <label for="portfolioName{{i}}" class="block text-sm font-medium">Name</label>
+                            <input type="text" id="portfolioName{{i}}" [(ngModel)]="portfolio.name"
+                                name="portfolioName{{i}}"
+                                class="mt-1 block w-full px-3 py-2 text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none">
+                        </div>
+                        <div class="mb-4">
+                            <label for="portfolioDetail{{i}}"
+                                class="block text-sm font-medium">Detail</label>
+                            <textarea id="portfolioDetail{{i}}" [(ngModel)]="portfolio.detail"
+                                name="portfolioDetail{{i}}" rows="3"
+                                class="mt-1 block w-full px-3 py-2 text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none"></textarea>
+                        </div>
+                        <div class="mb-4">
+                            <label for="portfolioImageUrl{{i}}"
+                                class="block text-sm font-medium">Image URL</label>
+                            <input type="text" id="portfolioImageUrl{{i}}" [(ngModel)]="portfolio.imageUrl"
+                                name="portfolioImageUrl{{i}}"
+                                class="mt-1 block w-full px-3 py-2 text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none">
+                        </div>
+                    </div>
+                    <div class="bg-sky-200 p-4 rounded-lg border border-sky-200 dark:border-sky-800">
+                        <h4 class="text-md font-semibold mb-2">Info Details</h4>
+                        <div class="mb-4">
+                            <label for="infoDescription{{i}}"
+                                class="block text-sm font-medium">Description</label>
+                            <textarea id="infoDescription{{i}}" [(ngModel)]="portfolio.info.describtion"
+                                name="infoDescription{{i}}" rows="4"
+                                class="mt-1 block w-full px-3 py-2 text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none"></textarea>
+                        </div>
+                        <div class="mb-4">
+                            <label for="infoImageUrl{{i}}" class="block text-sm font-medium">Info Image URL</label>
+                            <input type="text" id="infoImageUrl{{i}}" [(ngModel)]="portfolio.info.imageUrl" name="infoImageUrl{{i}}" class="mt-1 block w-full px-3 py-2 text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium mb-1">Links</label>
+                            <div class="space-y-2">
+                                <div class="flex items-center space-x-2 bg-blue-300 p-2 rounded-md">
+                                    <div class="flex-grow">
+                                        <input type="text" placeholder="Link Name" [(ngModel)]="portfolio.info.linkto.name" name="linkName{{i}}" class="block w-full mb-1 px-2 py-1 text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none">
+                                        <input type="text" placeholder="Link URL" [(ngModel)]="portfolio.info.linkto.url" name="linkUrl{{i}}" class="block w-full px-2 py-1 text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center">
+                <button (click)="addPortfolio()"
+                    class="bg-green-500 text-white rounded-lg shadow hover:bg-green-600 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-green-300 focus:ring-offset-2 text-center py-2 px-6 rounded-lg shadow-lg focus:outline-none transition-all hover:shadow-xl cursor-pointer">
+                    Add New Portfolio
+                </button>
+            </div>
+        </div>
+    </div>
+</details>
