@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { ResumeMe } from '../../../../sharedServiced/bean-shared';
@@ -16,7 +16,7 @@ export class Resume implements OnInit, OnDestroy {
   private resumeData: Subscription | undefined
   resumeSection: ResumeMe[] = [];
 
-  constructor(private sharedService: Shared) { }
+  constructor(private sharedService: Shared, private cdr: ChangeDetectorRef) { }
 
   ngOnInit(): void {
     this.getDumpResumeData()
@@ -37,6 +37,9 @@ export class Resume implements OnInit, OnDestroy {
         console.error('Error fetching resume data:', error);
       },
       complete: () => {
+        this.resumeSection.map(r => {
+          r.newFile = ''
+        })
         console.log('resumeSection', this.resumeSection)
       }
     })
@@ -48,6 +51,7 @@ export class Resume implements OnInit, OnDestroy {
       id: newId,
       name: '',
       link: '',
+      newFile: '',
       default: this.resumeSection.length === 0,
       visible: true
     });
@@ -73,6 +77,47 @@ export class Resume implements OnInit, OnDestroy {
     this.resumeSection.forEach((rme, idx) => {
       rme.id = idx + 1;
     });
+  }
+
+  onFileChange(event: any, item: ResumeMe, index: number): void {
+    const file = event.target.files[0];
+    if (file) {
+      if (file.type.startsWith('application/')) {
+        const reader = new FileReader();
+        reader.onload = () => {
+          item.name = file.name
+          item.newFile = reader.result;
+          this.cdr.markForCheck()
+        };
+        reader.readAsDataURL(file);
+      }else {
+        file.value = '';
+        const inputElement = document.getElementById(`resumeFile${index}`) as HTMLInputElement;
+        if (inputElement) {
+          inputElement.value = ''
+        }
+        item.newFile = '';
+      }
+      
+    }
+  }
+    
+  removePortfolioImage(item: ResumeMe, index: number): void {
+    const inputElement = document.getElementById(`resumeFile${index}`) as HTMLInputElement;
+    if (inputElement) {
+      inputElement.value = ''
+    }
+    item.name = this.getFileInfoFromUrl(item.link)
+    item.newFile = '';
+  }
+
+  getFileInfoFromUrl(encodedUrl: string) {
+    const decodedUrl = decodeURIComponent(encodedUrl);
+    const url = new URL(decodedUrl);
+    const pathname = url.pathname;
+    const pathParts = pathname.split('/');
+    const fileName = pathParts[pathParts.length - 1];
+    return decodeURIComponent(fileName)
   }
 
 }

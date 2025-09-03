@@ -43,11 +43,13 @@ export interface PortfolioMe {
   name: string,
   detail: string,
   imageUrl: string,
+  imagePreview?: any,
   info: FolioInfo
 }
 export interface FolioInfo {
   describtion: string,
   imageUrl: string,
+  imagePreview?: any,
   linkto: FolioInfoDetail
 }
 export interface FolioInfoDetail {
@@ -58,6 +60,7 @@ export interface ResumeMe {
   id: number,
   name: string,
   link: string,
+  newFile?: any,
   default: boolean,
   visible: boolean
 }
@@ -78,6 +81,7 @@ export interface AwardAndCertificateMe {
   name: string,
   description: string,
   file: string,
+  filePreview?: any,
   visible: boolean
 }
 export interface AboutMe {

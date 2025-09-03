@@ -60,6 +60,14 @@ export class Detail implements OnInit, OnDestroy {
 
   getDumpPortfolioItem(id: number): void {
     this.portfolioService.dumpGetInfoById(id).then((data) => {
+      if(data.imageUrl=='') {
+        data.imageUrl = '../../../assets/professional-portfolio.webp'
+      }
+      if(data.info) {
+        if(data.info.imageUrl=='') {
+          data.info.imageUrl = '../../../assets/professional-portfolio.webp'
+        }
+      }
       this.portfolioSection = data;
     }).catch((error) => {
       console.error('Error fetching portfolio item:', error);

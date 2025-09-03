@@ -1,9 +1,10 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { Shared } from '../../../../sharedServiced/shared';
 import { Subscription } from 'rxjs';
-import { PortfolioMe } from '../../../../sharedServiced/bean-shared';
+import { PortfolioMe, FolioInfo } from '../../../../sharedServiced/bean-shared';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+
 
 @Component({
   selector: 'app-portfolio',
@@ -16,7 +17,7 @@ export class Portfolio implements OnInit, OnDestroy {
   private resumeData: Subscription | undefined
   portfolioSection: PortfolioMe[] = [];
 
-  constructor(private sharedService: Shared) {
+  constructor(private sharedService: Shared, private cdr: ChangeDetectorRef) {
 
   }
 
@@ -39,6 +40,19 @@ export class Portfolio implements OnInit, OnDestroy {
         console.error('Error fetching resume data:', error);
       },
       complete: () => {
+        this.portfolioSection.map((port) => {
+          if(port.imageUrl=='') {
+            port.imageUrl = '../../../../assets/professional-portfolio.webp'
+          }
+          port.imagePreview = ''
+          if (port.info) {
+            if(port.info.imageUrl=='') {
+              port.info.imageUrl = '../../../../assets/professional-portfolio.webp'
+            }
+            port.info.imagePreview = ''
+          }
+          return port
+        })
         console.log('portfolioSection', this.portfolioSection);
       }
     })
@@ -51,9 +65,11 @@ export class Portfolio implements OnInit, OnDestroy {
       name: '',
       detail: '',
       imageUrl: '',
+      imagePreview: '',
       info: {
         describtion: '',
         imageUrl: '',
+        imagePreview: '',
         linkto: { name: '', url: '' }
       }
     });
@@ -69,6 +85,40 @@ export class Portfolio implements OnInit, OnDestroy {
     this.portfolioSection?.forEach((port, idx) => {
       port.id = idx + 1;
     });
+  }
+
+  onFileChange(event: any, item: PortfolioMe | FolioInfo): void {
+    const file = event.target.files[0];
+    if (file) {
+      if (file.type.startsWith('image/')) {
+        const reader = new FileReader();
+        reader.onload = () => {
+          item.imagePreview = reader.result;
+          this.cdr.markForCheck();
+        };
+        reader.readAsDataURL(file);
+      }else {
+        file.value = '';
+        item.imagePreview = '';
+      }
+    }
+  }
+
+  removePortfolioImage(item: PortfolioMe | FolioInfo, index: number): void {
+    if ('name' in item && 'detail' in item) {
+      const inputElement = document.getElementById(`portfolioImageUrl${index}`) as HTMLInputElement;
+      if (inputElement) {
+        inputElement.value = ''
+      }
+    } else {
+      const inputElement = document.getElementById(`infoImageUrl${index}`) as HTMLInputElement;
+      if (inputElement) {
+        inputElement.value = ''
+      }
+    }
+    item.imagePreview = '';
+
+    this.cdr.markForCheck();
   }
 
 }

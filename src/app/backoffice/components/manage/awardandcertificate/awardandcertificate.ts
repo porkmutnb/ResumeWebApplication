@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Shared } from '../../../../sharedServiced/shared';
 import { Subscription } from 'rxjs';
@@ -16,7 +16,7 @@ export class Awardandcertificate implements OnInit, OnDestroy {
   private resumeData: Subscription | undefined
   awardAndCertificateSection: AwardAndCertificateMe[] = [];
 
-  constructor(private sharedService: Shared) { }
+  constructor(private sharedService: Shared, private cdr: ChangeDetectorRef) { }
 
   ngOnInit(): void {
     this.getDumpResumeData()
@@ -38,6 +38,7 @@ export class Awardandcertificate implements OnInit, OnDestroy {
       },
       complete: () => {
         this.awardAndCertificateSection.map((awardAndCertificate) => {
+          awardAndCertificate.filePreview = ''
           if(awardAndCertificate.file=='') {
             awardAndCertificate.file = '../../../../assets/report-card.webp'
           }
@@ -54,6 +55,7 @@ export class Awardandcertificate implements OnInit, OnDestroy {
       name: '',
       description: '',
       file: '../../../../assets/report-card.webp',
+      filePreview: '',
       visible: true
     });
     this.updateAwardIds();
@@ -68,6 +70,32 @@ export class Awardandcertificate implements OnInit, OnDestroy {
     this.awardAndCertificateSection.forEach((awd, idx) => {
       awd.id = idx + 1;
     });
+  }
+
+  onFileChange(event: any, item: AwardAndCertificateMe): void {
+    const file = event.target.files[0];
+    if (file) {
+      if (file.type.startsWith('image/')) {
+        const reader = new FileReader();
+        reader.onload = () => {
+          item.filePreview = reader.result;
+          this.cdr.markForCheck();
+        };
+        reader.readAsDataURL(file);
+      }else {
+        file.value = '';
+        item.filePreview = '';
+      }
+    }
+  }
+  
+  removePortfolioImage(item: AwardAndCertificateMe, index: number): void {
+    const inputElement = document.getElementById(`awardFile${index}`) as HTMLInputElement;
+    if (inputElement) {
+      inputElement.value = ''
+    }
+    item.filePreview = '';
+    this.cdr.markForCheck();
   }
 
 }

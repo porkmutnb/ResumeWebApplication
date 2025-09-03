@@ -9,73 +9,94 @@
         </span>
     </summary>
     <div class="p-4 bg-blue-300 rounded-b-lg">
-        <div class="space-y-4">
-            <div *ngFor="let portfolio of portfolioSection; let i = index"
-                class="bg-sky-200 p-4 rounded-lg shadow-md relative border border-sky-200 dark:border-sky-800">
-                <button (click)="removePortfolio(i)"
-                    class="absolute top-2 right-2 bg-red-600 text-white rounded-full p-1.5 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-transform hover:scale-110">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                        xmlns="http://www.w3.org/2000/svg">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12">
-                        </path>
-                    </svg>
-                </button>
-                <h3 class="text-lg font-semibold mb-4 text-sky-800">Portfolio Item #{{ i + 1 }}</h3>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                        <div class="mb-4">
-                            <label for="portfolioName{{i}}" class="block text-sm font-medium">Name</label>
-                            <input type="text" id="portfolioName{{i}}" [(ngModel)]="portfolio.name"
-                                name="portfolioName{{i}}"
-                                class="mt-1 block w-full px-3 py-2 text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none">
-                        </div>
-                        <div class="mb-4">
-                            <label for="portfolioDetail{{i}}"
-                                class="block text-sm font-medium">Detail</label>
-                            <textarea id="portfolioDetail{{i}}" [(ngModel)]="portfolio.detail"
-                                name="portfolioDetail{{i}}" rows="3"
-                                class="mt-1 block w-full px-3 py-2 text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none"></textarea>
-                        </div>
-                        <div class="mb-4">
-                            <label for="portfolioImageUrl{{i}}"
-                                class="block text-sm font-medium">Image URL</label>
-                            <input type="text" id="portfolioImageUrl{{i}}" [(ngModel)]="portfolio.imageUrl"
-                                name="portfolioImageUrl{{i}}"
-                                class="mt-1 block w-full px-3 py-2 text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none">
+        <div class="flex justify-end mb-4">
+            <button (click)="addPortfolio()"
+                class="flex items-center bg-green-500 text-white py-2 px-4 rounded-lg shadow-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-all">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6">
+                    </path>
+                </svg>
+                Add New Portfolio
+            </button>
+        </div>
+        <div *ngFor="let portfolio of portfolioSection; let i = index" class="bg-sky-200 p-4 rounded-lg shadow-md relative border border-sky-200 dark:border-sky-800 mb-4">
+            <button (click)="removePortfolio(i)"
+                class="absolute top-2 right-2 bg-red-600 text-white rounded-full p-1.5 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-transform hover:scale-110">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12">
+                    </path>
+                </svg>
+            </button>
+            <h3 class="text-lg font-semibold mb-4 text-sky-800">Portfolio Item #{{ i + 1 }}</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <div class="mb-4">
+                        <label for="portfolioName{{i}}" class="block text-sm font-medium">Name</label>
+                        <input type="text" id="portfolioName{{i}}" [(ngModel)]="portfolio.name"
+                            name="portfolioName{{i}}"
+                            class="mt-1 block w-full px-3 py-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:outline-none">
+                    </div>
+                    <div class="mb-4">
+                        <label for="portfolioDetail{{i}}"
+                            class="block text-sm font-medium">Detail</label>
+                        <textarea id="portfolioDetail{{i}}" [(ngModel)]="portfolio.detail"
+                            name="portfolioDetail{{i}}" rows="3"
+                            class="mt-1 block w-full px-3 py-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:outline-none"></textarea>
+                    </div>
+                    <div class="mb-4">
+                        <label for="portfolioImageUrl{{i}}" class="block text-sm font-medium">Image</label>
+                        <input type="file" id="portfolioImageUrl{{i}}" (change)="onFileChange($event, portfolio)"
+                               accept="image/*"
+                               class="mt-1 block w-full text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:outline-none">
+                        <div class="mt-2 relative">
+                            <img [src]="portfolio.imagePreview || portfolio.imageUrl" alt="Portfolio Image" class="mt-2 rounded-lg max-h-40">
+                            <button *ngIf="portfolio.imagePreview!=''" (click)="removePortfolioImage(portfolio, i)" 
+                                class="absolute top-0 right-0 bg-red-600 text-white rounded-full p-1 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-transform hover:scale-110">
+                                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M6 18L18 6M6 6l12 12"></path>
+                                </svg>
+                            </button>
                         </div>
                     </div>
-                    <div class="bg-sky-200 p-4 rounded-lg border border-sky-200 dark:border-sky-800">
-                        <h4 class="text-md font-semibold mb-2">Info Details</h4>
-                        <div class="mb-4">
-                            <label for="infoDescription{{i}}"
-                                class="block text-sm font-medium">Description</label>
-                            <textarea id="infoDescription{{i}}" [(ngModel)]="portfolio.info.describtion"
-                                name="infoDescription{{i}}" rows="4"
-                                class="mt-1 block w-full px-3 py-2 text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none"></textarea>
+                </div>
+                <div class="bg-sky-200 p-4 rounded-lg border border-sky-200 dark:border-sky-800">
+                    <h4 class="text-md font-semibold mb-2">Info Details</h4>
+                    <div class="mb-4">
+                        <label for="infoDescription{{i}}"
+                            class="block text-sm font-medium">Description</label>
+                        <textarea id="infoDescription{{i}}" [(ngModel)]="portfolio.info.describtion"
+                            name="infoDescription{{i}}" rows="4"
+                            class="mt-1 block w-full px-3 py-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:outline-none"></textarea>
+                    </div>
+                    <div class="mb-4">
+                        <label for="infoImageUrl{{i}}" class="block text-sm font-medium">Info Image</label>
+                        <input type="file" id="infoImageUrl{{i}}" (change)="onFileChange($event, portfolio.info)"
+                               accept="image/*"
+                               class="mt-1 block w-full text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:outline-none">
+                        <div class="mt-2 relative">
+                            <img [src]="portfolio.info.imagePreview || portfolio.info.imageUrl" alt="Info Image" class="mt-2 rounded-lg max-h-40">
+                            <button *ngIf="portfolio.info.imagePreview!=''" (click)="removePortfolioImage(portfolio.info, i)" 
+                                class="absolute top-0 right-0 bg-red-600 text-white rounded-full p-1 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-transform hover:scale-110">
+                                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M6 18L18 6M6 6l12 12"></path>
+                                </svg>
+                            </button>
                         </div>
-                        <div class="mb-4">
-                            <label for="infoImageUrl{{i}}" class="block text-sm font-medium">Info Image URL</label>
-                            <input type="text" id="infoImageUrl{{i}}" [(ngModel)]="portfolio.info.imageUrl" name="infoImageUrl{{i}}" class="mt-1 block w-full px-3 py-2 text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none">
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium mb-1">Links</label>
-                            <div class="space-y-2">
-                                <div class="flex items-center space-x-2 bg-blue-300 p-2 rounded-md">
-                                    <div class="flex-grow">
-                                        <input type="text" placeholder="Link Name" [(ngModel)]="portfolio.info.linkto.name" name="linkName{{i}}" class="block w-full mb-1 px-2 py-1 text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none">
-                                        <input type="text" placeholder="Link URL" [(ngModel)]="portfolio.info.linkto.url" name="linkUrl{{i}}" class="block w-full px-2 py-1 text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none">
-                                    </div>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium mb-1">Links</label>
+                        <div class="space-y-2">
+                            <div class="flex items-center space-x-2 bg-blue-300 p-2 rounded-md">
+                                <div class="flex-grow">
+                                    <input type="text" placeholder="Link Name" [(ngModel)]="portfolio.info.linkto.name" name="linkName{{i}}" class="block w-full mb-1 px-2 py-1 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:outline-none">
+                                    <input type="text" placeholder="Link URL" [(ngModel)]="portfolio.info.linkto.url" name="linkUrl{{i}}" class="block w-full px-2 py-1 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:outline-none">
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="text-center">
-                <button (click)="addPortfolio()"
-                    class="bg-green-500 text-white rounded-lg shadow hover:bg-green-600 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-green-300 focus:ring-offset-2 text-center py-2 px-6 rounded-lg shadow-lg focus:outline-none transition-all hover:shadow-xl cursor-pointer">
-                    Add New Portfolio
-                </button>
             </div>
         </div>
     </div>

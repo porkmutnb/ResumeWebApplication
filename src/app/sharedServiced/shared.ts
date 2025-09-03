@@ -83,13 +83,13 @@ export class Shared {
       workflow.push('Experience in service using Google Cloud')
       var skills: SkillMe = { tools: tools, workflow: workflow }
       this.resumeData.skill = skills  
-      var folio1: FolioInfo = { describtion: 'Discord Server คือโปรแกรมสื่อสารอย่างหนึ่ง \n คลิกลิ้งค์ด้านล่างเพื่อเข้าสู่เซิฟเวอร์ได้เลย', imageUrl: 'https://firebasestorage.googleapis.com/v0/b/resume-9a2d0.appspot.com/o/image_icon%2FDiscord-screenshot.png?alt=media&token=1eb02005-9c70-41ce-b524-2fcc53951b71', linkto: { name: 'Click to Join Discord', url: 'https://discord.gg/VjDXWahQKX' } }
+      var folio1: FolioInfo = { describtion: 'Discord Server คือโปรแกรมสื่อสารอย่างหนึ่ง \n คลิกลิ้งค์ด้านล่างเพื่อเข้าสู่เซิฟเวอร์ได้เลย', imageUrl: '', linkto: { name: 'Click to Join Discord', url: 'https://discord.gg/VjDXWahQKX' } }
       var portfolio1: PortfolioMe = { id: 1, name: 'Server Discord', detail: 'create discord server for conversation', imageUrl: 'https://firebasestorage.googleapis.com/v0/b/resume-9a2d0.appspot.com/o/image_icon%2FDiscord-screenshot.png?alt=media&token=1eb02005-9c70-41ce-b524-2fcc53951b71', info: folio1 }
       this.resumeData.portfolioList.push(portfolio1)
-      var folio2: FolioInfo = { describtion: 'ระบบจองโต๊ะอาหาร project Restful API พัฒนาด้วย Java SpringBoot', imageUrl: 'https://cdn.azilen.com/wp-content/uploads/2023/07/spring.jpg', linkto: { name: 'Click Link to Github', url: 'https://github.com/porkmutnb/Restaurant-SpringBoot.git' } }
+      var folio2: FolioInfo = { describtion: 'ระบบจองโต๊ะอาหาร project Restful API พัฒนาด้วย Java SpringBoot', imageUrl: '', linkto: { name: 'Click Link to Github', url: 'https://github.com/porkmutnb/Restaurant-SpringBoot.git' } }
       var portfolio2: PortfolioMe = { id: 2, name: 'spring-boot', detail: 'ระบบจองโต๊ะอาหาร Backend', imageUrl: 'https://cdn.azilen.com/wp-content/uploads/2023/07/spring.jpg', info: folio2 }
       this.resumeData.portfolioList.push(portfolio2)
-      var folio3: FolioInfo = { describtion: 'ระบบจองโต๊ะอาหาร project พัฒนาเว็บไซต์ด้วย Angular Framework Version 18', imageUrl: 'https://cdn.quokkalabs.com/blog/object/20240627123007_7a8d96795491496590cb510c21193b2c.webp', linkto: { name: 'Click Link to Github', url: 'https://github.com/porkmutnb/Restaurant-Angular.git' } }
+      var folio3: FolioInfo = { describtion: 'ระบบจองโต๊ะอาหาร project พัฒนาเว็บไซต์ด้วย Angular Framework Version 18', imageUrl: '', linkto: { name: 'Click Link to Github', url: 'https://github.com/porkmutnb/Restaurant-Angular.git' } }
       var portfolio3: PortfolioMe = { id: 3, name: 'angular', detail: 'ระบบจองโต๊ะอาหาร Frontend', imageUrl: 'https://cdn.quokkalabs.com/blog/object/20240627123007_7a8d96795491496590cb510c21193b2c.webp', info: folio3 }
       this.resumeData.portfolioList.push(portfolio3)
       var myResume1: ResumeMe = { id: 1, name: 'CV Pornthep_Wtp.pdf', link: 'https://firebasestorage.googleapis.com/v0/b/resume-9a2d0.appspot.com/o/file_resume%2FCV%20Pornthep_Wtp.pdf?alt=media&token=897b1ece-24f0-4e7c-aa9c-c73434570dab', default: true, visible: true }
