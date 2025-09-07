@@ -8,26 +8,26 @@
             </svg>
         </span>
     </summary>
-    <div class="p-2 bg-blue-300 rounded-b-lg">
+    <div class="p-2 bg-blue-300 rounded-b-lg" *ngIf="profileSection">
         <div class="space-y-4">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div class="bg-sky-200 p-4 rounded">
                     <label for="firstName" class="block mb-2 text-sm font-medium text-gray-900">FirstName</label>
-                    <input type="text" id="firstName" class="block w-full p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500" [(ngModel)]="profileSection.firstName">
+                    <input type="text" id="firstName" class="block w-full p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500" [(ngModel)]="profileSection!.firstName">
                 </div>
                 <div class="bg-sky-200 p-4 rounded">
                     <label for="lastName" class="block mb-2 text-sm font-medium text-gray-900">LastName</label>
-                    <input type="text" id="lastName" class="block w-full p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500" [(ngModel)]="profileSection.lastName">
+                    <input type="text" id="lastName" class="block w-full p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500" [(ngModel)]="profileSection!.lastName">
                 </div>
                 <div class="bg-sky-200 p-4 rounded">
                     <label for="nickName" class="block mb-2 text-sm font-medium text-gray-900">NickName</label>
-                    <input type="text" id="nickName" class="block w-full p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500" [(ngModel)]="profileSection.nickName">
+                    <input type="text" id="nickName" class="block w-full p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500" [(ngModel)]="profileSection!.nickName">
                 </div>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div class="bg-sky-200 p-4 rounded">
                     <label for="introduce" class="block mb-2 text-sm font-medium text-gray-900">Introduce</label>
-                    <textarea id="introduce" rows="4" class="block w-full p-2.5 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" [(ngModel)]="profileSection.introduce"></textarea>
+                    <textarea id="introduce" rows="4" class="block w-full p-2.5 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" [(ngModel)]="profileSection!.introduce"></textarea>
                 </div>
                 <div class="bg-sky-200 p-4 rounded flex flex-col items-center">
                     <label class="block mb-2 text-sm font-medium text-gray-900" for="user_avatar">Profile Upload</label>
@@ -55,7 +55,7 @@
             </svg>
         </span>
     </summary>
-    <div class="p-2 bg-blue-300 rounded-b-lg">
+    <div class="p-2 bg-blue-300 rounded-b-lg" *ngIf="contactSection">
         <div class="space-y-4 mb-4">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div class="bg-sky-200 p-4 rounded">
@@ -70,7 +70,7 @@
         </div>
         <div class="space-y-4">
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                <div class="bg-sky-200 p-4 rounded flex flex-col relative" *ngFor="let socialMedia of contactSection.socialMedia; let i = index">
+                <div class="bg-sky-200 p-4 rounded flex flex-col relative" *ngFor="let socialMedia of contactSection.socialMediaList; let i = index">
                     <label class="block mb-2 text-sm font-medium text-gray-900">ID</label>
                     <input type="text" class="mb-2 block w-20 p-1 text-gray-900 border border-gray-300 rounded bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500 bg-gray-200 text-center" [(ngModel)]="socialMedia.id" readonly>
                     <button type="button" class="absolute top-0 right-0 m-2 p-2 bg-red-500 rounded-full shadow hover:bg-red-600 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-red-300 focus:ring-offset-2 flex items-center justify-center z-10 cursor-pointer" (click)="removeSocialMedia(i)" aria-label="Delete Education">
@@ -117,7 +117,7 @@
             </svg>
         </span>
     </summary>
-    <div class="p-2 bg-blue-300 rounded-b-lg">
+    <div class="p-2 bg-blue-300 rounded-b-lg" *ngIf="aboutSection">
         <div class="grid grid-cols-1 md:grid-cols-1 gap-4 mb-4">
             <div class="bg-sky-200 p-4 rounded">
                 <label for="description" class="block mb-2 text-sm font-medium text-gray-900">Description</label>

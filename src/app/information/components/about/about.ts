@@ -1,8 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { AboutMe, ProfileMe } from '../../../sharedServiced/bean-shared';
 import { Shared } from '../../../sharedServiced/shared';
+import { Information } from '../../service/information';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-about',
@@ -15,15 +17,25 @@ import { Shared } from '../../../sharedServiced/shared';
 export class About implements OnInit, OnDestroy {
 
   private resumeData: Subscription | undefined
-  profileSection: ProfileMe | undefined;
-  aboutSection: AboutMe | undefined;
+  profileSection: ProfileMe= {
+    firstName: '',
+    lastName: '',
+    nickName: '',
+    introduce: '',
+    profile: ''
+  }
+  aboutSection: AboutMe = {
+    celebrityFavoriteList: [],
+    description: '',
+    hobbies: []
+  }
 
-  constructor(private sharedService: Shared) {
+  constructor(private service: Information, private sharedService: Shared, private cdr: ChangeDetectorRef) {
       
   }
 
   ngOnInit(): void {
-    this.getDumpResumeData()
+    environment.production ? this.getResumeData() : this.getDumpResumeData();
   }
 
   ngOnDestroy(): void {
@@ -35,8 +47,8 @@ export class About implements OnInit, OnDestroy {
   getDumpResumeData(): void {
     this.resumeData = this.sharedService.getDumpResumeData().subscribe({
       next: (data) => {
-        this.profileSection = data.profile
-        this.aboutSection = data.about
+        Object.assign(this.profileSection, data.profile)
+        Object.assign(this.aboutSection, data.about)
       },
       error: (error) => {
         console.error('Error fetching resume data:', error);
@@ -45,6 +57,26 @@ export class About implements OnInit, OnDestroy {
         if(this.profileSection && this.profileSection.profile == '') {
           this.profileSection.profile = '../../../../assets/user.webp'
         }
+      }
+    })
+  }
+
+  getResumeData(): void {
+    this.resumeData = this.service.getResumeDataForInformationAboutPage().subscribe({
+      next: (data) => {
+        this.profileSection = {firstName: '', lastName: '', nickName: '', introduce: '', profile: ''}
+        Object.assign(this.profileSection, data.profile)
+        this.aboutSection = {celebrityFavoriteList: [], description: '', hobbies: []}
+        Object.assign(this.aboutSection, data.about)
+      },
+      error: (error) => {
+        console.error('Error fetching resume-data[About]:', error)
+      },
+      complete: () => {
+        if(this.profileSection && this.profileSection.profile == '') {
+          this.profileSection.profile = '../../../../assets/user.webp'
+        }
+        this.cdr.detectChanges();
       }
     })
   }

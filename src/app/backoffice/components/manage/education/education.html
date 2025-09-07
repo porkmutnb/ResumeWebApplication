@@ -8,7 +8,7 @@
             </svg>
         </span>
     </summary>
-    <div class="p-2 bg-blue-300 rounded-b-lg">
+    <div class="p-2 bg-blue-300 rounded-b-lg" *ngIf="educationSection">
         <div class="space-y-4">
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                 <div class="bg-sky-200 p-4 rounded flex flex-col relative" *ngFor="let edu of educationSection; let i = index">
@@ -22,15 +22,15 @@
                     <label class="block mb-2 text-sm font-medium text-gray-900">School Name</label>
                     <input type="text" class="mb-2 block w-full p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500" [(ngModel)]="edu.name">
                     <label class="block mb-2 text-sm font-medium text-gray-900">Major</label>
-                    <input type="text" class="mb-2 block w-full p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500" [(ngModel)]="edu.major">
+                    <input type="text" class="mb-2 block w-full p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500" [(ngModel)]="edu.depart">
                     <div class="flex gap-2">
                         <div class="flex-1">
                             <label class="block mb-2 text-sm font-medium text-gray-900">Start Year</label>
-                            <input type="text" class="mb-2 block w-full p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500" [(ngModel)]="edu.startYear">
+                            <input type="text" class="mb-2 block w-full p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500" [(ngModel)]="edu.studiesYear">
                         </div>
                         <div class="flex-1">
                             <label class="block mb-2 text-sm font-medium text-gray-900">End Year</label>
-                            <input type="text" class="mb-2 block w-full p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500" [(ngModel)]="edu.endYear">
+                            <input type="text" class="mb-2 block w-full p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500" [(ngModel)]="edu.graduateYear">
                         </div>
                     </div>
                     <label class="block mb-2 text-sm font-medium text-gray-900">GPA</label>

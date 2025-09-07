@@ -1,9 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
-import { FormGroup, FormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { AboutMe, CelebrityFavorite, ContactMe, ProfileMe, SocialMedia } from '../../../../sharedServiced/bean-shared';
 import { Shared } from '../../../../sharedServiced/shared';
+import { Backoffice } from '../../../service/backoffice';
+import { environment } from '../../../../../environments/environment';
 
 @Component({
   selector: 'app-profile',
@@ -14,31 +16,17 @@ import { Shared } from '../../../../sharedServiced/shared';
 export class Profile implements OnInit, OnDestroy {
 
   private resumeData: Subscription | undefined
-  profileSection: ProfileMe = {
-    firstName: '',
-    lastName: '',
-    nickName: '',
-    introduce: '',
-    profile: ''
-  }; 
+  profileSection: ProfileMe | undefined 
   profileImagePreview: string = '';
-  contactSection: ContactMe = {
-    email: '',
-    phone: '',
-    socialMedia: []
-  }
-  aboutSection: AboutMe = {
-    celebrityFavoriteList: [],
-    hobbies: [],
-    description: ''
-  }
+  contactSection: ContactMe | undefined 
+  aboutSection: AboutMe | undefined
 
-  constructor(private sharedService: Shared, private cdr: ChangeDetectorRef) {
+  constructor(private service: Backoffice, private sharedService: Shared, private cdr: ChangeDetectorRef) {
 
   }
 
   ngOnInit(): void {
-    this.getDumpResumeData()
+    environment.production ? this.getResumeData() : this.getDumpResumeData()
   }
 
   ngOnDestroy(): void {
@@ -52,9 +40,20 @@ export class Profile implements OnInit, OnDestroy {
     this.resumeData = this.sharedService.getDumpResumeData().subscribe({
       next: (data) => {
         if(this.profileImagePreview == '') {
-          this.profileSection = data.profile
-          this.contactSection = data.contact
-          this.aboutSection = data.about
+          this.profileSection = {
+            firstName:'',lastName:'',nickName:'',introduce:'',profile:''
+          }
+          Object.assign(this.profileSection, data.profile)
+          this.contactSection = {
+            email:'',phone:'',socialMediaList:[]
+          }
+          Object.assign(this.contactSection, data.contact)
+          this.aboutSection = {
+            celebrityFavoriteList: [],
+            description: '',
+            hobbies: []
+          }
+          Object.assign(this.aboutSection, data.about)
         }
       },
       error: (error) => {
@@ -64,9 +63,36 @@ export class Profile implements OnInit, OnDestroy {
         if(this.profileSection && this.profileSection.profile == '') {
           this.profileSection.profile = '../../../../assets/user.webp'
         }
-        console.log('profileSection', this.profileSection);
-        console.log('contactSection', this.contactSection);
-        console.log('aboutSection', this.aboutSection);
+        console.log(`profileSection: ${JSON.stringify(this.profileSection)}`);
+        console.log(`contactSection: ${JSON.stringify(this.contactSection)}`);
+        console.log(`aboutSection: ${JSON.stringify(this.aboutSection)}`);
+        this.cdr.detectChanges();
+      }
+    })
+  }
+
+  getResumeData(): void {
+    this.profileImagePreview = '';
+    this.resumeData = this.service.getResumeDataForBackofficeProfilePage().subscribe({
+      next: (data) => {
+        this.profileSection = {firstName:'',lastName:'',nickName:'',introduce:'',profile:''}
+        Object.assign(this.profileSection, data.profile)
+        this.contactSection = {email:'',phone:'',socialMediaList:[]}
+        Object.assign(this.contactSection, data.contact)
+        this.aboutSection = {celebrityFavoriteList: [],description: '',hobbies: []}
+        Object.assign(this.aboutSection, data.about)
+      },
+      error: (error) => {
+        console.error('Error fetching resume-data[Profile]:', error)
+      },
+      complete: () => {
+        if(this.profileSection?.profile == '' || this.profileSection?.profile == undefined) {
+          this.profileSection!.profile = '../../../../assets/user.webp'
+        }
+        console.log(`profileSection: ${JSON.stringify(this.profileSection)}`)
+        console.log(`contactSection: ${JSON.stringify(this.contactSection)}`)
+        console.log(`aboutSection: ${JSON.stringify(this.aboutSection)}`)
+        this.cdr.detectChanges();
       }
     })
   }
@@ -90,8 +116,8 @@ export class Profile implements OnInit, OnDestroy {
   }
 
   addSocialMedia() {
-    this.contactSection.socialMedia?.push({
-      id: Number(this.contactSection.socialMedia?.length) + 1,
+    this.contactSection?.socialMediaList?.push({
+      id: Number(this.contactSection.socialMediaList?.length) + 1,
       name: '',
       username: '',
       link: '',
@@ -101,26 +127,26 @@ export class Profile implements OnInit, OnDestroy {
   }
 
   removeSocialMedia(index: number) {
-    this.contactSection.socialMedia?.splice(index, 1);
+    this.contactSection?.socialMediaList?.splice(index, 1);
     this.updateSocialMediaIds();
   }
 
   updateSocialMediaIds() {
-    this.contactSection.socialMedia?.forEach((edu, idx) => {
+    this.contactSection?.socialMediaList?.forEach((edu, idx) => {
       edu.id = idx + 1;
     });
   }
 
   addHobby() {
-    this.aboutSection?.hobbies.push('');
+    this.aboutSection?.hobbies?.push('');
   }
 
   removeHobby(index: number) {
-    this.aboutSection?.hobbies.splice(index, 1);
+    this.aboutSection?.hobbies?.splice(index, 1);
   }
 
   addCelebrity() {
-    this.aboutSection.celebrityFavoriteList?.push({
+    this.aboutSection?.celebrityFavoriteList?.push({
       id: Number(this.aboutSection.celebrityFavoriteList?.length) + 1,
       name: '',
       link: ''
@@ -129,12 +155,12 @@ export class Profile implements OnInit, OnDestroy {
   }
 
   removeCelebrity(index: number) {
-    this.aboutSection.celebrityFavoriteList?.splice(index, 1);
+    this.aboutSection?.celebrityFavoriteList?.splice(index, 1);
     this.updateCelebrityIds();
   }
 
   updateCelebrityIds() {
-    this.aboutSection.celebrityFavoriteList?.forEach((edu, idx) => {
+    this.aboutSection?.celebrityFavoriteList?.forEach((edu, idx) => {
       edu.id = idx + 1;
     });
   }

@@ -1,9 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { ExperinceMe } from '../../../../sharedServiced/bean-shared';
 import { Shared } from '../../../../sharedServiced/shared';
+import { Backoffice } from '../../../service/backoffice';
+import { environment } from '../../../../../environments/environment';
 
 @Component({
   selector: 'app-experince',
@@ -16,12 +18,12 @@ export class Experince implements OnInit, OnDestroy {
   private resumeData: Subscription | undefined
   experienceSection: ExperinceMe[] = [];
 
-  constructor(private sharedService: Shared) {
+  constructor(private service: Backoffice, private sharedService: Shared, private cdr: ChangeDetectorRef) {
 
   }
 
   ngOnInit(): void {
-    this.getDumpResumeData()
+    environment.production ? this.getResumeData() : this.getDumpResumeData()
   }
 
   ngOnDestroy(): void {
@@ -33,13 +35,29 @@ export class Experince implements OnInit, OnDestroy {
   getDumpResumeData(): void {
     this.resumeData = this.sharedService.getDumpResumeData().subscribe({
       next: (data) => {
-        this.experienceSection = data.experince
+        Object.assign(this.experienceSection, data.experince)
       },
       error: (error) => {
-        console.error('Error fetching resume data:', error);
+        console.error('Error fetching resume-data[Experince]:', error);
       },
       complete: () => {
-        console.log('experienceSection', this.experienceSection);
+        console.log(`experienceSection: ${JSON.stringify(this.experienceSection)}`);
+        this.cdr.detectChanges();
+      }
+    })
+  }
+
+  getResumeData(): void {
+    this.resumeData = this.service.getResumeDataForBackofficeExperincePage().subscribe({
+      next: (data) => {
+        Object.assign(this.experienceSection, data.experince)
+      },
+      error: (error) => {
+        console.error('Error fetching resume-data[Experince]:', error)
+      },
+      complete: () => {
+        console.log(`experienceSection: ${JSON.stringify(this.experienceSection)}`)
+        this.cdr.detectChanges();
       }
     })
   }

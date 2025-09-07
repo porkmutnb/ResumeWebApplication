@@ -1,9 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { Shared } from '../../../../sharedServiced/shared';
 import { SkillMe } from '../../../../sharedServiced/bean-shared';
+import { Backoffice } from '../../../service/backoffice';
+import { environment } from '../../../../../environments/environment';
 
 @Component({
   selector: 'app-skill',
@@ -16,15 +18,15 @@ export class Skill implements OnInit, OnDestroy {
   private resumeData: Subscription | undefined
   skillSection: SkillMe = {
     tools: [],
-    workflow: []
+    workflows: []
   };
 
-  constructor(private sharedService: Shared) {
+  constructor(private service: Backoffice, private sharedService: Shared, private cdr: ChangeDetectorRef) {
   
   }
   
   ngOnInit(): void {
-    this.getDumpResumeData()
+    environment.production ? this.getResumeData() : this.getDumpResumeData()
   }
   
   ngOnDestroy(): void {
@@ -36,13 +38,29 @@ export class Skill implements OnInit, OnDestroy {
   getDumpResumeData(): void {
     this.resumeData = this.sharedService.getDumpResumeData().subscribe({
       next: (data) => {
-        this.skillSection = data.skill
+        Object.assign(this.skillSection, data.skill)
       },
       error: (error) => {
         console.error('Error fetching resume data:', error);
       },
       complete: () => {
-        console.log('skillSection', this.skillSection);
+        console.log(`skillSection: ${JSON.stringify(this.skillSection)}`);
+        this.cdr.detectChanges();
+      }
+    })
+  }
+
+  getResumeData(): void {
+    this.resumeData = this.service.getResumeDataForBackofficeSkillPage().subscribe({
+      next: (data) => {
+        Object.assign(this.skillSection, data.skill)
+      },
+      error: (error) => {
+        console.error('Error fetching resume-data[Skill]:', error)
+      },
+      complete: () => {
+        console.log(`skillSection: ${JSON.stringify(this.skillSection)}`);
+        this.cdr.detectChanges();
       }
     })
   }
@@ -56,11 +74,11 @@ export class Skill implements OnInit, OnDestroy {
   }
 
   addWorkflow() {
-    this.skillSection?.workflow.push('');
+    this.skillSection?.workflows.push('');
   }
 
   removeWorkflow(index: number) {
-    this.skillSection?.workflow.splice(index, 1);
+    this.skillSection?.workflows.splice(index, 1);
   }
 
 }

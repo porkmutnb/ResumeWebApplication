@@ -1,9 +1,10 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PortfolioMe, ProfileMe } from '../../../sharedServiced/bean-shared';
 import { Subscription } from 'rxjs';
 import { Portfolio } from '../../service/portfolio';
 import { Shared } from '../../../sharedServiced/shared';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-detail',
@@ -14,37 +15,40 @@ import { Shared } from '../../../sharedServiced/shared';
 export class Detail implements OnInit, OnDestroy {
 
   id: number | null = null
-  private portfolioData: Subscription | undefined
-  private profileData: Subscription | undefined
+  private resumeData: Subscription | undefined
   portfolioSection: PortfolioMe | undefined;
-  profileSection: ProfileMe | undefined;
+  profileSection: ProfileMe = {
+    firstName: '',
+    lastName: '',
+    nickName: '',
+    introduce: '',
+    profile: ''
+  }
 
-  constructor(private activeRoute: ActivatedRoute, private router: Router, private portfolioService: Portfolio, private sharedService: Shared) {
+  constructor(private activeRoute: ActivatedRoute, private router: Router, private service: Portfolio, private sharedService: Shared, private cdr: ChangeDetectorRef) {
     // Initialization logic can go here
   }
 
   ngOnInit(): void {
     this.id = Number(this.activeRoute.snapshot.paramMap.get('id'));
-    if(this.id==null || this.id<1) {
+    if(this.id==null || isNaN(this.id) || this.id<=0) {
       this.router.navigate(['/portfolio/info']);
     }
-    this.getDumpPortfolioItem(this.id);
-    this.getDumpProfileData();
+    environment.production ? this.getResumeData(this.id) : this.getDumpResumeData(this.id);
   }
   
   ngOnDestroy(): void {
-    if(this.portfolioData) {
-      this.portfolioData.unsubscribe()
-    }
-    if(this.profileData) {
-      this.profileData.unsubscribe()
+    if(this.resumeData) {
+      this.resumeData.unsubscribe()
     }
   }
 
-  getDumpProfileData(): void {
-    this.sharedService.getDumpResumeData().subscribe({
+  getDumpResumeData(id: number): void {
+    this.sharedService.getDumpPortfolioById(id).subscribe({
       next: (data) => {
-        this.profileSection = data.profile
+        Object.assign(this.profileSection, data.profile)
+        this.portfolioSection = {id: 0, name: '', detail: '', imageUrl: '', info: {describtion: '', imageUrl: '', linkto: {name: '', url: ''}}};
+        Object.assign(this.portfolioSection, data.portfolioList)
       },
       error: (error) => {
         console.error('Error fetching resume data:', error);
@@ -54,25 +58,49 @@ export class Detail implements OnInit, OnDestroy {
         if(this.profileSection && this.profileSection.profile == '') {
           this.profileSection.profile = '../../../../assets/user.webp'
         }
+        if(this.portfolioSection?.imageUrl=='') {
+          this.portfolioSection.imagePreview = ''
+          this.portfolioSection.imageUrl = '../../../assets/professional-portfolio.webp'
+        }
+        if(this.portfolioSection?.info) {
+          this.portfolioSection.info.imagePreview = ''
+          if(this.portfolioSection.info.imageUrl=='') {
+            this.portfolioSection.info.imageUrl = '../../../assets/professional-portfolio.webp'
+          }
+        }
+        this.cdr.detectChanges();
       }
-    })
+    });
   }
 
-  getDumpPortfolioItem(id: number): void {
-    this.portfolioService.dumpGetInfoById(id).then((data) => {
-      if(data.imageUrl=='') {
-        data.imageUrl = '../../../assets/professional-portfolio.webp'
-      }
-      if(data.info) {
-        if(data.info.imageUrl=='') {
-          data.info.imageUrl = '../../../assets/professional-portfolio.webp'
+  getResumeData(id: number): void {
+    this.resumeData = this.service.getResumeDataForPortfolioDetailPage(id).subscribe({
+      next: (data) => {
+        Object.assign(this.profileSection, data.profile)
+        this.portfolioSection = {id: 0, name: '', detail: '', imageUrl: '', info: {describtion: '', imageUrl: '', linkto: {name: '', url: ''}}};
+        Object.assign(this.portfolioSection, data.portfolioList)
+      },
+      error: (error) => {
+        console.error('Error fetching resume-data[PortfolioDetail]:', error);
+        this.router.navigate(['/portfolio/info']);
+      },
+      complete: () => {
+        if(this.profileSection && this.profileSection.profile == '') {
+          this.profileSection.profile = '../../../../assets/user.webp'
         }
+        if(this.portfolioSection?.imageUrl=='') {
+          this.portfolioSection.imagePreview = ''
+          this.portfolioSection.imageUrl = '../../../assets/professional-portfolio.webp'
+        }
+        if(this.portfolioSection?.info) {
+          this.portfolioSection.info.imagePreview = ''
+          if(this.portfolioSection.info.imageUrl=='') {
+            this.portfolioSection.info.imageUrl = '../../../assets/professional-portfolio.webp'
+          }
+        }
+        this.cdr.detectChanges();
       }
-      this.portfolioSection = data;
-    }).catch((error) => {
-      console.error('Error fetching portfolio item:', error);
-      this.router.navigate(['/portfolio/info']);
-    });
+    })
   }
   
 }

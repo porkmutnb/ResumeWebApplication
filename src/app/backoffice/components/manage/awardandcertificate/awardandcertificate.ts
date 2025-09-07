@@ -4,6 +4,8 @@ import { FormsModule } from '@angular/forms';
 import { Shared } from '../../../../sharedServiced/shared';
 import { Subscription } from 'rxjs';
 import { AwardAndCertificateMe } from '../../../../sharedServiced/bean-shared';
+import { Backoffice } from '../../../service/backoffice';
+import { environment } from '../../../../../environments/environment';
 
 @Component({
   selector: 'app-awardandcertificate',
@@ -16,10 +18,10 @@ export class Awardandcertificate implements OnInit, OnDestroy {
   private resumeData: Subscription | undefined
   awardAndCertificateSection: AwardAndCertificateMe[] = [];
 
-  constructor(private sharedService: Shared, private cdr: ChangeDetectorRef) { }
+  constructor(private service: Backoffice, private sharedService: Shared, private cdr: ChangeDetectorRef) { }
 
   ngOnInit(): void {
-    this.getDumpResumeData()
+    environment.production ? this.getResumeData() : this.getDumpResumeData()
   }
 
   ngOnDestroy(): void {
@@ -31,7 +33,7 @@ export class Awardandcertificate implements OnInit, OnDestroy {
   getDumpResumeData(): void {
     this.resumeData = this.sharedService.getDumpResumeData().subscribe({
       next: (data) => {
-        this.awardAndCertificateSection = data.awardAndCertificateList
+        Object.assign(this.awardAndCertificateSection, data.awardAndCertificateList)
       },
       error: (error) => {
         console.error('Error fetching resume data:', error);
@@ -43,7 +45,29 @@ export class Awardandcertificate implements OnInit, OnDestroy {
             awardAndCertificate.file = '../../../../assets/report-card.webp'
           }
         })
-        console.log('awardAndCertificateSection', this.awardAndCertificateSection);
+        console.log(`awardAndCertificateSection: ${JSON.stringify(this.awardAndCertificateSection)}`);
+        this.cdr.detectChanges();
+      }
+    })
+  }
+
+  getResumeData(): void {
+    this.resumeData = this.service.getResumeDataForBackofficAwardAndCertificatPage().subscribe({
+      next: (data) => {
+        Object.assign(this.awardAndCertificateSection, data.awardAndCertificateList)
+      },
+      error: (error) => {
+        console.error('Error fetching resume-data[AwardAndCertificateMe]:', error)
+      },
+      complete: () => {
+       this.awardAndCertificateSection.map((awardAndCertificate) => {
+          awardAndCertificate.filePreview = ''
+          if(awardAndCertificate.file=='') {
+            awardAndCertificate.file = '../../../../assets/report-card.webp'
+          }
+        })
+        console.log(`awardAndCertificateSection: ${JSON.stringify(this.awardAndCertificateSection)}`);
+        this.cdr.detectChanges();
       }
     })
   }

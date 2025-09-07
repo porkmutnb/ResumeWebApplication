@@ -1,28 +1,28 @@
 export interface ResumeData {
-  profile: ProfileMe,
-  interest: string[],
-  education: EducationMe[],
-  experince: ExperinceMe[]
-  skill: SkillMe,
-  awardAndCertificateList: AwardAndCertificateMe[],
-  portfolioList: PortfolioMe[],
-  myResumeList: ResumeMe[],
-  contact: ContactMe,
-  about: AboutMe
+  profile?: ProfileMe,
+  interest?: InterestMe,
+  education?: EducationMe[],
+  experince?: ExperinceMe[]
+  skill?: SkillMe,
+  awardAndCertificateList?: AwardAndCertificateMe[],
+  portfolioList?: PortfolioMe[],
+  myResumeList?: ResumeMe[],
+  contact?: ContactMe,
+  about?: AboutMe
 }
 export interface ProfileMe {
   firstName: string
   lastName: string,
   nickName: string,
   introduce: string,
-  profile: string
+  profile?: string
 }
 export interface EducationMe {
   id: number,
   name: string,
-  major: string,
-  startYear: string,
-  endYear: string,
+  depart: string,
+  studiesYear: string,
+  graduateYear: string,
   gpa: string,
   visible: boolean
 }
@@ -36,7 +36,7 @@ export interface ExperinceMe {
 }
 export interface SkillMe {
   tools: string[],
-  workflow: string[]
+  workflows: string[]
 }
 export interface PortfolioMe {
   id: number,
@@ -67,7 +67,7 @@ export interface ResumeMe {
 export interface ContactMe {
   email: string,
   phone: string,
-  socialMedia?: SocialMedia[]
+  socialMediaList: SocialMedia[]
 }
 export interface SocialMedia {
   id: number,
@@ -93,6 +93,9 @@ export interface CelebrityFavorite {
   id: number,
   name: string,
   link: string
+}
+export interface InterestMe {
+  paragraphList: string[]
 }
 export class BeanShared {
 

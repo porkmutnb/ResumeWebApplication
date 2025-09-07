@@ -10,7 +10,7 @@
     </summary>
     <div class="p-4 bg-gray-50 rounded-b-lg" open>
         <div class="space-y-4">
-            <p *ngFor="let interest of interestSection" class="text-gray-700">{{ interest }}</p>
+            <p *ngFor="let interest of interestSection?.paragraphList" class="text-gray-700">{{ interest }}</p>
         </div>
     </div>
 </details>
@@ -28,10 +28,10 @@
         <div class="block p-4 bg-white border border-gray-200 rounded-lg shadow-sm hover:bg-gray-100 light:bg-gray-800 dark:border-gray-700 light:hover:bg-gray-400" *ngIf="education.visible==true">
             <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-black">{{ education.name }}</h5>
             <p class="font-normal text-gray-700 dark:text-gray-600">
-                {{ education.major }}
+                {{ education.depart }}
             </p>
             <p class="inline-flex font-medium items-center text-blue-600 hover:underline">
-                Graduation: {{education.startYear}} - {{education.endYear}} | GPA: {{education.gpa}}
+                Graduation: {{education.studiesYear}} - {{education.graduateYear}} | GPA: {{education.gpa}}
             </p>
         </div>
     </div>
@@ -77,7 +77,7 @@
         </div>
         <strong class="text-gray-700 dark:text-gray-600"> Workflow </strong>
         <div class="text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg shadow-sm light:bg-gray-800 light:border-gray-700 dark:text-black">
-            <a class="block w-full px-4 py-2 border-b border-gray-200 cursor-pointer hover:bg-gray-100 hover:text-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:border-gray-600 dark:hover:bg-gray-600 dark:hover:text-white dark:focus:ring-gray-500 dark:focus:text-white" *ngFor="let workflow of skillSection?.workflow">
+            <a class="block w-full px-4 py-2 border-b border-gray-200 cursor-pointer hover:bg-gray-100 hover:text-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:border-gray-600 dark:hover:bg-gray-600 dark:hover:text-white dark:focus:ring-gray-500 dark:focus:text-white" *ngFor="let workflow of skillSection?.workflows">
                 {{ workflow }}
             </a>
         </div>

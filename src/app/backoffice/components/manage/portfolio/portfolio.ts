@@ -4,6 +4,8 @@ import { Subscription } from 'rxjs';
 import { PortfolioMe, FolioInfo } from '../../../../sharedServiced/bean-shared';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { Backoffice } from '../../../service/backoffice';
+import { environment } from '../../../../../environments/environment';
 
 
 @Component({
@@ -17,12 +19,12 @@ export class Portfolio implements OnInit, OnDestroy {
   private resumeData: Subscription | undefined
   portfolioSection: PortfolioMe[] = [];
 
-  constructor(private sharedService: Shared, private cdr: ChangeDetectorRef) {
+  constructor(private service: Backoffice, private sharedService: Shared, private cdr: ChangeDetectorRef) {
 
   }
 
   ngOnInit(): void {
-    this.getDumpResumeData()
+    environment.production ? this.getResumeData() : this.getDumpResumeData()
   }
 
   ngOnDestroy(): void {
@@ -34,7 +36,7 @@ export class Portfolio implements OnInit, OnDestroy {
   getDumpResumeData(): void {
     this.resumeData = this.sharedService.getDumpResumeData().subscribe({
       next: (data) => {
-        this.portfolioSection = data.portfolioList
+        Object.assign(this.portfolioSection, data.portfolioList)
       },
       error: (error) => {
         console.error('Error fetching resume data:', error);
@@ -53,7 +55,36 @@ export class Portfolio implements OnInit, OnDestroy {
           }
           return port
         })
-        console.log('portfolioSection', this.portfolioSection);
+        console.log(`portfolioSection: ${JSON.stringify(this.portfolioSection)}`);
+        this.cdr.detectChanges();
+      }
+    })
+  }
+
+  getResumeData(): void {
+    this.resumeData = this.service.getResumeDataForBackofficePortfolioPage().subscribe({
+      next: (data) => {
+        Object.assign(this.portfolioSection, data.portfolioList)
+      },
+      error: (error) => {
+        console.error('Error fetching resume-data[Resume]:', error)
+      },
+      complete: () => {
+        this.portfolioSection.map((port) => {
+          if(port.imageUrl=='') {
+            port.imageUrl = '../../../../assets/professional-portfolio.webp'
+          }
+          port.imagePreview = ''
+          if (port.info) {
+            if(port.info.imageUrl=='') {
+              port.info.imageUrl = '../../../../assets/professional-portfolio.webp'
+            }
+            port.info.imagePreview = ''
+          }
+          return port
+        })
+        console.log(`portfolioSection: ${JSON.stringify(this.portfolioSection)}`);
+        this.cdr.detectChanges();
       }
     })
   }
@@ -85,6 +116,7 @@ export class Portfolio implements OnInit, OnDestroy {
     this.portfolioSection?.forEach((port, idx) => {
       port.id = idx + 1;
     });
+    this.cdr.detectChanges();
   }
 
   onFileChange(event: any, item: PortfolioMe | FolioInfo): void {

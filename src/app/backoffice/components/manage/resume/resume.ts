@@ -4,6 +4,8 @@ import { FormsModule } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { ResumeMe } from '../../../../sharedServiced/bean-shared';
 import { Shared } from '../../../../sharedServiced/shared';
+import { Backoffice } from '../../../service/backoffice';
+import { environment } from '../../../../../environments/environment';
 
 @Component({
   selector: 'app-resume',
@@ -16,10 +18,10 @@ export class Resume implements OnInit, OnDestroy {
   private resumeData: Subscription | undefined
   resumeSection: ResumeMe[] = [];
 
-  constructor(private sharedService: Shared, private cdr: ChangeDetectorRef) { }
+  constructor(private service: Backoffice, private sharedService: Shared, private cdr: ChangeDetectorRef) { }
 
   ngOnInit(): void {
-    this.getDumpResumeData()
+    environment.production ? this.getResumeData() : this.getDumpResumeData()
   }
 
   ngOnDestroy(): void {
@@ -31,16 +33,35 @@ export class Resume implements OnInit, OnDestroy {
   getDumpResumeData(): void {
     this.resumeData = this.sharedService.getDumpResumeData().subscribe({
       next: (data) => {
-        this.resumeSection = data.myResumeList
+        Object.assign(this.resumeSection, data.myResumeList)
       },
       error: (error) => {
-        console.error('Error fetching resume data:', error);
+        console.error('Error fetching resume-data[Resume]:', error);
       },
       complete: () => {
         this.resumeSection.map(r => {
           r.newFile = ''
         })
-        console.log('resumeSection', this.resumeSection)
+        console.log(`resumeSection: ${JSON.stringify(this.resumeSection)}`);
+        this.cdr.detectChanges();
+      }
+    })
+  }
+
+  getResumeData(): void {
+    this.resumeData = this.service.getResumeDataForBackofficeResumePage().subscribe({
+      next: (data) => {
+        Object.assign(this.resumeSection, data.myResumeList)
+      },
+      error: (error) => {
+        console.error('Error fetching resume-data[Resume]:', error)
+      },
+      complete: () => {
+        this.resumeSection.map(r => {
+          r.newFile = ''
+        })
+        console.log(`resumeSection: ${JSON.stringify(this.resumeSection)}`);
+        this.cdr.detectChanges();
       }
     })
   }
