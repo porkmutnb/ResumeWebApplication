@@ -81,4 +81,45 @@ export class Skill implements OnInit, OnDestroy {
     this.skillSection?.workflows.splice(index, 1);
   }
 
+  updateSkills() {
+    if(this.skillSection && this.validateDataSection()) {
+      this.service.updateSkillPage(this.skillSection).then(() => {
+        
+      }).catch((error) => {
+        alert('Error updating skills, please try again later.');
+        console.error('Error updating skill:', error);
+      }).finally(() => {
+        this.ngOnInit();
+      });
+    }
+  }
+
+  resetSkills() {
+    this.ngOnInit();
+  }
+
+  validateDataSection(): boolean {
+    if(this.skillSection?.tools.length == 0) {
+      alert('Skill is required.');
+      return false;
+    }
+    for(const [index, tool] of (this.skillSection?.tools ?? []).entries()) {
+      if(tool == '') {
+        alert(`Skill ${index + 1} is required.`);
+        return false  
+      }
+    }
+    if(this.skillSection?.workflows.length == 0) {
+      alert('Workflow is required.');
+      return false;
+    }
+    for(const [index, workflow] of (this.skillSection?.workflows ?? []).entries()) {
+      if(workflow == '') {
+        alert(`Workflow ${index + 1} is required.`);
+        return false  
+      }
+    }
+    return true;
+  }
+
 }

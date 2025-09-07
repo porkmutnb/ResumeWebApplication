@@ -141,4 +141,43 @@ export class Resume implements OnInit, OnDestroy {
     return decodeURIComponent(fileName)
   }
 
+  updateResumeMe() {
+    if(this.validateDataSection() && this.resumeSection) {
+      this.service.updateResumePage(this.resumeSection).then(() => {
+        
+      }).catch((error) => {
+        alert('Error updating resume, please try again later.');
+        console.error('Error updating resume:', error);
+      }).finally(() => {
+        this.ngOnInit();
+      });
+    }
+  }
+
+  resetResumeMe() {
+    this.ngOnInit();
+  }
+
+  validateDataSection(): boolean {
+    if(this.resumeSection.length == 0) {
+      alert('Resume is required.');
+      return false;
+    }
+    for(const [index, rme] of this.resumeSection.entries()) {
+      rme.visible = rme.visible ?? true;
+      rme.link = rme.newFile ? rme.newFile.toString() : rme.link;
+      rme.newFile = ''
+      rme.default = rme.default ?? false;
+      if(rme.name == '') {
+        alert(`Resume Name in entry ${index + 1} is required.`);
+        return false;
+      }           
+      if(rme.link == '') {
+        alert(`Resume Link in entry ${index + 1} is required.`);
+        return false;
+      }
+    }
+    return true;    
+  }
+
 }

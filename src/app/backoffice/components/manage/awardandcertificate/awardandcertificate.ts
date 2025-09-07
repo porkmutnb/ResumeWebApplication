@@ -122,4 +122,46 @@ export class Awardandcertificate implements OnInit, OnDestroy {
     this.cdr.markForCheck();
   }
 
+  updateAwardAndCertificate(): void {
+    if(this.validateDataSection()) {
+      this.service.updateAwardAndCertificatePage(this.awardAndCertificateSection).then(() => {
+        
+      }).catch((error) => {
+        alert('Error updating awardAndCertificate, please try again later.');
+        console.error('Error updating awardAndCertificate:', error);
+      }).finally(() => {
+        this.ngOnInit();
+      });
+    }
+  }
+
+  resetAwardAndCertificate(): void {
+    this.ngOnInit();
+  }
+
+  validateDataSection(): boolean {
+    if(this.awardAndCertificateSection.length == 0) {
+      alert('At least one award and certificate entry is required.');
+      return false;
+    }
+    for (const item of this.awardAndCertificateSection) {
+      item.visible = item.visible ?? true;
+      item.file = item.filePreview ? item.filePreview.toString() : item.file;
+      if (item.name.trim() === '') {
+        alert('Award/Certificate Name is required.');
+        return false;
+      }
+      if (!item.name || !item.description || !item.file) {
+        alert('All fields are required.');
+        return false;
+      }
+      if (item.description.trim() === '') {
+        alert('Description is required.');
+        return false;
+      }
+    }
+
+    return true;
+  }
+
 }

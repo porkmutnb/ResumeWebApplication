@@ -86,4 +86,49 @@ export class Education implements OnInit, OnDestroy {
     });
   }
 
+  updateEducation() {
+    if(this.educationSection && this.validateDataSection()) {
+      this.service.updateEducationPage(this.educationSection).then(() => {
+        
+      }).catch((error) => {
+        alert('Error updating education, please try again later.');
+        console.error('Error updating education:', error);
+      }).finally(() => {
+        this.ngOnInit();
+      });
+    }
+  }
+
+  resetEducation() {
+    this.ngOnInit();
+  }
+
+
+  validateDataSection(): boolean {
+    if(this.educationSection.length == 0) {
+      alert('At least one education entry is required.');
+      return false;
+    }
+    for(const [index, edu] of this.educationSection.entries()) {
+      edu.visible = edu.visible ?? true
+      if(edu.name == '') {
+        alert(`Education Name in entry ${index + 1} is required.`);
+        return false;  
+      }
+      if(edu.depart == '') {
+        alert(`Department in entry ${index + 1} is required.`);
+        return false;  
+      }
+      if(edu.studiesYear == '') {
+        alert(`Start Year in entry ${index + 1} is required.`);
+        return false;  
+      }
+      if(edu.graduateYear == '') {
+        alert(`Graduate Year in entry ${index + 1} is required.`);
+        return false;  
+      }            
+    }
+    return true;
+  }
+
 }

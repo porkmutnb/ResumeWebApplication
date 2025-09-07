@@ -16,6 +16,11 @@ export class Portfolio {
       portfolioData: portfolioList$,
     }).pipe(
       map(({ portfolioData }) => {
+        portfolioData.forEach((port: any) => {
+          if(port.info['importBot']) {
+            port.info.linkto = port.info.importBot
+          }
+        })
         const resumeData: ResumeData = {
           portfolioList: portfolioData,
         };
@@ -37,6 +42,9 @@ export class Portfolio {
       portfolioData: portfolioList$,
     }).pipe(
       map(({ profileData, portfolioData }) => {
+        if(portfolioData.info['importBot']) {
+          portfolioData.info.linkto = portfolioData.info.importBot
+        }
         const resumeData: ResumeData = {
           profile: profileData,
           portfolioList: portfolioData,

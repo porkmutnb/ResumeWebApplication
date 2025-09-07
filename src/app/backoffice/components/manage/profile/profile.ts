@@ -165,4 +165,102 @@ export class Profile implements OnInit, OnDestroy {
     });
   }
 
+  updateProfile() {
+    if (
+      this.profileSection &&
+      this.contactSection &&
+      this.aboutSection &&
+      this.validateDataSection()
+    ) {
+      this.service.updateProfilePage(this.profileSection, this.contactSection, this.aboutSection).then(() => {
+        
+      }).catch((error) => {
+        alert('Error updating profile, please try again later.');
+        console.error('Error updating profile:', error);
+      }).finally(() => {
+        this.ngOnInit();
+      });
+    }
+  }
+
+  resetProfile() {
+    this.ngOnInit();
+  }
+
+  validateDataSection() {
+    if (this.profileSection) {
+      this.profileSection.profile = this.profileImagePreview != '' ? this.profileImagePreview : this.profileSection.profile;
+    }
+    if(this.profileSection?.firstName == '') {
+      alert('First Name is required.');
+      return false
+    }
+    if(this.profileSection?.lastName == '') {
+      alert('Last Name is required.');
+      return false  
+    }
+    if(this.profileSection?.nickName == '') {
+      alert('Nick Name is required.');
+      return false  
+    }
+    if(this.profileSection?.introduce == '') {
+      alert('Introduce is required.');
+      return false  
+    }
+    if(this.contactSection?.email == '') {
+      alert('Email is required.');
+      return false  
+    }
+    if(this.contactSection?.phone == '') {
+      alert('Phone is required.');
+      return false  
+    }
+    if(this.contactSection?.socialMediaList?.length == 0) {
+      alert('Social Media is required.');
+      return false  
+    }
+    for(const socialMedia of this.contactSection?.socialMediaList!) {
+      if(socialMedia.name == '') {
+        alert('Social Media Name is required.');
+        return false  
+      }
+      if(socialMedia.username == '') {
+        alert('Social Media Username is required.');
+        return false  
+      }
+      if(socialMedia.link == '') {
+        alert('Social Media Link is required.');
+        return false  
+      }
+    }
+    if(this.aboutSection?.description == '') {
+      alert('Description is required.');
+      return false  
+    }
+    if(this.aboutSection?.hobbies?.length == 0) {
+      alert('Hobbies is required.');
+      return false  
+    }
+    for(const [index, hobby] of (this.aboutSection?.hobbies ?? []).entries()) {
+      if(hobby == '') {
+        alert(`Hobby ${index + 1} is required.`);
+        return false  
+      }
+    }
+    if(this.aboutSection?.celebrityFavoriteList?.length == 0) {
+      alert('Celebrity Favorite is required.');
+      return false  
+    }
+    for(const celebrityFavorite of this.aboutSection?.celebrityFavoriteList!) {
+      if(celebrityFavorite.name == '') {
+        alert('Celebrity Favorite Name is required.');
+        return false  
+      }
+      if(celebrityFavorite.link == '') {
+        alert('Celebrity Favorite Link is required.');
+        return false  
+      }
+    }
+    return true;
+  }
 }

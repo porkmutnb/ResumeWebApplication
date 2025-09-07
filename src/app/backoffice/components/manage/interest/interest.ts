@@ -72,4 +72,35 @@ export class Interest implements OnInit, OnDestroy {
     this.interestSection?.paragraphList.splice(index, 1);
   }
 
+  updateInterest() {
+    if(this.interestSection && this.validateDataSection()) {
+      this.service.updateInterestPage(this.interestSection).then(() => {
+        
+      }).catch((error) => {
+        alert('Error updating interest, please try again later.');
+        console.error('Error updating interest:', error);
+      }).finally(() => {
+        this.ngOnInit();
+      });
+    }
+  }
+
+  resetInterest() {
+    this.ngOnInit();
+  }
+
+  validateDataSection() {
+    if(this.interestSection?.paragraphList.length == 0) {
+      alert('At least one paragraph is required.');
+      return false  
+    }
+    for(const [index, paragraph] of (this.interestSection?.paragraphList ?? []).entries()) {
+      if(paragraph == '') {
+        alert(`Paragraph ${index + 1} is required.`);
+        return false
+      }
+    }
+    return true;
+  }
+
 }

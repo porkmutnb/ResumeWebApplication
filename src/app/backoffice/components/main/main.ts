@@ -3,10 +3,11 @@ import { CommonModule } from '@angular/common';
 import { Auth } from '../../service/auth';
 import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { ScrollTop } from '../../../sharedComponents/scroll-top/scroll-top';
 
 @Component({
   selector: 'app-main',
-  imports: [CommonModule, RouterOutlet, RouterLink, RouterLinkActive],
+  imports: [CommonModule, RouterOutlet, RouterLink, RouterLinkActive, ScrollTop],
   templateUrl: './main.html',
   styleUrl: './main.css',
   schemas: [CUSTOM_ELEMENTS_SCHEMA]

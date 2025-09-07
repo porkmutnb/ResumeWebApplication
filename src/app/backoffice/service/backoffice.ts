@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Shared } from '../../sharedServiced/shared';
 import { forkJoin, map, Observable, of } from 'rxjs';
-import { ResumeData } from '../../sharedServiced/bean-shared';
+import { AboutMe, AwardAndCertificateMe, ContactMe, EducationMe, ExperinceMe, InterestMe, PortfolioMe, ProfileMe, ResumeData, ResumeMe, SkillMe } from '../../sharedServiced/bean-shared';
 
 @Injectable({
   providedIn: 'root'
@@ -139,6 +139,86 @@ export class Backoffice {
         return resumeData;
       })
     );
+  }
+
+  updateProfilePage(profileSection: ProfileMe, contactSection: ContactMe, aboutSection: AboutMe): Promise<void> {
+    return new Promise<void>((resolve, reject) => {
+      this.sharedService.setData('profile', profileSection)
+        .then(() => this.sharedService.setData('contactMe', contactSection))
+        .then(() => this.sharedService.setData('aboutMe', aboutSection))
+        .then(() => resolve())
+        .catch((error) => reject(error));
+    })      
+  }
+
+  updateInterestPage(interestSection: InterestMe): Promise<void> {
+    return new Promise<void>((resolve, reject) => {
+      this.sharedService.setData('interests', interestSection)
+        .then(() => {
+          resolve()
+        })
+        .catch((error) => reject(error));
+    })
+  }
+
+  updateExperincePage(experinceSection: ExperinceMe[]): Promise<void> {
+    return new Promise<void>((resolve, reject) => {
+      this.sharedService.setData('experience', experinceSection)
+        .then(() => {
+          resolve()
+        })
+        .catch((error) => reject(error));
+    })
+  }
+
+  updateEducationPage(educationSection: EducationMe[]): Promise<void> {
+    return new Promise<void>((resolve, reject) => {
+      this.sharedService.setData('education', educationSection)
+        .then(() => {
+          resolve()
+        })
+        .catch((error) => reject(error));
+    })
+  }
+
+  updateAwardAndCertificatePage(awardAndCertificateList: AwardAndCertificateMe[]): Promise<void> {
+    return new Promise<void>((resolve, reject) => {
+      this.sharedService.setData('awardAndCertificateList', awardAndCertificateList)
+        .then(() => {
+          resolve()
+        })
+        .catch((error) => reject(error));
+    })
+  }
+
+  updateSkillPage(skillSection: SkillMe): Promise<void> {
+    return new Promise<void>((resolve, reject) => {
+      this.sharedService.setData('skills', skillSection)
+        .then(() => {
+          resolve()
+        })
+        .catch((error) => reject(error));
+    })
+  }
+
+  updatePortfolioPage(portfolioList: PortfolioMe[]): Promise<void> {
+    return new Promise<void>((resolve, reject) => {
+      this.sharedService.setData('portfolioList', portfolioList)
+        .then(() => {
+          resolve()
+        })
+        .catch((error) => reject(error));
+    })
+  }
+
+  updateResumePage(myResumeList: ResumeMe[]): Promise<void> {
+    return new Promise<void>((resolve, reject) => {
+      this.sharedService.setData('myResumeList', myResumeList)
+        .then(() => {
+          resolve()
+        })
+        .catch((error) => reject(error));
+    })
   }
 
 }

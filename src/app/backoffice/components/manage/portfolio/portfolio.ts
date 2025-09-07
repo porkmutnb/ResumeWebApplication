@@ -153,4 +153,47 @@ export class Portfolio implements OnInit, OnDestroy {
     this.cdr.markForCheck();
   }
 
+  updatePortfolio() {
+    if(this.validateDataSection() && this.portfolioSection) {
+      this.service.updatePortfolioPage(this.portfolioSection).then(() => {
+        
+      }).catch((error) => {
+        alert('Error updating portfolio, please try again later.');
+        console.error('Error updating portfolio:', error);
+      }).finally(() => {
+        this.ngOnInit();
+      });
+    }
+  }
+
+  resetPortfolio() {
+    this.ngOnInit();
+  }
+
+  validateDataSection(): boolean {
+    if(this.portfolioSection.length == 0) {
+      alert('At least one portfolio entry is required.');
+      return false;
+    }
+    for (const item of this.portfolioSection) {
+      item.imageUrl = item.imagePreview ? item.imagePreview.toString() : item.imageUrl;
+      item.info!.imageUrl = item.info?.imagePreview ? item.info.imagePreview.toString() : item.info?.imageUrl;
+      if (item.name.trim() === '') {
+        alert('Portfolio Name is required.');
+        return false;
+      }
+      if (item.detail.trim() === '') {
+        alert('Portfolio Detail is required.');
+        return false;
+      }
+      if (item.info) {
+        if (item.info.describtion.trim() === '') {
+          alert('Portfolio Info Description is required.');
+          return false;
+        }
+      }
+    }
+    return true;
+  }
+
 }

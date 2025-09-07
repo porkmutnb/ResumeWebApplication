@@ -1,10 +1,11 @@
-import { CommonModule } from '@angular/common';
-import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit, PLATFORM_ID, inject } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { ProfileMe, ResumeMe } from '../../../sharedServiced/bean-shared';
 import { Shared } from '../../../sharedServiced/shared';
 import { Information } from '../../service/information';
 import { environment } from '../../../../environments/environment';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-download',
@@ -25,11 +26,14 @@ export class Download implements OnInit, OnDestroy {
     profile: ''
   }
   resumeMeSection: ResumeMe[] = [];
+  sortedResumeSection: ResumeMe[] = [];
 
-  constructor(private service: Information, private sharedService: Shared, private cdr: ChangeDetectorRef) {
+  private platformId = inject(PLATFORM_ID);
+
+  constructor(private service: Information, private sharedService: Shared, private cdr: ChangeDetectorRef, private sanitizer: DomSanitizer) {
       // Initialization logic can go here
     }
-  
+
   ngOnInit(): void {
     environment.production ? this.getResumeData() : this.getDumpResumeData();
   }
@@ -44,7 +48,8 @@ export class Download implements OnInit, OnDestroy {
     this.resumeData = this.sharedService.getDumpResumeData().subscribe({
       next: (data) => {
         Object.assign(this.profileSection, data.profile)
-        Object.assign(this.resumeMeSection, data.myResumeList)
+        this.resumeMeSection = data.myResumeList || [];
+        this.sortResumeSection();
       },
       error: (error) => {
         console.error('Error fetching resume data:', error);
@@ -62,8 +67,8 @@ export class Download implements OnInit, OnDestroy {
       next: (data) => {
         this.profileSection = {firstName: '', lastName: '', nickName: '', introduce: '', profile: ''}
         Object.assign(this.profileSection, data.profile)
-        this.resumeMeSection = []
-        Object.assign(this.resumeMeSection, data.myResumeList)
+        this.resumeMeSection = data.myResumeList || [];
+        this.sortResumeSection();
       },
       error: (error) => {
         console.error('Error fetching resume-data[About]:', error)
@@ -77,4 +82,26 @@ export class Download implements OnInit, OnDestroy {
     })
   }
 
+  private sortResumeSection(): void {
+    this.sortedResumeSection = [...this.resumeMeSection].sort((a, b) => (b.default === a.default) ? 0 : b.default ? -1 : 1);
+  }
+
+  getSafePdfUrl(base64OrUrl: string): SafeUrl | string {
+    // Always check if it's a regular URL first.
+    if (base64OrUrl.startsWith('http')) {
+      return this.sanitizer.bypassSecurityTrustUrl(base64OrUrl);
+    }
+
+    // For Base64 strings, consistently use a Data URI on both server and client
+    // to avoid hydration mismatch issues.
+    const dataUri = `data:application/pdf;base64,${base64OrUrl}`;
+
+    // On the browser, we still need to sanitize it.
+    if (isPlatformBrowser(this.platformId)) {
+      return this.sanitizer.bypassSecurityTrustUrl(dataUri);
+    }
+
+    // On the server, we can return the string directly.
+    return dataUri;
+  }
 }

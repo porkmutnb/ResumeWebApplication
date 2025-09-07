@@ -5,7 +5,7 @@ export const authGuard: CanActivateFn = (route, state) => {
   const router = inject(Router);
   const isLogin = Auth.isLoggedIn();
   if(isLogin==false) {
-    router.navigate(['/backoffice/login']);
+    router.navigate(['/backoffice/login']); // Redirect to login if not authenticated
   }
   return isLogin;
 };

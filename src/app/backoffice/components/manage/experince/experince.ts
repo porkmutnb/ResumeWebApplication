@@ -85,4 +85,48 @@ export class Experince implements OnInit, OnDestroy {
     });
   }
 
+  updateExperince() {
+    if(this.validateDataSection() && this.experienceSection) {
+      this.service.updateExperincePage(this.experienceSection).then(() => {
+        
+      }).catch((error) => {
+        alert('Error updating experince, please try again later.');
+        console.error('Error updating experince:', error);
+      }).finally(() => {
+        this.ngOnInit();
+      });
+    }
+  }
+
+  resetExperience() {
+    this.ngOnInit();
+  }
+
+  validateDataSection() {
+    if(this.experienceSection.length == 0) {
+      alert('Experience is required.');
+      return false;
+    }
+    for(const [index, exp] of this.experienceSection.entries()) {
+      exp.visible = exp.visible ?? true
+      if(exp.name == '') {
+        alert(`Company Name in entry ${index + 1} is required.`);
+        return false;
+      }
+      if(exp.position == '') {
+        alert(`Position in entry ${index + 1} is required.`);
+        return false;
+      }
+      if(exp.startDate == '') {
+        alert(`Start Date in entry ${index + 1} is required.`);
+        return false;
+      }
+      if(exp.endDate == '' && index < this.experienceSection.length - 1) {
+        alert(`End Date in entry ${index + 1} is required.`);
+        return false;
+      }
+    }
+    return true;
+  }
+
 }

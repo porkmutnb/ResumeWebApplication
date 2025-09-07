@@ -1,0 +1,11 @@
+{
+  "hosting": {
+    "public": "dist/ResumeWebApplication/browser",
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.csr.html"
+      }
+    ]
+  }
+}
