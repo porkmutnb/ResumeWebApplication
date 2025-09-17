@@ -86,12 +86,6 @@ export class Home implements OnInit, OnDestroy {
         console.error('Error fetching resume-data[Home]:', error)
       },
       complete: () => {
-        this.educationSection.map((education) => {
-          education.visible = true
-        })
-        this.experienceSection.map((experience) => {
-          experience.visible = true
-        })
         this.awardAndCertificateSection.map((awardAndCertificate) => {
           if(awardAndCertificate.file=='') {
             awardAndCertificate.file = '../../../../assets/report-card.webp'

@@ -46,8 +46,8 @@
             </svg>
         </span>
     </summary>
-    <div class="p-2 bg-gray-50 rounded-b-lg" *ngFor="let experince of experienceSection">
-        <div class="block p-4 bg-white border border-gray-200 rounded-lg shadow-sm hover:bg-gray-100 light:bg-gray-800 dark:border-gray-700 light:hover:bg-gray-400" *ngIf="experince.visible==true">
+    <div class="p-2 bg-gray-50 rounded-b-lg">
+        <div class="block p-4 bg-white border border-gray-200 rounded-lg shadow-sm hover:bg-gray-100 light:bg-gray-800 dark:border-gray-700 light:hover:bg-gray-400 mb-2" *ngFor="let experince of experienceSection" [hidden]="!experince.visible">
             <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-black">{{ experince.name }}</h5>
             <p class="font-normal text-gray-700 dark:text-gray-600">
                 {{ experince.position }}
@@ -93,8 +93,9 @@
             </svg>
         </span>
     </summary>
-    <div class="p-4 bg-gray-50 rounded-b-lg" *ngFor="let awardAndCertificate of awardAndCertificateSection">
-        <a class="flex flex-col items-center bg-white border border-gray-200 rounded-lg shadow-sm md:flex-row hover:bg-gray-100 light:border-gray-700 light:bg-gray-800 light:hover:bg-gray-700" *ngIf="awardAndCertificate.visible==true">
+    <div class="p-4 bg-gray-50 rounded-b-lg">
+        <!-- Use ng-container to avoid extra div -->
+        <a *ngFor="let awardAndCertificate of awardAndCertificateSection" [hidden]="!awardAndCertificate.visible" class="flex flex-col items-center bg-white border border-gray-200 rounded-lg shadow-sm md:flex-row hover:bg-gray-100 light:border-gray-700 light:bg-gray-800 light:hover:bg-gray-700 mb-2 last:mb-0">
             <img class="object-cover w-fit rounded-t-lg h-15 md:h-auto md:w-15 md:rounded-none md:rounded-s-lg" [src]="awardAndCertificate.file" alt="AwardAndCertificate">
             <div class="flex flex-col justify-between p-4 leading-normal">
                 <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-black">{{ awardAndCertificate.name }}</h5>
