@@ -27,21 +27,27 @@
   http://localhost:4200/
 ```
 ### How to Deploy
-+   npm install -g firebase-tools
-+```
-+2. **Initialize Firebase**:
-+```
-+   firebase init
-+```
-+3. **Login to Firebase**:
-+```
-+   firebase login
-+```
-+4. **Build the project for production**:
-+```
-+   npm run build
-+```
-+5. **Deploy to Firebase**:
-+```
-+   firebase deploy
-+```
++ install firebase-tools:
+```
+  npm install -g firebase-tools
+```
++ Login Firebase
+```
+  firebase login
+```
++ Initialize Firebase
+```
+   firebase init
+```
++ Build the project for production
+```
+  npm run build
+```
++ Deploy to Firebase Hosting
+```
+  firebase deploy --only hosting
+```
++ Successfully and go to link below and Enjoy ^.^
+```
+  https://www.pornthep.net
+```

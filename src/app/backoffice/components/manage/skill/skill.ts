@@ -122,7 +122,7 @@ export class Skill implements OnInit, OnDestroy {
     return true;
   }
 
-  trackByFn(index: number, item: any): any {
+  trackByFn(index: number, item: string): number {
     return index;
   }
 
