@@ -84,7 +84,7 @@ export class Skill implements OnInit, OnDestroy {
   updateSkills() {
     if(this.skillSection && this.validateDataSection()) {
       this.service.updateSkillPage(this.skillSection).then(() => {
-        
+        alert('Skill section updated successfully!');
       }).catch((error) => {
         alert('Error updating skills, please try again later.');
         console.error('Error updating skill:', error);
@@ -120,6 +120,10 @@ export class Skill implements OnInit, OnDestroy {
       }
     }
     return true;
+  }
+
+  trackByFn(index: number, item: any): any {
+    return index;
   }
 
 }

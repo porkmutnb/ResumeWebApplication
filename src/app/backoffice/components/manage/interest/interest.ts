@@ -75,7 +75,7 @@ export class Interest implements OnInit, OnDestroy {
   updateInterest() {
     if(this.interestSection && this.validateDataSection()) {
       this.service.updateInterestPage(this.interestSection).then(() => {
-        
+        alert('Interests section updated successfully!');
       }).catch((error) => {
         alert('Error updating interest, please try again later.');
         console.error('Error updating interest:', error);

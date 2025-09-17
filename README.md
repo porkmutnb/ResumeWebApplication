@@ -26,3 +26,22 @@
 ```
   http://localhost:4200/
 ```
+### How to Deploy
++   npm install -g firebase-tools
++```
++2. **Initialize Firebase**:
++```
++   firebase init
++```
++3. **Login to Firebase**:
++```
++   firebase login
++```
++4. **Build the project for production**:
++```
++   npm run build
++```
++5. **Deploy to Firebase**:
++```
++   firebase deploy
++```

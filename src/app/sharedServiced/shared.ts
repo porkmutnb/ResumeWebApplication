@@ -1,12 +1,15 @@
 import { inject, Injectable } from '@angular/core';
-import { forkJoin, map, Observable, of } from 'rxjs';
+import { forkJoin, from, map, Observable, of, switchMap } from 'rxjs';
 import { ResumeData } from './bean-shared';
 import { Database, ref, set, onValue, push, update, remove } from '@angular/fire/database';
+import { Storage, ref as storageRef, uploadString, getDownloadURL, deleteObject } from '@angular/fire/storage';
 
 @Injectable({
   providedIn: 'root'
 })
 export class Shared {
+  
+  private storage = inject(Storage);
 
   private db = inject(Database);
   
@@ -159,4 +162,26 @@ export class Shared {
     return remove(ref(this.db, path));
   }
 
+  // อัปโหลดไฟล์ (base64) และรับ URL
+  uploadFile(filePath: string, base64String: string): Observable<string> {
+    const fileRef = storageRef(this.storage, filePath);
+    return from(uploadString(fileRef, base64String, 'data_url')).pipe(
+      switchMap(snapshot => from(getDownloadURL(snapshot.ref)))
+    );
+  }
+
+  // ลบไฟล์จาก URL
+  deleteFile(downloadUrl: string): Observable<void> {
+    if (!downloadUrl || !downloadUrl.startsWith('https://firebasestorage.googleapis.com')) {
+      return of(undefined); // ไม่ใช่ Firebase Storage URL หรือ URL ว่างเปล่า
+    }
+    try {
+      const fileRef = storageRef(this.storage, downloadUrl);
+      return from(deleteObject(fileRef));
+    } catch (error) {
+      console.error("Error creating storage reference from URL. It might be an invalid URL.", error);
+      return of(undefined);
+    }
+  }
+  
 }

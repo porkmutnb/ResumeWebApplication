@@ -173,7 +173,7 @@ export class Profile implements OnInit, OnDestroy {
       this.validateDataSection()
     ) {
       this.service.updateProfilePage(this.profileSection, this.contactSection, this.aboutSection).then(() => {
-        
+        alert('Resume profile updated successfully!');
       }).catch((error) => {
         alert('Error updating profile, please try again later.');
         console.error('Error updating profile:', error);

@@ -3,10 +3,9 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "prestart": "node set-local-env.js",
-    "prebuild": "node set-production-env.js",
-    "start:local": "node set-local-env.js && ng serve --configuration development",
-    "start:production": "node set-production-env.js && ng serve --configuration production",
+    "start:local": "node set-localhost-env.js && ng serve --configuration localhost",
+    "start:dev": "node set-development-env.js && ng serve --configuration development",
+    "start:prod": "node set-production-env.js && ng serve --configuration production",
     "build": "ng build --configuration production",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",

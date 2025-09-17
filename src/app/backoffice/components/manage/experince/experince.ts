@@ -88,7 +88,7 @@ export class Experince implements OnInit, OnDestroy {
   updateExperince() {
     if(this.validateDataSection() && this.experienceSection) {
       this.service.updateExperincePage(this.experienceSection).then(() => {
-        
+        alert('Experience section updated successfully!');
       }).catch((error) => {
         alert('Error updating experince, please try again later.');
         console.error('Error updating experince:', error);

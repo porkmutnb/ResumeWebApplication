@@ -125,7 +125,7 @@ export class Awardandcertificate implements OnInit, OnDestroy {
   updateAwardAndCertificate(): void {
     if(this.validateDataSection()) {
       this.service.updateAwardAndCertificatePage(this.awardAndCertificateSection).then(() => {
-        
+        alert('Award and Certificate section updated successfully!');
       }).catch((error) => {
         alert('Error updating awardAndCertificate, please try again later.');
         console.error('Error updating awardAndCertificate:', error);

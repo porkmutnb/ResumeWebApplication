@@ -78,12 +78,15 @@ export class Download implements OnInit, OnDestroy {
           this.profileSection.profile = '../../../../assets/user.webp'
         }
         this.cdr.detectChanges();
+        console.log('sortedResumeSection:', this.sortedResumeSection);
+        
+        
       }
     })
   }
 
   private sortResumeSection(): void {
-    this.sortedResumeSection = [...this.resumeMeSection].sort((a, b) => (b.default === a.default) ? 0 : b.default ? -1 : 1);
+    this.sortedResumeSection = [...this.resumeMeSection].sort((a, b) => (b.default ? 1 : 0) - (a.default ? 1 : 0));
   }
 
   getSafePdfUrl(base64OrUrl: string): SafeUrl | string {

@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Subscription } from 'rxjs';
+import { Subscription, forkJoin, of } from 'rxjs';
 import { ResumeMe } from '../../../../sharedServiced/bean-shared';
 import { Shared } from '../../../../sharedServiced/shared';
 import { Backoffice } from '../../../service/backoffice';
@@ -142,16 +142,53 @@ export class Resume implements OnInit, OnDestroy {
   }
 
   updateResumeMe() {
-    if(this.validateDataSection() && this.resumeSection) {
-      this.service.updateResumePage(this.resumeSection).then(() => {
-        
-      }).catch((error) => {
-        alert('Error updating resume, please try again later.');
-        console.error('Error updating resume:', error);
-      }).finally(() => {
-        this.ngOnInit();
-      });
+    if (!this.validateDataSection()) {
+      return;
     }
+
+    const uploadObservables = this.resumeSection.map((rme, index) => {
+      if (rme.newFile) {
+        // 1. ถ้ามีไฟล์เก่า ให้สร้าง Observable สำหรับลบไฟล์เก่า
+        const deleteObservable = rme.link ? this.sharedService.deleteFile(rme.link) : of(null);
+
+        // 2. อัปโหลดไฟล์ใหม่
+        const filePath = `file_resume/${new Date().getTime()}_${rme.name}`;
+        return new Promise((resolve, reject) => {
+          (deleteObservable as import('rxjs').Observable<any>).subscribe({
+            next: () => {
+              this.sharedService.uploadFile(filePath, rme.newFile).subscribe({
+                next: (downloadURL) => {
+                  rme.link = downloadURL; // 3. อัปเดต link ด้วย URL ใหม่
+                  rme.newFile = ''; // ล้างค่า newFile
+                  resolve(true);
+                },
+                error: (err) => reject(err)
+              });
+            },
+            error: (err) => reject(err) // จัดการ error จากการลบ
+          });
+        });
+      }
+      return Promise.resolve(true); // ไม่มีไฟล์ให้อัปโหลด
+    });
+
+    Promise.all(uploadObservables).then(() => {
+      // 4. หลังจากจัดการไฟล์ทั้งหมดแล้ว ให้บันทึกข้อมูลลง Database
+      this.service.updateResumePage(this.resumeSection)
+        .then(() => {
+          alert('Resume section updated successfully!');
+        })
+        .catch(error => {
+          alert('Error updating resume data, please try again later.');
+          console.error('Error updating resume:', error);
+        })
+        .finally(() => {
+          this.ngOnInit();
+        });
+    }).catch(error => {
+      alert('Error during file processing, please try again later.');
+      console.error('Error processing files:', error);
+    });
   }
 
   resetResumeMe() {
@@ -165,8 +202,6 @@ export class Resume implements OnInit, OnDestroy {
     }
     for(const [index, rme] of this.resumeSection.entries()) {
       rme.visible = rme.visible ?? true;
-      rme.link = rme.newFile ? rme.newFile.toString() : rme.link;
-      rme.newFile = ''
       rme.default = rme.default ?? false;
       if(rme.name == '') {
         alert(`Resume Name in entry ${index + 1} is required.`);

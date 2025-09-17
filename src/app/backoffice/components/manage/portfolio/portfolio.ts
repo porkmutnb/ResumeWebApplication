@@ -156,7 +156,7 @@ export class Portfolio implements OnInit, OnDestroy {
   updatePortfolio() {
     if(this.validateDataSection() && this.portfolioSection) {
       this.service.updatePortfolioPage(this.portfolioSection).then(() => {
-        
+        alert('Portfolio section updated successfully!');
       }).catch((error) => {
         alert('Error updating portfolio, please try again later.');
         console.error('Error updating portfolio:', error);

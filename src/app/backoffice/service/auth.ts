@@ -1,16 +1,23 @@
-import { Injectable } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { Auth as FirebaseAuth, signInWithEmailAndPassword, signOut } from "@angular/fire/auth";
 
 @Injectable({
   providedIn: 'root'
 })
 export class Auth {
+  private isBrowser: boolean;
 
-  constructor(private auth: FirebaseAuth) { }
+  constructor(private auth: FirebaseAuth, @Inject(PLATFORM_ID) private platformId: Object) {
+    this.isBrowser = isPlatformBrowser(this.platformId);
+  }
 
-  static isLoggedIn(): boolean {
-    const userToken = localStorage.getItem('user_token');
-    return userToken !== null;
+  isLoggedIn(): boolean {
+    if (this.isBrowser) {
+      const userToken = localStorage.getItem('user_token');
+      return userToken !== null;
+    }
+    return false; // บนเซิร์ฟเวอร์, ให้ถือว่ายังไม่ได้ login
   }
 
   logout(): Promise<void> {

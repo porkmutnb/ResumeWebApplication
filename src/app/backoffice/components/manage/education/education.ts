@@ -89,7 +89,7 @@ export class Education implements OnInit, OnDestroy {
   updateEducation() {
     if(this.educationSection && this.validateDataSection()) {
       this.service.updateEducationPage(this.educationSection).then(() => {
-        
+        alert('Education section updated successfully!');
       }).catch((error) => {
         alert('Error updating education, please try again later.');
         console.error('Error updating education:', error);
