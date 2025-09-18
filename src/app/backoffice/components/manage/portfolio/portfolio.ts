@@ -6,15 +6,18 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Backoffice } from '../../../service/backoffice';
 import { environment } from '../../../../../environments/environment';
+import { LoadingOverlay } from '../../../../sharedComponents/loading-overlay/loading-overlay';
 
 
 @Component({
   selector: 'app-portfolio',
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, LoadingOverlay],
   templateUrl: './portfolio.html',
   styleUrl: './portfolio.css'
 })
 export class Portfolio implements OnInit, OnDestroy {
+
+  isPageLoading = false;
 
   private resumeData: Subscription | undefined
   portfolioSection: PortfolioMe[] = [];
@@ -34,8 +37,10 @@ export class Portfolio implements OnInit, OnDestroy {
   }
 
   getDumpResumeData(): void {
+    this.isPageLoading = true
     this.resumeData = this.sharedService.getDumpResumeData().subscribe({
       next: (data) => {
+        this.isPageLoading = false
         Object.assign(this.portfolioSection, data.portfolioList)
       },
       error: (error) => {
@@ -62,8 +67,10 @@ export class Portfolio implements OnInit, OnDestroy {
   }
 
   getResumeData(): void {
+    this.isPageLoading = true
     this.resumeData = this.service.getResumeDataForBackofficePortfolioPage().subscribe({
       next: (data) => {
+        this.isPageLoading = false
         Object.assign(this.portfolioSection, data.portfolioList)
       },
       error: (error) => {
@@ -155,12 +162,14 @@ export class Portfolio implements OnInit, OnDestroy {
 
   updatePortfolio() {
     if(this.validateDataSection() && this.portfolioSection) {
+      this.isPageLoading = true
       this.service.updatePortfolioPage(this.portfolioSection).then(() => {
-        alert('Portfolio section updated successfully!');
+        
       }).catch((error) => {
         alert('Error updating portfolio, please try again later.');
         console.error('Error updating portfolio:', error);
       }).finally(() => {
+        this.isPageLoading = false
         this.ngOnInit();
       });
     }

@@ -6,16 +6,20 @@ import { Shared } from '../../../sharedServiced/shared';
 import { Information } from '../../service/information';
 import { environment } from '../../../../environments/environment';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { LoadingOverlay } from '../../../sharedComponents/loading-overlay/loading-overlay';
 
 @Component({
   selector: 'app-download',
   imports: [
-    CommonModule
+    CommonModule,
+    LoadingOverlay
   ],
   templateUrl: './download.html',
   styleUrl: './download.css'
 })
 export class Download implements OnInit, OnDestroy {
+
+  isPageLoading = false;
 
   private resumeData: Subscription | undefined
   profileSection: ProfileMe = {
@@ -45,8 +49,10 @@ export class Download implements OnInit, OnDestroy {
   }
   
   getDumpResumeData(): void {
+    this.isPageLoading = true;
     this.resumeData = this.sharedService.getDumpResumeData().subscribe({
       next: (data) => {
+        this.isPageLoading = false;
         Object.assign(this.profileSection, data.profile)
         this.resumeMeSection = data.myResumeList || [];
         this.sortResumeSection();
@@ -63,8 +69,10 @@ export class Download implements OnInit, OnDestroy {
   }
 
   getResumeData(): void {
+    this.isPageLoading = true;
     this.resumeData = this.service.getResumeDataForInformationDownloadPage().subscribe({
       next: (data) => {
+        this.isPageLoading = false;
         this.profileSection = {firstName: '', lastName: '', nickName: '', introduce: '', profile: ''}
         Object.assign(this.profileSection, data.profile)
         this.resumeMeSection = data.myResumeList || [];

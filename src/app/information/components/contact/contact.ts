@@ -5,16 +5,20 @@ import { ContactMe, ProfileMe } from '../../../sharedServiced/bean-shared';
 import { Shared } from '../../../sharedServiced/shared';
 import { Information } from '../../service/information';
 import { environment } from '../../../../environments/environment';
+import { LoadingOverlay } from '../../../sharedComponents/loading-overlay/loading-overlay';
 
 @Component({
   selector: 'app-contact',
   imports: [
-    CommonModule
+    CommonModule,
+    LoadingOverlay
   ],
   templateUrl: './contact.html',
   styleUrl: './contact.css'
 })
 export class Contact implements OnInit, OnDestroy {
+
+  isPageLoading = false;
 
   private resumeData: Subscription | undefined
   profileSection: ProfileMe= {
@@ -44,8 +48,10 @@ export class Contact implements OnInit, OnDestroy {
   }
 
   getDumpResumeData(): void {
+    this.isPageLoading = true;
     this.resumeData = this.sharedService.getDumpResumeData().subscribe({
       next: (data) => {
+        this.isPageLoading = false;
         Object.assign(this.profileSection, data.profile)
         Object.assign(this.contactSection, data.contact)
       },
@@ -61,8 +67,10 @@ export class Contact implements OnInit, OnDestroy {
   }
 
   getResumeData(): void {
+    this.isPageLoading = true;
     this.resumeData = this.service.getResumeDataForInformationContactPage().subscribe({
       next: (data) => {
+        this.isPageLoading = false;
         this.profileSection = {firstName: '', lastName: '', nickName: '', introduce: '', profile: ''}
         Object.assign(this.profileSection, data.profile)
         this.contactSection = {email: '', phone: '', socialMediaList: []}

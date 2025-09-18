@@ -4,17 +4,18 @@ import { Router, RouterLink } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Auth } from '../../service/auth';
+import { LoadingOverlay } from '../../../sharedComponents/loading-overlay/loading-overlay';
 
 @Component({
   selector: 'app-login',
-  imports: [CommonModule, RouterLink, ReactiveFormsModule],
+  imports: [CommonModule, RouterLink, ReactiveFormsModule, LoadingOverlay],
   templateUrl: './login.html',
   styleUrl: './login.css'
 })
 export class Login implements OnInit {
 
+  isPageLoading = false;
   loginForm: FormGroup;
-  isLoading = false;
 
   constructor(private router: Router, private authService: Auth) {
     this.loginForm = new FormGroup({
@@ -29,7 +30,7 @@ export class Login implements OnInit {
 
   onSubmit(): void {
     if (this.loginForm.valid) {
-      this.isLoading = true;
+      this.isPageLoading = true;
       const email = this.loginForm.get('email')?.value;
       const password = this.loginForm.get('password')?.value;
       this.authService.login(email, password)
@@ -40,7 +41,7 @@ export class Login implements OnInit {
         alert(error.message);
       })
       .finally(() => {
-        this.isLoading = false;
+        this.isPageLoading = false;
       });
     } else {
       alert("Please fill the form correctly");

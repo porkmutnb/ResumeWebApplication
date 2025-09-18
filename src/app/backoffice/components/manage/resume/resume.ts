@@ -6,14 +6,17 @@ import { ResumeMe } from '../../../../sharedServiced/bean-shared';
 import { Shared } from '../../../../sharedServiced/shared';
 import { Backoffice } from '../../../service/backoffice';
 import { environment } from '../../../../../environments/environment';
+import { LoadingOverlay } from '../../../../sharedComponents/loading-overlay/loading-overlay';
 
 @Component({
   selector: 'app-resume',
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, LoadingOverlay],
   templateUrl: './resume.html',
   styleUrl: './resume.css'
 })
 export class Resume implements OnInit, OnDestroy {
+
+  isPageLoading = false;
 
   private resumeData: Subscription | undefined
   resumeSection: ResumeMe[] = [];
@@ -31,8 +34,10 @@ export class Resume implements OnInit, OnDestroy {
   }
 
   getDumpResumeData(): void {
+    this.isPageLoading = true
     this.resumeData = this.sharedService.getDumpResumeData().subscribe({
       next: (data) => {
+        this.isPageLoading = false
         Object.assign(this.resumeSection, data.myResumeList)
       },
       error: (error) => {
@@ -49,8 +54,10 @@ export class Resume implements OnInit, OnDestroy {
   }
 
   getResumeData(): void {
+    this.isPageLoading = true
     this.resumeData = this.service.getResumeDataForBackofficeResumePage().subscribe({
       next: (data) => {
+        this.isPageLoading = false
         Object.assign(this.resumeSection, data.myResumeList)
       },
       error: (error) => {
@@ -145,7 +152,7 @@ export class Resume implements OnInit, OnDestroy {
     if (!this.validateDataSection()) {
       return;
     }
-
+    this.isPageLoading = true;
     const uploadObservables = this.resumeSection.map((rme, index) => {
       if (rme.newFile) {
         // 1. ถ้ามีไฟล์เก่า ให้สร้าง Observable สำหรับลบไฟล์เก่า
@@ -162,10 +169,14 @@ export class Resume implements OnInit, OnDestroy {
                   rme.newFile = ''; // ล้างค่า newFile
                   resolve(true);
                 },
-                error: (err) => reject(err)
+                error: (err) => {
+                  reject(err)
+                }
               });
             },
-            error: (err) => reject(err) // จัดการ error จากการลบ
+            error: (err) => {
+              reject(err)
+            } // จัดการ error จากการลบ
           });
         });
       }
@@ -176,16 +187,18 @@ export class Resume implements OnInit, OnDestroy {
       // 4. หลังจากจัดการไฟล์ทั้งหมดแล้ว ให้บันทึกข้อมูลลง Database
       this.service.updateResumePage(this.resumeSection)
         .then(() => {
-          alert('Resume section updated successfully!');
+          
         })
         .catch(error => {
           alert('Error updating resume data, please try again later.');
           console.error('Error updating resume:', error);
         })
         .finally(() => {
+          this.isPageLoading = false;
           this.ngOnInit();
         });
     }).catch(error => {
+      this.isPageLoading = false;
       alert('Error during file processing, please try again later.');
       console.error('Error processing files:', error);
     });

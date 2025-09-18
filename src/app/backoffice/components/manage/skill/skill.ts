@@ -6,14 +6,17 @@ import { Shared } from '../../../../sharedServiced/shared';
 import { SkillMe } from '../../../../sharedServiced/bean-shared';
 import { Backoffice } from '../../../service/backoffice';
 import { environment } from '../../../../../environments/environment';
+import { LoadingOverlay } from '../../../../sharedComponents/loading-overlay/loading-overlay';
 
 @Component({
   selector: 'app-skill',
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, LoadingOverlay],
   templateUrl: './skill.html',
   styleUrl: './skill.css'
 })
 export class Skill implements OnInit, OnDestroy {
+
+  isPageLoading = false;
 
   private resumeData: Subscription | undefined
   skillSection: SkillMe = {
@@ -36,8 +39,10 @@ export class Skill implements OnInit, OnDestroy {
   }
   
   getDumpResumeData(): void {
+    this.isPageLoading = true
     this.resumeData = this.sharedService.getDumpResumeData().subscribe({
       next: (data) => {
+        this.isPageLoading = false
         Object.assign(this.skillSection, data.skill)
       },
       error: (error) => {
@@ -51,8 +56,10 @@ export class Skill implements OnInit, OnDestroy {
   }
 
   getResumeData(): void {
+    this.isPageLoading = true
     this.resumeData = this.service.getResumeDataForBackofficeSkillPage().subscribe({
       next: (data) => {
+        this.isPageLoading = false
         Object.assign(this.skillSection, data.skill)
       },
       error: (error) => {
@@ -83,12 +90,14 @@ export class Skill implements OnInit, OnDestroy {
 
   updateSkills() {
     if(this.skillSection && this.validateDataSection()) {
+      this.isPageLoading = true
       this.service.updateSkillPage(this.skillSection).then(() => {
-        alert('Skill section updated successfully!');
+        
       }).catch((error) => {
         alert('Error updating skills, please try again later.');
         console.error('Error updating skill:', error);
       }).finally(() => {
+        this.isPageLoading = false;
         this.ngOnInit();
       });
     }

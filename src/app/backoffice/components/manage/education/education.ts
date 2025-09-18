@@ -6,14 +6,17 @@ import { EducationMe } from '../../../../sharedServiced/bean-shared';
 import { Shared } from '../../../../sharedServiced/shared';
 import { Backoffice } from '../../../service/backoffice';
 import { environment } from '../../../../../environments/environment';
+import { LoadingOverlay } from '../../../../sharedComponents/loading-overlay/loading-overlay';
 
 @Component({
   selector: 'app-education',
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, LoadingOverlay],
   templateUrl: './education.html',
   styleUrl: './education.css'
 })
 export class Education implements OnInit, OnDestroy {
+
+  isPageLoading = false;
 
   private resumeData: Subscription | undefined
   educationSection: EducationMe[] = [];
@@ -33,8 +36,10 @@ export class Education implements OnInit, OnDestroy {
   }
   
   getDumpResumeData(): void {
+    this.isPageLoading = true
     this.resumeData = this.sharedService.getDumpResumeData().subscribe({
       next: (data) => {
+        this.isPageLoading = false
         Object.assign(this.educationSection, data.education)
       },
       error: (error) => {
@@ -48,8 +53,10 @@ export class Education implements OnInit, OnDestroy {
   }
 
   getResumeData(): void {
+    this.isPageLoading = true
     this.resumeData = this.service.getResumeDataForBackofficeEducationPage().subscribe({
       next: (data) => {
+        this.isPageLoading = false
         Object.assign(this.educationSection, data.education)
       },
       error: (error) => {
@@ -88,12 +95,14 @@ export class Education implements OnInit, OnDestroy {
 
   updateEducation() {
     if(this.educationSection && this.validateDataSection()) {
+      this.isPageLoading = true
       this.service.updateEducationPage(this.educationSection).then(() => {
-        alert('Education section updated successfully!');
+        
       }).catch((error) => {
         alert('Error updating education, please try again later.');
         console.error('Error updating education:', error);
       }).finally(() => {
+        this.isPageLoading = false
         this.ngOnInit();
       });
     }

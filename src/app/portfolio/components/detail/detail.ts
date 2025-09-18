@@ -5,14 +5,17 @@ import { Subscription } from 'rxjs';
 import { Portfolio } from '../../service/portfolio';
 import { Shared } from '../../../sharedServiced/shared';
 import { environment } from '../../../../environments/environment';
+import { LoadingOverlay } from '../../../sharedComponents/loading-overlay/loading-overlay';
 
 @Component({
   selector: 'app-detail',
-  imports: [],
+  imports: [LoadingOverlay],
   templateUrl: './detail.html',
   styleUrl: './detail.css'
 })
 export class Detail implements OnInit, OnDestroy {
+
+  isPageLoading = false;
 
   id: number | null = null
   private resumeData: Subscription | undefined
@@ -44,8 +47,10 @@ export class Detail implements OnInit, OnDestroy {
   }
 
   getDumpResumeData(id: number): void {
+    this.isPageLoading = true;
     this.sharedService.getDumpPortfolioById(id).subscribe({
       next: (data) => {
+        this.isPageLoading = false;
         Object.assign(this.profileSection, data.profile)
         this.portfolioSection = {id: 0, name: '', detail: '', imageUrl: '', info: {describtion: '', imageUrl: '', linkto: {name: '', url: ''}}};
         Object.assign(this.portfolioSection, data.portfolioList)
@@ -74,8 +79,10 @@ export class Detail implements OnInit, OnDestroy {
   }
 
   getResumeData(id: number): void {
+    this.isPageLoading = true;
     this.resumeData = this.service.getResumeDataForPortfolioDetailPage(id).subscribe({
       next: (data) => {
+        this.isPageLoading = false;
         Object.assign(this.profileSection, data.profile)
         this.portfolioSection = {id: 0, name: '', detail: '', imageUrl: '', info: {describtion: '', imageUrl: '', linkto: {name: '', url: ''}}};
         Object.assign(this.portfolioSection, data.portfolioList)

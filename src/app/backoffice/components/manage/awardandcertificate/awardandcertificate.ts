@@ -6,14 +6,17 @@ import { Subscription } from 'rxjs';
 import { AwardAndCertificateMe } from '../../../../sharedServiced/bean-shared';
 import { Backoffice } from '../../../service/backoffice';
 import { environment } from '../../../../../environments/environment';
+import { LoadingOverlay } from '../../../../sharedComponents/loading-overlay/loading-overlay';
 
 @Component({
   selector: 'app-awardandcertificate',
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, LoadingOverlay],
   templateUrl: './awardandcertificate.html',
   styleUrl: './awardandcertificate.css'
 })
 export class Awardandcertificate implements OnInit, OnDestroy {
+
+  isPageLoading = false;
 
   private resumeData: Subscription | undefined
   awardAndCertificateSection: AwardAndCertificateMe[] = [];
@@ -31,8 +34,10 @@ export class Awardandcertificate implements OnInit, OnDestroy {
   }
 
   getDumpResumeData(): void {
+    this.isPageLoading = true
     this.resumeData = this.sharedService.getDumpResumeData().subscribe({
       next: (data) => {
+        this.isPageLoading = false
         Object.assign(this.awardAndCertificateSection, data.awardAndCertificateList)
       },
       error: (error) => {
@@ -52,8 +57,10 @@ export class Awardandcertificate implements OnInit, OnDestroy {
   }
 
   getResumeData(): void {
+    this.isPageLoading = true
     this.resumeData = this.service.getResumeDataForBackofficAwardAndCertificatPage().subscribe({
       next: (data) => {
+        this.isPageLoading = false
         Object.assign(this.awardAndCertificateSection, data.awardAndCertificateList)
       },
       error: (error) => {
@@ -124,12 +131,14 @@ export class Awardandcertificate implements OnInit, OnDestroy {
 
   updateAwardAndCertificate(): void {
     if(this.validateDataSection()) {
+      this.isPageLoading = true
       this.service.updateAwardAndCertificatePage(this.awardAndCertificateSection).then(() => {
-        alert('Award and Certificate section updated successfully!');
+        
       }).catch((error) => {
         alert('Error updating awardAndCertificate, please try again later.');
         console.error('Error updating awardAndCertificate:', error);
       }).finally(() => {
+        this.isPageLoading = false;
         this.ngOnInit();
       });
     }

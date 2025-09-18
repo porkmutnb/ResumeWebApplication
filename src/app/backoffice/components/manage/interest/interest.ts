@@ -6,14 +6,17 @@ import { FormsModule } from '@angular/forms';
 import { Backoffice } from '../../../service/backoffice';
 import { InterestMe } from '../../../../sharedServiced/bean-shared';
 import { environment } from '../../../../../environments/environment';
+import { LoadingOverlay } from '../../../../sharedComponents/loading-overlay/loading-overlay';
 
 @Component({
   selector: 'app-interest',
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, LoadingOverlay],
   templateUrl: './interest.html',
   styleUrl: './interest.css'
 })
 export class Interest implements OnInit, OnDestroy {
+
+  isPageLoading = false;
 
   private resumeData: Subscription | undefined
   interestSection: InterestMe | undefined
@@ -33,8 +36,10 @@ export class Interest implements OnInit, OnDestroy {
   }
 
   getDumpResumeData(): void {
+    this.isPageLoading = true
     this.resumeData = this.sharedService.getDumpResumeData().subscribe({
       next: (data) => {
+        this.isPageLoading = false
         this.interestSection = {paragraphList: []}
         Object.assign(this.interestSection, data.interest)
       },
@@ -49,8 +54,10 @@ export class Interest implements OnInit, OnDestroy {
   }
 
   getResumeData(): void {
+    this.isPageLoading = true
     this.resumeData = this.service.getResumeDataForBackofficeInterestPage().subscribe({
       next: (data) => {
+        this.isPageLoading = false
         this.interestSection = {paragraphList: []}
         Object.assign(this.interestSection, data.interest)
       },
@@ -74,12 +81,14 @@ export class Interest implements OnInit, OnDestroy {
 
   updateInterest() {
     if(this.interestSection && this.validateDataSection()) {
+      this.isPageLoading = true
       this.service.updateInterestPage(this.interestSection).then(() => {
-        alert('Interests section updated successfully!');
+        
       }).catch((error) => {
         alert('Error updating interest, please try again later.');
         console.error('Error updating interest:', error);
       }).finally(() => {
+        this.isPageLoading = false;
         this.ngOnInit();
       });
     }

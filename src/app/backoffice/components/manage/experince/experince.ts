@@ -6,14 +6,17 @@ import { ExperinceMe } from '../../../../sharedServiced/bean-shared';
 import { Shared } from '../../../../sharedServiced/shared';
 import { Backoffice } from '../../../service/backoffice';
 import { environment } from '../../../../../environments/environment';
+import { LoadingOverlay } from '../../../../sharedComponents/loading-overlay/loading-overlay';
 
 @Component({
   selector: 'app-experince',
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, LoadingOverlay],
   templateUrl: './experince.html',
   styleUrl: './experince.css'
 })
 export class Experince implements OnInit, OnDestroy {
+
+  isPageLoading = false;
 
   private resumeData: Subscription | undefined
   experienceSection: ExperinceMe[] = [];
@@ -33,8 +36,10 @@ export class Experince implements OnInit, OnDestroy {
   }
 
   getDumpResumeData(): void {
+    this.isPageLoading = true
     this.resumeData = this.sharedService.getDumpResumeData().subscribe({
       next: (data) => {
+        this.isPageLoading = false
         Object.assign(this.experienceSection, data.experince)
       },
       error: (error) => {
@@ -48,8 +53,10 @@ export class Experince implements OnInit, OnDestroy {
   }
 
   getResumeData(): void {
+    this.isPageLoading = true
     this.resumeData = this.service.getResumeDataForBackofficeExperincePage().subscribe({
       next: (data) => {
+        this.isPageLoading = false
         Object.assign(this.experienceSection, data.experince)
       },
       error: (error) => {
@@ -87,12 +94,14 @@ export class Experince implements OnInit, OnDestroy {
 
   updateExperince() {
     if(this.validateDataSection() && this.experienceSection) {
+      this.isPageLoading = true
       this.service.updateExperincePage(this.experienceSection).then(() => {
-        alert('Experience section updated successfully!');
+        
       }).catch((error) => {
         alert('Error updating experince, please try again later.');
         console.error('Error updating experince:', error);
       }).finally(() => {
+        this.isPageLoading = false
         this.ngOnInit();
       });
     }

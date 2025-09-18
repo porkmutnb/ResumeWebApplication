@@ -5,16 +5,20 @@ import { AboutMe, ProfileMe } from '../../../sharedServiced/bean-shared';
 import { Shared } from '../../../sharedServiced/shared';
 import { Information } from '../../service/information';
 import { environment } from '../../../../environments/environment';
+import { LoadingOverlay } from '../../../sharedComponents/loading-overlay/loading-overlay';
 
 @Component({
   selector: 'app-about',
   imports: [
-    CommonModule
+    CommonModule,
+    LoadingOverlay
   ],
   templateUrl: './about.html',
   styleUrl: './about.css'
 })
 export class About implements OnInit, OnDestroy {
+
+  isPageLoading = false;
 
   private resumeData: Subscription | undefined
   profileSection: ProfileMe= {
@@ -45,8 +49,10 @@ export class About implements OnInit, OnDestroy {
   }
 
   getDumpResumeData(): void {
+    this.isPageLoading = true;
     this.resumeData = this.sharedService.getDumpResumeData().subscribe({
       next: (data) => {
+        this.isPageLoading = false;
         Object.assign(this.profileSection, data.profile)
         Object.assign(this.aboutSection, data.about)
       },
@@ -62,8 +68,10 @@ export class About implements OnInit, OnDestroy {
   }
 
   getResumeData(): void {
+    this.isPageLoading = true;
     this.resumeData = this.service.getResumeDataForInformationAboutPage().subscribe({
       next: (data) => {
+        this.isPageLoading = false;
         this.profileSection = {firstName: '', lastName: '', nickName: '', introduce: '', profile: ''}
         Object.assign(this.profileSection, data.profile)
         this.aboutSection = {celebrityFavoriteList: [], description: '', hobbies: []}

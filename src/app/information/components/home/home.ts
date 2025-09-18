@@ -5,16 +5,20 @@ import { AwardAndCertificateMe, EducationMe, ExperinceMe, InterestMe, SkillMe } 
 import { Subscription } from 'rxjs';
 import { Information } from '../../service/information';
 import { environment } from '../../../../environments/environment';
+import { LoadingOverlay } from '../../../sharedComponents/loading-overlay/loading-overlay';
 
 @Component({
   selector: 'app-home',
   imports: [
-    CommonModule
+    CommonModule,
+    LoadingOverlay
   ],
   templateUrl: './home.html',
   styleUrl: './home.css'
 })
 export class Home implements OnInit, OnDestroy {
+
+  isPageLoading = false;
 
   private resumeData: Subscription | undefined
   interestSection: InterestMe | undefined;
@@ -41,8 +45,10 @@ export class Home implements OnInit, OnDestroy {
   }
 
   getDumpResumeData(): void {
+    this.isPageLoading = true;
     this.resumeData = this.sharedService.getDumpResumeData().subscribe({
       next: (data) => {
+        this.isPageLoading = false;
         this.interestSection = {paragraphList: []}
         Object.assign(this.interestSection, data.interest)
         this.educationSection = []
@@ -53,6 +59,7 @@ export class Home implements OnInit, OnDestroy {
         Object.assign(this.skillSection, data.skill)
         this.awardAndCertificateSection = []
         Object.assign(this.awardAndCertificateSection, data.awardAndCertificateList)
+        this.cdr.detectChanges();
       },
       error: (error) => {
         console.error('Error fetching resume-data[Home]:', error)
@@ -69,8 +76,10 @@ export class Home implements OnInit, OnDestroy {
   }
 
   getResumeData(): void {
+    this.isPageLoading = true;
     this.resumeData = this.service.getResumeDataForInformationHomePage().subscribe({
       next: (data) => {
+        this.isPageLoading = false;
         this.interestSection = {paragraphList: []}
         Object.assign(this.interestSection, data.interest)
         this.educationSection = []

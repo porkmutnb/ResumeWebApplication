@@ -6,14 +6,17 @@ import { AboutMe, CelebrityFavorite, ContactMe, ProfileMe, SocialMedia } from '.
 import { Shared } from '../../../../sharedServiced/shared';
 import { Backoffice } from '../../../service/backoffice';
 import { environment } from '../../../../../environments/environment';
+import { LoadingOverlay } from '../../../../sharedComponents/loading-overlay/loading-overlay';
 
 @Component({
   selector: 'app-profile',
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, LoadingOverlay],
   templateUrl: './profile.html',
   styleUrl: './profile.css'
 })
 export class Profile implements OnInit, OnDestroy {
+
+  isPageLoading = false;
 
   private resumeData: Subscription | undefined
   profileSection: ProfileMe | undefined 
@@ -36,9 +39,11 @@ export class Profile implements OnInit, OnDestroy {
   }
 
   getDumpResumeData(): void {
+    this.isPageLoading = true
     this.profileImagePreview = '';
     this.resumeData = this.sharedService.getDumpResumeData().subscribe({
       next: (data) => {
+        this.isPageLoading = false
         if(this.profileImagePreview == '') {
           this.profileSection = {
             firstName:'',lastName:'',nickName:'',introduce:'',profile:''
@@ -72,9 +77,11 @@ export class Profile implements OnInit, OnDestroy {
   }
 
   getResumeData(): void {
+    this.isPageLoading = true
     this.profileImagePreview = '';
     this.resumeData = this.service.getResumeDataForBackofficeProfilePage().subscribe({
       next: (data) => {
+        this.isPageLoading = false
         this.profileSection = {firstName:'',lastName:'',nickName:'',introduce:'',profile:''}
         Object.assign(this.profileSection, data.profile)
         this.contactSection = {email:'',phone:'',socialMediaList:[]}
@@ -172,12 +179,14 @@ export class Profile implements OnInit, OnDestroy {
       this.aboutSection &&
       this.validateDataSection()
     ) {
+      this.isPageLoading = true
       this.service.updateProfilePage(this.profileSection, this.contactSection, this.aboutSection).then(() => {
-        alert('Resume profile updated successfully!');
+        
       }).catch((error) => {
         alert('Error updating profile, please try again later.');
         console.error('Error updating profile:', error);
       }).finally(() => {
+        this.isPageLoading = false;
         this.ngOnInit();
       });
     }

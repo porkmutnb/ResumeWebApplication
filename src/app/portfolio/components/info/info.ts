@@ -6,14 +6,17 @@ import { PortfolioMe } from '../../../sharedServiced/bean-shared';
 import { RouterLink } from '@angular/router';
 import { Portfolio } from '../../service/portfolio';
 import { environment } from '../../../../environments/environment';
+import { LoadingOverlay } from '../../../sharedComponents/loading-overlay/loading-overlay';
 
 @Component({
   selector: 'app-info',
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink, LoadingOverlay],
   templateUrl: './info.html',
   styleUrl: './info.css'
 })
 export class Info implements OnInit, OnDestroy {
+
+  isPageLoading = false;
 
   private resumeData: Subscription | undefined
   portfolioSection: PortfolioMe[] = [];
@@ -33,8 +36,10 @@ export class Info implements OnInit, OnDestroy {
   }
 
   getDumpResumeData(): void {
+    this.isPageLoading = true;
     this.resumeData = this.sharedService.getDumpResumeData().subscribe({
       next: (data) => {
+        this.isPageLoading = false;
         Object.assign(this.portfolioSection, data.portfolioList)
       },
       error: (error) => {
@@ -47,8 +52,10 @@ export class Info implements OnInit, OnDestroy {
   }
 
   getResumeData(): void {
+    this.isPageLoading = true;
     this.resumeData = this.service.getResumeDataForPortfolioInfoPage().subscribe({
       next: (data) => {
+        this.isPageLoading = false;
         Object.assign(this.portfolioSection, data.portfolioList)
       },
       error: (error) => {
