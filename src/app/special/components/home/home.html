@@ -1,0 +1,63 @@
+<div class="container mx-auto px-4 py-8">
+  <h1 class="text-3xl font-bold text-gray-800 mb-6 text-center">
+    My Google Drive Folders
+  </h1>
+  <p class="text-center text-gray-600 mb-10">
+    List of folders from the root of your Google Drive.
+  </p>
+
+  <div class="max-w-3xl mx-auto">
+    <!-- Loading State -->
+    <div *ngIf="isLoading" class="text-center text-gray-500">
+      <p>Loading folders...</p>
+    </div>
+
+    <!-- Error State -->
+    <div
+      *ngIf="error"
+      class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg relative"
+      role="alert"
+    >
+      <strong class="font-bold">Error: </strong>
+      <span class="block sm:inline">{{ error }}</span>
+    </div>
+
+    <!-- Data List -->
+    <div *ngIf="!isLoading && !error" class="space-y-4">
+      <!-- Loop through folders -->
+      <a
+        *ngFor="let folder of folders"
+        [href]="'https://drive.google.com/drive/folders/' + folder.id"
+        target="_blank"
+        class="block bg-white p-6 rounded-lg shadow-md hover:shadow-lg hover:bg-gray-50 transition-all duration-300 ease-in-out"
+      >
+        <div class="flex items-center space-x-4">
+          <div class="flex-shrink-0">
+            <!-- Folder Icon -->
+            <svg
+              class="h-8 w-8 text-yellow-500"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+            >
+              <path
+                d="M20 6h-8l-2-2H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 12H4V8h16v10z"
+              />
+            </svg>
+          </div>
+          <div>
+            <h2 class="text-xl font-semibold text-gray-900">
+              {{ folder.name }}
+            </h2>
+            <p class="text-gray-500 text-sm mt-1">ID: {{ folder.id }}</p>
+          </div>
+        </div>
+      </a>
+
+      <!-- Empty State -->
+      <div *ngIf="folders.length === 0" class="text-center text-gray-500 py-8">
+        <p>No folders found in the root of your Google Drive.</p>
+      </div>
+    </div>
+  </div>
+</div>

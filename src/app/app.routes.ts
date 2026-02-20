@@ -8,6 +8,9 @@ export const routes: Routes = [
         path: 'portfolio', loadChildren: () => import('./portfolio/portfolio-module').then(m => m.PortfolioModule)
     },
     {
+        path: 'special', loadChildren: () => import('./special/special-module').then(m => m.SpecialModule)
+    },
+    {
         path: 'backoffice', loadChildren: () => import('./backoffice/backoffice-module').then(m => m.BackofficeModule)
     },
     { path: '', redirectTo: 'information', pathMatch: 'full'},
