@@ -1,4 +1,4 @@
-<details class="mb-4 border-b border-gray-300 pb-2" open>
+<details class="mb-4 border-b border-gray-300 dark:border-white/20 pb-2" open>
     <summary class="cursor-pointer text-xl font-semibold text-blue-400 hover:text-blue-600 focus:outline-none py-2 underline">
         Profile
         <span class="float-right text-gray-500 details-icon">
@@ -8,31 +8,31 @@
             </svg>
         </span>
     </summary>
-    <div class="p-2 bg-blue-300 rounded-b-lg" *ngIf="profileSection">
+    <div class="p-2 bg-blue-300 dark:bg-gray-800 rounded-b-lg" *ngIf="profileSection">
         <div class="space-y-4">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div class="bg-sky-200 p-4 rounded">
-                    <label for="firstName" class="block mb-2 text-sm font-medium text-gray-900">FirstName</label>
-                    <input type="text" id="firstName" class="block w-full p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500" [(ngModel)]="profileSection!.firstName">
+                <div class="bg-sky-200 dark:bg-gray-900 p-4 rounded">
+                    <label for="firstName" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">FirstName</label>
+                    <input type="text" id="firstName" class="block w-full p-2 text-gray-900 dark:text-white border border-gray-300 dark:border-white/20 rounded-lg bg-gray-50 dark:bg-gray-900 text-xs focus:ring-blue-500 focus:border-blue-500" [(ngModel)]="profileSection!.firstName">
                 </div>
-                <div class="bg-sky-200 p-4 rounded">
-                    <label for="lastName" class="block mb-2 text-sm font-medium text-gray-900">LastName</label>
-                    <input type="text" id="lastName" class="block w-full p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500" [(ngModel)]="profileSection!.lastName">
+                <div class="bg-sky-200 dark:bg-gray-900 p-4 rounded">
+                    <label for="lastName" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">LastName</label>
+                    <input type="text" id="lastName" class="block w-full p-2 text-gray-900 dark:text-white border border-gray-300 dark:border-white/20 rounded-lg bg-gray-50 dark:bg-gray-900 text-xs focus:ring-blue-500 focus:border-blue-500" [(ngModel)]="profileSection!.lastName">
                 </div>
-                <div class="bg-sky-200 p-4 rounded">
-                    <label for="nickName" class="block mb-2 text-sm font-medium text-gray-900">NickName</label>
-                    <input type="text" id="nickName" class="block w-full p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500" [(ngModel)]="profileSection!.nickName">
+                <div class="bg-sky-200 dark:bg-gray-900 p-4 rounded">
+                    <label for="nickName" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">NickName</label>
+                    <input type="text" id="nickName" class="block w-full p-2 text-gray-900 dark:text-white border border-gray-300 dark:border-white/20 rounded-lg bg-gray-50 dark:bg-gray-900 text-xs focus:ring-blue-500 focus:border-blue-500" [(ngModel)]="profileSection!.nickName">
                 </div>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div class="bg-sky-200 p-4 rounded">
-                    <label for="introduce" class="block mb-2 text-sm font-medium text-gray-900">Introduce</label>
-                    <textarea id="introduce" rows="4" class="block w-full p-2.5 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" [(ngModel)]="profileSection!.introduce"></textarea>
+                <div class="bg-sky-200 dark:bg-gray-900 p-4 rounded">
+                    <label for="introduce" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Introduce</label>
+                    <textarea id="introduce" rows="4" class="block w-full p-2.5 text-sm text-gray-900 dark:text-white bg-gray-50 dark:bg-gray-900 rounded-lg border border-gray-300 dark:border-white/20 focus:ring-blue-500 focus:border-blue-500" [(ngModel)]="profileSection!.introduce"></textarea>
                 </div>
-                <div class="bg-sky-200 p-4 rounded flex flex-col items-center">
-                    <label class="block mb-2 text-sm font-medium text-gray-900" for="user_avatar">Profile Upload</label>
-                    <input class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none" id="user_avatar" type="file" accept="image/*" (change)="onProfileImageChange($event)">
-                    <div class="w-20 h-20 rounded-full overflow-hidden m-4 border border-gray-300 flex items-center justify-center">
+                <div class="bg-sky-200 dark:bg-gray-900 p-4 rounded flex flex-col items-center">
+                    <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="user_avatar">Profile Upload</label>
+                    <input class="block w-full text-sm text-gray-900 dark:text-white border border-gray-300 dark:border-white/20 rounded-lg cursor-pointer bg-gray-50 dark:bg-gray-900 focus:outline-none" id="user_avatar" type="file" accept="image/*" (change)="onProfileImageChange($event)">
+                    <div class="w-20 h-20 rounded-full overflow-hidden m-4 border border-gray-300 dark:border-white/20 flex items-center justify-center">
                         <ng-container *ngIf="profileImagePreview; else showDefault">
                             <img [src]="profileImagePreview" alt="Profile Preview" class="object-cover w-full h-full">
                         </ng-container>
@@ -45,7 +45,7 @@
         </div>
     </div>
 </details>
-<details class="mb-4 border-b border-gray-300 pb-2" open>
+<details class="mb-4 border-b border-gray-300 dark:border-white/20 pb-2" open>
     <summary class="cursor-pointer text-xl font-semibold text-blue-400 hover:text-blue-600 focus:outline-none py-2 underline">
         Contact Me
         <span class="float-right text-gray-500 details-icon">
@@ -55,45 +55,45 @@
             </svg>
         </span>
     </summary>
-    <div class="p-2 bg-blue-300 rounded-b-lg" *ngIf="contactSection">
+    <div class="p-2 bg-blue-300 dark:bg-gray-800 rounded-b-lg" *ngIf="contactSection">
         <div class="space-y-4 mb-4">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div class="bg-sky-200 p-4 rounded">
-                    <label for="email" class="block mb-2 text-sm font-medium text-gray-900">Email</label>
-                    <input type="text" id="email" class="block w-full p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500" [(ngModel)]="contactSection.email">
+                <div class="bg-sky-200 dark:bg-gray-900 p-4 rounded">
+                    <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
+                    <input type="text" id="email" class="block w-full p-2 text-gray-900 dark:text-white border border-gray-300 dark:border-white/20 rounded-lg bg-gray-50 dark:bg-gray-900 text-xs focus:ring-blue-500 focus:border-blue-500" [(ngModel)]="contactSection.email">
                 </div>
-                <div class="bg-sky-200 p-4 rounded">
-                    <label for="phone" class="block mb-2 text-sm font-medium text-gray-900">Phone</label>
-                    <input type="text" id="phone" class="block w-full p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500" [(ngModel)]="contactSection.phone">
+                <div class="bg-sky-200 dark:bg-gray-900 p-4 rounded">
+                    <label for="phone" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Phone</label>
+                    <input type="text" id="phone" class="block w-full p-2 text-gray-900 dark:text-white border border-gray-300 dark:border-white/20 rounded-lg bg-gray-50 dark:bg-gray-900 text-xs focus:ring-blue-500 focus:border-blue-500" [(ngModel)]="contactSection.phone">
                 </div>
             </div>
         </div>
         <div class="space-y-4">
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                <div class="bg-sky-200 p-4 rounded flex flex-col relative" *ngFor="let socialMedia of contactSection.socialMediaList; let i = index">
-                    <label class="block mb-2 text-sm font-medium text-gray-900">ID</label>
-                    <input type="text" class="mb-2 block w-20 p-1 text-gray-900 border border-gray-300 rounded bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500 bg-gray-200 text-center" [(ngModel)]="socialMedia.id" readonly>
+                <div class="bg-sky-200 dark:bg-gray-900 p-4 rounded flex flex-col relative" *ngFor="let socialMedia of contactSection.socialMediaList; let i = index">
+                    <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">ID</label>
+                    <input type="text" class="mb-2 block w-20 p-1 text-gray-900 dark:text-white border border-gray-300 dark:border-white/20 rounded bg-gray-50 dark:bg-gray-900 text-xs focus:ring-blue-500 focus:border-blue-500 bg-gray-200 text-center" [(ngModel)]="socialMedia.id" readonly>
                     <button type="button" class="absolute top-0 right-0 m-2 p-2 bg-red-500 rounded-full shadow hover:bg-red-600 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-red-300 focus:ring-offset-2 flex items-center justify-center z-10 cursor-pointer" (click)="removeSocialMedia(i)" aria-label="Delete Education">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-white" viewBox="0 0 20 20" fill="currentColor">
                             <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
                         </svg>
                     </button>
-                    <label class="block mb-2 text-sm font-medium text-gray-900">SocialMedia Name</label>
-                    <input type="text" class="mb-2 block w-full p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500" [(ngModel)]="socialMedia.name">
-                    <label class="block mb-2 text-sm font-medium text-gray-900">Username</label>
-                    <input type="text" class="mb-2 block w-full p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500" [(ngModel)]="socialMedia.username">
-                    <label class="block mb-2 text-sm font-medium text-gray-900">Link</label>
-                    <input type="text" class="mb-2 block w-full p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500" [(ngModel)]="socialMedia.link">
+                    <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">SocialMedia Name</label>
+                    <input type="text" class="mb-2 block w-full p-2 text-gray-900 dark:text-white border border-gray-300 dark:border-white/20 rounded-lg bg-gray-50 dark:bg-gray-900 text-xs focus:ring-blue-500 focus:border-blue-500" [(ngModel)]="socialMedia.name">
+                    <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Username</label>
+                    <input type="text" class="mb-2 block w-full p-2 text-gray-900 dark:text-white border border-gray-300 dark:border-white/20 rounded-lg bg-gray-50 dark:bg-gray-900 text-xs focus:ring-blue-500 focus:border-blue-500" [(ngModel)]="socialMedia.username">
+                    <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Link</label>
+                    <input type="text" class="mb-2 block w-full p-2 text-gray-900 dark:text-white border border-gray-300 dark:border-white/20 rounded-lg bg-gray-50 dark:bg-gray-900 text-xs focus:ring-blue-500 focus:border-blue-500" [(ngModel)]="socialMedia.link">
                     <div class="mt-2">
-                        <label class="block mb-2 text-sm font-medium text-gray-900">Visible</label>
+                        <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Visible</label>
                         <div class="flex gap-4">
                             <label class="inline-flex items-center">
                                 <input type="radio" class="form-radio text-blue-500" [(ngModel)]="socialMedia.visible" [value]="true" [name]="'visible-' + i">
-                                <span class="ml-2 text-gray-900">Show</span>
+                                <span class="ml-2 text-gray-900 dark:text-white">Show</span>
                             </label>
                             <label class="inline-flex items-center">
                                 <input type="radio" class="form-radio text-blue-500" [(ngModel)]="socialMedia.visible" [value]="false" [name]="'visible-' + i">
-                                <span class="ml-2 text-gray-900">Hide</span>
+                                <span class="ml-2 text-gray-900 dark:text-white">Hide</span>
                             </label>
                         </div>
                     </div>
@@ -107,7 +107,7 @@
         </div>
     </div>
 </details>
-<details class="mb-4 border-b border-gray-300 pb-2" open>
+<details class="mb-4 border-b border-gray-300 dark:border-white/20 pb-2" open>
     <summary class="cursor-pointer text-xl font-semibold text-blue-400 hover:text-blue-600 focus:outline-none py-2 underline">
         About Me
         <span class="float-right text-gray-500 details-icon">
@@ -117,29 +117,29 @@
             </svg>
         </span>
     </summary>
-    <div class="p-2 bg-blue-300 rounded-b-lg" *ngIf="aboutSection">
+    <div class="p-2 bg-blue-300 dark:bg-gray-800 rounded-b-lg" *ngIf="aboutSection">
         <div class="grid grid-cols-1 md:grid-cols-1 gap-4 mb-4">
-            <div class="bg-sky-200 p-4 rounded">
-                <label for="description" class="block mb-2 text-sm font-medium text-gray-900">Description</label>
-                <input type="text" id="description" class="block w-full p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500" [(ngModel)]="aboutSection.description">
+            <div class="bg-sky-200 dark:bg-gray-900 p-4 rounded">
+                <label for="description" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Description</label>
+                <input type="text" id="description" class="block w-full p-2 text-gray-900 dark:text-white border border-gray-300 dark:border-white/20 rounded-lg bg-gray-50 dark:bg-gray-900 text-xs focus:ring-blue-500 focus:border-blue-500" [(ngModel)]="aboutSection.description">
             </div>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
             <div class="flex flex-col">
                 <h3 class="text-lg font-semibold mb-2 text-blue-600">Celebrities</h3>
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div class="bg-sky-200 p-4 rounded flex flex-col relative" *ngFor="let celebrity of aboutSection.celebrityFavoriteList; let i = index">
-                        <label class="block mb-2 text-sm font-medium text-gray-900">ID</label>
-                        <input type="text" class="mb-2 block w-20 p-1 text-gray-900 border border-gray-300 rounded bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500 bg-gray-200 text-center" [(ngModel)]="celebrity.id" readonly>
+                    <div class="bg-sky-200 dark:bg-gray-900 p-4 rounded flex flex-col relative" *ngFor="let celebrity of aboutSection.celebrityFavoriteList; let i = index">
+                        <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">ID</label>
+                        <input type="text" class="mb-2 block w-20 p-1 text-gray-900 dark:text-white border border-gray-300 dark:border-white/20 rounded bg-gray-50 dark:bg-gray-900 text-xs focus:ring-blue-500 focus:border-blue-500 bg-gray-200 text-center" [(ngModel)]="celebrity.id" readonly>
                         <button type="button" class="absolute top-0 right-0 m-2 p-2 bg-red-500 rounded-full shadow hover:bg-red-600 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-red-300 focus:ring-offset-2 flex items-center justify-center z-10 cursor-pointer" (click)="removeCelebrity(i)" aria-label="Delete Celebrity">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-white" viewBox="0 0 20 20" fill="currentColor">
                                 <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
                             </svg>
                         </button>
-                        <label class="block mb-2 text-sm font-medium text-gray-900">Celebrity Name</label>
-                        <input type="text" class="mb-2 block w-full p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500" [(ngModel)]="celebrity.name">
-                        <label class="block mb-2 text-sm font-medium text-gray-900">Link</label>
-                        <input type="text" class="mb-2 block w-full p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500" [(ngModel)]="celebrity.link">
+                        <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Celebrity Name</label>
+                        <input type="text" class="mb-2 block w-full p-2 text-gray-900 dark:text-white border border-gray-300 dark:border-white/20 rounded-lg bg-gray-50 dark:bg-gray-900 text-xs focus:ring-blue-500 focus:border-blue-500" [(ngModel)]="celebrity.name">
+                        <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Link</label>
+                        <input type="text" class="mb-2 block w-full p-2 text-gray-900 dark:text-white border border-gray-300 dark:border-white/20 rounded-lg bg-gray-50 dark:bg-gray-900 text-xs focus:ring-blue-500 focus:border-blue-500" [(ngModel)]="celebrity.link">
                     </div>
                 </div>
                 <button type="button" class="w-full px-4 py-1 bg-green-500 text-white rounded-lg shadow hover:bg-green-600 transition-colors duration-200 focus:outline-none mt-2" (click)="addCelebrity()">
@@ -148,9 +148,9 @@
             </div>
             <div class="flex flex-col">
                 <h3 class="text-lg font-semibold mb-2 text-blue-600">Hobbies</h3>
-                <div class="bg-sky-200 p-4 rounded flex flex-col h-full">
+                <div class="bg-sky-200 dark:bg-gray-900 p-4 rounded flex flex-col h-full">
                     <div *ngFor="let hobby of aboutSection.hobbies; let i = index" class="relative mb-2">
-                        <input type="text" class="block w-full p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500" [(ngModel)]="aboutSection.hobbies[i]">
+                        <input type="text" class="block w-full p-2 text-gray-900 dark:text-white border border-gray-300 dark:border-white/20 rounded-lg bg-gray-50 dark:bg-gray-900 text-xs focus:ring-blue-500 focus:border-blue-500" [(ngModel)]="aboutSection.hobbies[i]">
                         <button type="button" class="absolute top-0 right-0 m-1 p-1 bg-red-500 rounded-full shadow hover:bg-red-600 transition-colors duration-200 focus:outline-none flex items-center justify-center z-10 cursor-pointer" (click)="removeHobby(i)" aria-label="Delete Hobby">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-white" viewBox="0 0 20 20" fill="currentColor">
                                 <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />

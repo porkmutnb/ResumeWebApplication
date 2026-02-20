@@ -1,6 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 @import "tailwindcss";
 /* src/styles.css */
+@custom-variant dark (&:is(.dark *));
 @font-face {
   font-family: 'AnakotmaiFont'; /* ตั้งชื่อฟอนต์ของคุณ */
   src: url('assets/fonts/Anakotmai-medium.woff2') format('woff2'),

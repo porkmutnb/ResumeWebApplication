@@ -1,12 +1,13 @@
+
 export const environment = {
-  production: false,
+  production: true,
   firebase: {
-    apiKey: '${process.env.FIREBASE_API_KEY}',
-    authDomain: '${process.env.FIREBASE_AUTH_DOMAIN}',
-    databaseURL: '${process.env.FIREBASE_DATABASE_URL}',
-    projectId: '${process.env.FIREBASE_PROJECT_ID}',
-    storageBucket: '${process.env.FIREBASE_STORAGE_BUCKET}',
-    messagingSenderId: '${process.env.FIREBASE_MESSAGING_SENDER_ID}',
-    appId: '${process.env.FIREBASE_APP_ID}'
+    apiKey: 'AIzaSyC8aXYATGzHvjgQ1va5Lt7DVyBhW4M9nHM',
+    authDomain: 'resume-9a2d0.firebaseapp.com',
+    databaseURL: 'https://resume-9a2d0.firebaseio.com',
+    projectId: 'resume-9a2d0',
+    storageBucket: 'resume-9a2d0.appspot.com',
+    messagingSenderId: '996736915156',
+    appId: '1:996736915156:web:8dbb6e8f20a726fb82cd41'
   }
 };

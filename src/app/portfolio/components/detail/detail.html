@@ -1,4 +1,4 @@
-<article class="bg-white rounded-lg shadow-xl overflow-hidden p-4">
+<article class="bg-white dark:bg-gray-800 rounded-lg shadow-xl overflow-hidden p-4">
     <header>
         <img 
         [src]="portfolioSection?.info?.imageUrl"
@@ -11,13 +11,13 @@
             <span class="text-sky-600 font-semibold text-sm">{{ portfolioSection?.name }}</span>
             <span class="text-gray-500 text-sm ml-2"></span>
         </div>
-        <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-6 leading-tight">
+        <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-gray-100 mb-6 leading-tight">
             {{ portfolioSection?.detail }}
         </h1>
         <div class="flex items-center mb-8">
             <img [src]="profileSection?.profile" alt="Author's avatar" class="w-12 h-12 rounded-full mr-4">
             <div>
-                <p class="font-semibold text-gray-800"> {{ profileSection?.firstName }} {{ profileSection?.lastName }} </p>
+                <p class="font-semibold text-gray-800 dark:text-gray-200"> {{ profileSection?.firstName }} {{ profileSection?.lastName }} </p>
                 <p class="text-sm text-gray-500"> {{ profileSection?.nickName }} </p>
             </div>
         </div>

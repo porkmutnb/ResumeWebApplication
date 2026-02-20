@@ -1,0 +1,125 @@
+<div
+  *ngIf="isOpen && selectedExperience"
+  class="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto overflow-x-hidden bg-black/30 backdrop-blur-sm transition-opacity"
+>
+  <div class="relative p-4 w-full max-w-2xl max-h-full">
+    <!-- Modal content -->
+    <div class="relative bg-white dark:bg-gray-800 rounded-lg shadow-xl border border-gray-200 dark:border-gray-700">
+      <!-- Modal header -->
+      <div
+        class="flex items-center justify-between p-4 md:p-5 border-b border-gray-200 dark:border-gray-700 rounded-t"
+      >
+        <h3 class="text-xl font-semibold text-gray-900 dark:text-gray-100">
+          {{ selectedExperience.name }}
+        </h3>
+        <button
+          type="button"
+          class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 dark:text-gray-100 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center"
+          (click)="onClose()"
+        >
+          <svg
+            class="w-3 h-3"
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 14 14"
+          >
+            <path
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+            />
+          </svg>
+          <span class="sr-only">Close modal</span>
+        </button>
+      </div>
+      <!-- Modal body -->
+      <div class="p-4 md:p-5 space-y-4 max-h-[60vh] overflow-y-auto">
+        <p class="text-base text-gray-700 dark:text-gray-300">
+          <strong>Position:</strong> {{ selectedExperience.position }}
+        </p>
+        <p
+          class="text-base text-gray-700 dark:text-gray-300"
+          *ngIf="!isEditMode && selectedExperience.client"
+        >
+          <strong>Client:</strong> {{ selectedExperience.client }}
+        </p>
+        <p class="text-base text-gray-700 dark:text-gray-300">
+          <strong>Duration:</strong> {{ selectedExperience.startDate }} - {{
+          selectedExperience.endDate == '' ? 'Now' : selectedExperience.endDate
+          }}
+        </p>
+
+        <hr
+          *ngIf="selectedExperience.detail?.project || selectedExperience.detail?.responsibility || isEditMode"
+          class="h-px my-4 bg-gray-200 border-0"
+        />
+
+        <ng-container *ngIf="!isEditMode">
+          <div *ngIf="selectedExperience.detail?.project" class="mb-4">
+            <h4 class="font-bold text-gray-900 dark:text-gray-100 mb-2">Project</h4>
+            <p
+              class="text-base text-gray-700 dark:text-gray-300 whitespace-pre-line max-h-48 overflow-y-auto pr-2"
+            >
+              {{ selectedExperience.detail?.project }}
+            </p>
+          </div>
+
+          <div *ngIf="selectedExperience.detail?.responsibility">
+            <h4 class="font-bold text-gray-900 dark:text-gray-100 mb-2">Responsibility</h4>
+            <div class="max-h-64 overflow-y-auto pr-2">
+              <p class="text-base text-gray-700 dark:text-gray-300 whitespace-pre-line pl-2">
+                {{ selectedExperience.detail?.responsibility }}
+              </p>
+            </div>
+          </div>
+        </ng-container>
+
+        <ng-container *ngIf="isEditMode">
+          <div class="mb-4">
+            <h4 class="font-bold text-gray-900 dark:text-gray-100 mb-2">Client</h4>
+            <input
+              type="text"
+              [(ngModel)]="selectedExperience.client"
+              class="bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+              placeholder="Client Name"
+            />
+          </div>
+          <div class="mb-4" *ngIf="selectedExperience.detail">
+            <h4 class="font-bold text-gray-900 dark:text-gray-100 mb-2">Project</h4>
+            <textarea
+              [(ngModel)]="selectedExperience.detail.project"
+              rows="4"
+              class="block p-2.5 w-full text-sm text-gray-900 dark:text-gray-100 bg-gray-50 dark:bg-gray-900 rounded-lg border border-gray-300 dark:border-gray-600 focus:ring-blue-500 focus:border-blue-500"
+              placeholder="Project Description"
+            ></textarea>
+          </div>
+
+          <div *ngIf="selectedExperience.detail">
+            <h4 class="font-bold text-gray-900 dark:text-gray-100 mb-2">Responsibility</h4>
+            <textarea
+              [(ngModel)]="selectedExperience.detail.responsibility"
+              rows="4"
+              class="block p-2.5 w-full text-sm text-gray-900 dark:text-gray-100 bg-gray-50 dark:bg-gray-900 rounded-lg border border-gray-300 dark:border-gray-600 focus:ring-blue-500 focus:border-blue-500"
+              placeholder="Your Responsibilities..."
+            ></textarea>
+          </div>
+        </ng-container>
+      </div>
+      <!-- Modal footer -->
+      <div
+        class="flex items-center justify-end p-4 md:p-5 border-t border-gray-200 dark:border-gray-700 rounded-b"
+      >
+        <button
+          type="button"
+          class="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+          (click)="onClose()"
+        >
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

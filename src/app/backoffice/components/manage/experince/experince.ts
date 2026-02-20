@@ -7,66 +7,76 @@ import { Shared } from '../../../../sharedServiced/shared';
 import { Backoffice } from '../../../service/backoffice';
 import { environment } from '../../../../../environments/environment';
 import { LoadingOverlay } from '../../../../sharedComponents/loading-overlay/loading-overlay';
+import { ExperiencePopup } from '../../../../sharedComponents/experience-popup/experience-popup';
 
 @Component({
   selector: 'app-experince',
-  imports: [CommonModule, FormsModule, LoadingOverlay],
+  imports: [CommonModule, FormsModule, LoadingOverlay, ExperiencePopup],
   templateUrl: './experince.html',
-  styleUrl: './experince.css'
+  styleUrl: './experince.css',
 })
 export class Experince implements OnInit, OnDestroy {
-
   isPageLoading = false;
+  selectedExperience: ExperinceMe | null = null;
+  isExperiencePopupOpen = false;
 
-  private resumeData: Subscription | undefined
+  private resumeData: Subscription | undefined;
   experienceSection: ExperinceMe[] = [];
 
-  constructor(private service: Backoffice, private sharedService: Shared, private cdr: ChangeDetectorRef) {
-
-  }
+  constructor(
+    private service: Backoffice,
+    private sharedService: Shared,
+    private cdr: ChangeDetectorRef,
+  ) {}
 
   ngOnInit(): void {
-    environment.production ? this.getResumeData() : this.getDumpResumeData()
+    environment.production ? this.getResumeData() : this.getDumpResumeData();
   }
 
   ngOnDestroy(): void {
-    if(this.resumeData) {
-      this.resumeData.unsubscribe()
+    if (this.resumeData) {
+      this.resumeData.unsubscribe();
     }
   }
 
   getDumpResumeData(): void {
-    this.isPageLoading = true
+    this.isPageLoading = true;
     this.resumeData = this.sharedService.getDumpResumeData().subscribe({
       next: (data) => {
-        this.isPageLoading = false
-        Object.assign(this.experienceSection, data.experince)
+        this.isPageLoading = false;
+        Object.assign(this.experienceSection, data.experince);
       },
       error: (error) => {
         console.error('Error fetching resume-data[Experince]:', error);
       },
       complete: () => {
-        console.log(`experienceSection: ${JSON.stringify(this.experienceSection)}`);
+        console.log(
+          `experienceSection: ${JSON.stringify(this.experienceSection)}`,
+        );
         this.cdr.detectChanges();
-      }
-    })
+      },
+    });
   }
 
   getResumeData(): void {
-    this.isPageLoading = true
-    this.resumeData = this.service.getResumeDataForBackofficeExperincePage().subscribe({
-      next: (data) => {
-        this.isPageLoading = false
-        Object.assign(this.experienceSection, data.experince)
-      },
-      error: (error) => {
-        console.error('Error fetching resume-data[Experince]:', error)
-      },
-      complete: () => {
-        console.log(`experienceSection: ${JSON.stringify(this.experienceSection)}`)
-        this.cdr.detectChanges();
-      }
-    })
+    this.isPageLoading = true;
+    this.resumeData = this.service
+      .getResumeDataForBackofficeExperincePage()
+      .subscribe({
+        next: (data) => {
+          this.isPageLoading = false;
+          Object.assign(this.experienceSection, data.experince);
+        },
+        error: (error) => {
+          console.error('Error fetching resume-data[Experince]:', error);
+        },
+        complete: () => {
+          console.log(
+            `experienceSection: ${JSON.stringify(this.experienceSection)}`,
+          );
+          this.cdr.detectChanges();
+        },
+      });
   }
 
   addExperience() {
@@ -76,7 +86,7 @@ export class Experince implements OnInit, OnDestroy {
       position: '',
       startDate: '',
       endDate: '',
-      visible: true
+      visible: true,
     });
     this.updateExperienceIds();
   }
@@ -93,17 +103,19 @@ export class Experince implements OnInit, OnDestroy {
   }
 
   updateExperince() {
-    if(this.validateDataSection() && this.experienceSection) {
-      this.isPageLoading = true
-      this.service.updateExperincePage(this.experienceSection).then(() => {
-        
-      }).catch((error) => {
-        alert('Error updating experince, please try again later.');
-        console.error('Error updating experince:', error);
-      }).finally(() => {
-        this.isPageLoading = false
-        this.ngOnInit();
-      });
+    if (this.validateDataSection() && this.experienceSection) {
+      this.isPageLoading = true;
+      this.service
+        .updateExperincePage(this.experienceSection)
+        .then(() => {})
+        .catch((error) => {
+          alert('Error updating experince, please try again later.');
+          console.error('Error updating experince:', error);
+        })
+        .finally(() => {
+          this.isPageLoading = false;
+          this.ngOnInit();
+        });
     }
   }
 
@@ -112,25 +124,25 @@ export class Experince implements OnInit, OnDestroy {
   }
 
   validateDataSection() {
-    if(this.experienceSection.length == 0) {
+    if (this.experienceSection.length == 0) {
       alert('Experience is required.');
       return false;
     }
-    for(const [index, exp] of this.experienceSection.entries()) {
-      exp.visible = exp.visible ?? true
-      if(exp.name == '') {
+    for (const [index, exp] of this.experienceSection.entries()) {
+      exp.visible = exp.visible ?? true;
+      if (exp.name == '') {
         alert(`Company Name in entry ${index + 1} is required.`);
         return false;
       }
-      if(exp.position == '') {
+      if (exp.position == '') {
         alert(`Position in entry ${index + 1} is required.`);
         return false;
       }
-      if(exp.startDate == '') {
+      if (exp.startDate == '') {
         alert(`Start Date in entry ${index + 1} is required.`);
         return false;
       }
-      if(exp.endDate == '' && index < this.experienceSection.length - 1) {
+      if (exp.endDate == '' && index < this.experienceSection.length - 1) {
         alert(`End Date in entry ${index + 1} is required.`);
         return false;
       }
@@ -138,4 +150,16 @@ export class Experince implements OnInit, OnDestroy {
     return true;
   }
 
+  openExperiencePopup(exp: ExperinceMe): void {
+    if (!exp.detail) {
+      exp.detail = { project: '', responsibility: '' };
+    }
+    this.selectedExperience = exp;
+    this.isExperiencePopupOpen = true;
+  }
+
+  closeExperiencePopup(): void {
+    this.isExperiencePopupOpen = false;
+    this.selectedExperience = null;
+  }
 }

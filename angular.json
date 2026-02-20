@@ -56,6 +56,11 @@
               "optimization": false,
               "extractLicenses": false,
               "sourceMap": true
+            },
+            "localhost": {
+              "optimization": false,
+              "extractLicenses": true,
+              "sourceMap": false
             }
           },
           "defaultConfiguration": "production"
@@ -68,6 +73,9 @@
             },
             "development": {
               "buildTarget": "ResumeWebApplication:build:development"
+            },
+            "localhost": {
+              "buildTarget": "ResumeWebApplication:build:localhost"
             }
           },
           "defaultConfiguration": "development"
